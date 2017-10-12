@@ -18,7 +18,9 @@ type HistoryQueryCallback = ((items: ChromeHistoryItem[]) => void);
 
 declare let chrome: any;
 
-function ChromeHistorySearch(query: ChromeHistoryQuery, callback: HistoryQueryCallback): void {
+const allHistoryQuery: ChromeHistoryQuery = {text: '', startTime: 0, maxResults: 100000};
+
+function ChromeHistorySearch(callback: HistoryQueryCallback, query: ChromeHistoryQuery = allHistoryQuery): void {
     chrome.history.search(query, (items: ChromeHistoryItem[]) => callback(items));
 
 }

@@ -7,7 +7,7 @@ export interface HelloProps { compiler: string; framework: string; }
 // State is never set so we use the '{}' type.
 export class Hello extends React.Component<HelloProps, {}> {
     render() {
-        ChromeHistorySearch({text: "typescript"}, (items) => console.log("Items are:", items));
+        ChromeHistorySearch((items) => console.log("Items are:", items));
         return <h1>Hello from {this.props.compiler} and {this.props.framework}!</h1>;
     }
 }
