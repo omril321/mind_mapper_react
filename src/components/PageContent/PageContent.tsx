@@ -20,7 +20,12 @@ export class PageContent extends React.Component<{}, ContentState> {
 
     render() {
         const isLoading = this.state.isLoading;
-        return <LoadingPage isLoading={isLoading}/>
+        return <div id="content">
+            I'm containing!
+            <LoadingPage isLoading={isLoading}/>
+
+            I'm after...
+        </div>
     }
 
 }
