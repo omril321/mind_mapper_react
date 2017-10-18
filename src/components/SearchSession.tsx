@@ -29,14 +29,6 @@ export class SearchSessionExtractor {
         const searchesIndices: number[] = this.getSearchIndices();
         console.log("Indices length: ", searchesIndices.length);
 
-
-
-
-        //TODO: debug the process!
-
-
-
-
         const unfilteredSessions = this.splitBySearchItemsIndices(searchesIndices);
         const sessions: SearchSession[] = unfilteredSessions.map(session => {
             const search = session.search;
