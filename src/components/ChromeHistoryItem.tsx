@@ -1,8 +1,8 @@
 interface ChromeHistoryItem {
-    id: String
-    url?: String
-    title?: String
-    lastVisitTime?: number
-    visitCount?: number
-    typedCount?: number
+    readonly id: string
+    readonly url?: string
+    readonly title?: string
+    readonly lastVisitTime?: number
+    readonly visitCount?: number
+    readonly typedCount?: number
 }
