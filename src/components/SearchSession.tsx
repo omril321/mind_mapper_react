@@ -1,8 +1,5 @@
 import * as _ from "lodash";
-
-export interface HistoryVisit {
-    readonly historyItem: ChromeHistoryItem;
-}
+import {HistoryVisit} from "../domain/history/HistoryVisit";
 
 export interface GoogleSearch {
     readonly searchQuery: string;
@@ -67,7 +64,7 @@ export class SearchGroupExtractor {
     private getSearchIndices(): number[] {
         const searchIndices: number[] = [];
         _.forEach(this.historyItems, (item, key) => {
-            const visit: HistoryVisit = {historyItem: item};
+            const visit: HistoryVisit = new HistoryVisit(item);
             if (SearchGroupExtractor.isGoogleSearch(visit)) {
                 searchIndices.push(key);
             }
@@ -81,11 +78,9 @@ export class SearchGroupExtractor {
             let currentSearchIndex = searchItemsIndices[i];
             let nextSearchIndex = searchItemsIndices[i + 1];
             const item = this.historyItems[currentSearchIndex];
-            let googleSearch = SearchGroupExtractor.asGoogleSearch({historyItem: item});
+            let googleSearch = SearchGroupExtractor.asGoogleSearch(new HistoryVisit(item));
             let itemsForSearch: HistoryVisit[] = this.historyItems.slice(currentSearchIndex + 1, nextSearchIndex) //don't take the search itself
-                .map(item => {
-                    return {historyItem: item}
-                });
+                .map(item => new HistoryVisit(item));
             result.push({search: googleSearch, visits: itemsForSearch});
         }
 
@@ -99,11 +94,11 @@ export class SearchGroupExtractor {
     private static asGoogleSearch(visit: HistoryVisit): GoogleSearch | null {
         const searchTitlePostfix = " - Google Search";
         const googleSearchRegex = new RegExp("https?:\/\/www\.google\..*\/search\?.*q=([^&]+)");
-        const match = visit.historyItem.url.match(googleSearchRegex);
+        const match = visit.getVisitUrl().match(googleSearchRegex);
         if (match === null) {
             return null;
         }
-        const searchQuery = visit.historyItem.title.replace(searchTitlePostfix, '');
+        const searchQuery = visit.getTitle().replace(searchTitlePostfix, '');
         return {searchQuery: searchQuery, historyVisit: visit}
     }
 
@@ -114,7 +109,7 @@ export class SearchGroupExtractor {
 
 
         const searchWords = _.words(search.searchQuery);
-        const visitTitleWords = _.words(visit.historyItem.title);
+        const visitTitleWords = _.words(visit.getTitle());
         return _.intersection(visitTitleWords, searchWords).length > 0;
 
     }
