@@ -1,11 +1,11 @@
 
 export class HistoryVisit {
-    private readonly historyItem: ChromeHistoryItem;
-    constructor(_historyItem: ChromeHistoryItem) {
-        this.historyItem = _historyItem;
+    private readonly _historyItem: ChromeHistoryItem;
+    constructor(historyItem: ChromeHistoryItem) {
+        this._historyItem = historyItem;
     }
 
-    public getVisitUrl = () => this.historyItem.url;
+    public getVisitUrl = () => this._historyItem.url;
 
-    public getTitle = () => this.historyItem.title;
+    public getTitle = () => this._historyItem.title;
 }

@@ -4,8 +4,8 @@ export class GoogleSearch {
     static readonly SEARCH_TITLE_POSTFIX = " - Google Search";
     static readonly GOOGLE_SEARCH_URL_REGEX = new RegExp("https?:\/\/www\.google\..*\/search\?.*q=([^&]+)");
 
-    private readonly searchQuery: string;
-    private readonly historyVisit: HistoryVisit;
+    private readonly _searchQuery: string;
+    private readonly _historyVisit: HistoryVisit;
 
     public constructor(historyVisit: HistoryVisit) {
 
@@ -14,9 +14,9 @@ export class GoogleSearch {
             throw Error("Unable to build a GoogleSearch from the history visit: " + historyVisit.toString())
         }
 
-        this.searchQuery = historyVisit.getTitle().replace(GoogleSearch.SEARCH_TITLE_POSTFIX, '');
-        this.historyVisit = historyVisit;
+        this._searchQuery = historyVisit.getTitle().replace(GoogleSearch.SEARCH_TITLE_POSTFIX, '');
+        this._historyVisit = historyVisit;
     }
 
-    public getSearchQuery = () => this.searchQuery;
+    public getSearchQuery = () => this._searchQuery;
 }

@@ -1,12 +1,8 @@
 import * as _ from "lodash";
+//TODO: find a way to import al of the below as a single statement
 import {HistoryVisit} from "../domain/history/HistoryVisit";
 import {GoogleSearch} from "../domain/history/GoogleSearch";
-
-
-export interface PossibleSearchGroup {
-    readonly search: GoogleSearch;
-    readonly visits: ReadonlyArray<HistoryVisit>;
-}
+import {PossibleSearchGroup} from "../domain/history/PossibleSearchGroup";
 
 //TODO: relatednessScore can be put in an interface.
 export interface SearchGroupMember {
@@ -43,8 +39,8 @@ export class SearchGroupExtractor {
 
         const possibleGroups: PossibleSearchGroup[] = this.splitToPossibleSearchGroups(searchesIndices);
         const groups: SearchGroup[] = possibleGroups.map(possGroup => {
-            const search: GoogleSearch = possGroup.search;
-            const relatedVisits: HistoryVisit[] = _.filter(possGroup.visits, visit => {
+            const search: GoogleSearch = possGroup.getSearch();
+            const relatedVisits: HistoryVisit[] = _.filter(possGroup.getVisits(), visit => {
                 return SearchGroupExtractor.visitBelongsToSearch(visit, search)
             });
             const relatedToSearch: SearchGroupMember[] = relatedVisits.map(visit => {
@@ -78,7 +74,7 @@ export class SearchGroupExtractor {
             let googleSearch = SearchGroupExtractor.asGoogleSearch(new HistoryVisit(item));
             let itemsForSearch: HistoryVisit[] = this.historyItems.slice(currentSearchIndex + 1, nextSearchIndex) //don't take the search itself
                 .map(item => new HistoryVisit(item));
-            result.push({search: googleSearch, visits: itemsForSearch});
+            result.push(new PossibleSearchGroup(googleSearch, itemsForSearch));
         }
 
         return result;
