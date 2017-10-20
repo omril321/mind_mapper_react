@@ -1,10 +1,7 @@
 import * as _ from "lodash";
 import {HistoryVisit} from "../domain/history/HistoryVisit";
+import {GoogleSearch} from "../domain/history/GoogleSearch";
 
-export interface GoogleSearch {
-    readonly searchQuery: string;
-    readonly historyVisit: HistoryVisit;
-}
 
 export interface PossibleSearchGroup {
     readonly search: GoogleSearch;
@@ -92,23 +89,21 @@ export class SearchGroupExtractor {
     }
 
     private static asGoogleSearch(visit: HistoryVisit): GoogleSearch | null {
-        const searchTitlePostfix = " - Google Search";
-        const googleSearchRegex = new RegExp("https?:\/\/www\.google\..*\/search\?.*q=([^&]+)");
-        const match = visit.getVisitUrl().match(googleSearchRegex);
-        if (match === null) {
+        try {
+            return new GoogleSearch(visit);
+        } catch (error) {
             return null;
         }
-        const searchQuery = visit.getTitle().replace(searchTitlePostfix, '');
-        return {searchQuery: searchQuery, historyVisit: visit}
     }
 
 
+    //TODO: extract to a strategy and inject
     private static visitBelongsToSearch(visit: HistoryVisit, search: GoogleSearch): boolean {
         //TODO: should return true if has at least one common word, and was at difference of 15 mins from the search
         //TODO: think of more complex heuristic..? score?
 
 
-        const searchWords = _.words(search.searchQuery);
+        const searchWords = _.words(search.getSearchQuery());
         const visitTitleWords = _.words(visit.getTitle());
         return _.intersection(visitTitleWords, searchWords).length > 0;
 
