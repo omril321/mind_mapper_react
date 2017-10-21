@@ -67,7 +67,7 @@ export class SearchGroupExtractor {
 
     private splitToPossibleSearchGroups(searchItemsIndices: number[]): PossibleSearchGroup[] {
         let result: PossibleSearchGroup[] = [];
-        for (let i = 0; i < searchItemsIndices.length - 1; ++i) {
+        for (let i = 0; i < searchItemsIndices.length; ++i) {
             let currentSearchIndex = searchItemsIndices[i];
             let nextSearchIndex = searchItemsIndices[i + 1];
             const item = this.historyItems[currentSearchIndex];
