@@ -17,14 +17,12 @@ export default class SearchGroupBuilder {
         console.log("starting getting search groups...");
         const groups: SearchGroup[] = this.possibleGroups.map(possGroup => {
             const search: GoogleSearch = possGroup.getSearch();
-            const relatedVisits: HistoryVisit[] = _.filter(possGroup.getVisits(), visit => {
-                return SearchGroupBuilder.visitBelongsToSearch(visit, search)
-            });
-            const relatedToSearch: SearchGroupMember[] = relatedVisits.map(visit => {
-                return {visit: visit, relatednessScore: 1} //TODO calculate score.
+            const members: SearchGroupMember[] = possGroup.getVisits().map( visit => {
+                const score = SearchGroupBuilder.visitRelatednessScoreToSearch(visit, search);
+                return {visit: visit, relatednessScore: score}
             });
 
-            return new SearchGroup(search, relatedToSearch);
+            return new SearchGroup(search, members);
         });
         console.log("finished getting search groups. number: ", groups.length);
         console.log("groups", groups);
@@ -34,14 +32,14 @@ export default class SearchGroupBuilder {
 
 
     //TODO: extract to a strategy and inject
-    private static visitBelongsToSearch(visit: HistoryVisit, search: GoogleSearch): boolean {
+    private static visitRelatednessScoreToSearch(visit: HistoryVisit, search: GoogleSearch): number {
         //TODO: should return true if has at least one common word, and was at difference of 15 mins from the search
         //TODO: think of more complex heuristic..? score?
 
 
         const searchWords = _.words(search.getSearchQuery());
         const visitTitleWords = _.words(visit.getTitle());
-        return _.intersection(visitTitleWords, searchWords).length > 0;
+        return (_.intersection(visitTitleWords, searchWords).length > 0) ? 1 : 0;
 
     }
 }
