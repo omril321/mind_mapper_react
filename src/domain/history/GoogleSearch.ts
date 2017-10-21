@@ -1,6 +1,6 @@
-import {HistoryVisit} from "./HistoryVisit";
+import HistoryVisit from "./HistoryVisit";
 
-export class GoogleSearch {
+export default class GoogleSearch {
     static readonly SEARCH_TITLE_POSTFIX = " - Google Search";
     static readonly GOOGLE_SEARCH_URL_REGEX = new RegExp("https?:\/\/www\.google\..*\/search\?.*q=([^&]+)");
 

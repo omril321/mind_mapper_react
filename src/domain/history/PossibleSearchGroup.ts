@@ -1,7 +1,7 @@
-import {GoogleSearch} from "./GoogleSearch";
-import {HistoryVisit} from "./HistoryVisit";
+import GoogleSearch from "./GoogleSearch";
+import HistoryVisit from "./HistoryVisit";
 
-export class PossibleSearchGroup {
+export default class PossibleSearchGroup {
     private readonly _search: GoogleSearch;
     private readonly _visits: ReadonlyArray<HistoryVisit>;
 

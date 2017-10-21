@@ -1,5 +1,5 @@
 
-export class HistoryVisit {
+export default class HistoryVisit {
     private readonly _historyItem: ChromeHistoryItem;
     constructor(historyItem: ChromeHistoryItem) {
         this._historyItem = historyItem;

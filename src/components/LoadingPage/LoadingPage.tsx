@@ -2,11 +2,11 @@ import * as React from "react";
 import "./LoadingPage.scss";
 import {CSSTransitionGroup} from 'react-transition-group'
 
-export interface LoadingPageProps {
+interface LoadingPageProps {
     isLoading: boolean
 }
 
-export class LoadingPage extends React.Component<LoadingPageProps, {}> {
+export default class LoadingPage extends React.Component<LoadingPageProps, {}> {
     render() {
         const isLoading = this.props.isLoading;
         const loadingPage =

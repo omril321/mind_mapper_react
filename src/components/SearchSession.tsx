@@ -1,8 +1,8 @@
 import * as _ from "lodash";
-//TODO: find a way to import al of the below as a single statement
-import {HistoryVisit} from "../domain/history/HistoryVisit";
-import {GoogleSearch} from "../domain/history/GoogleSearch";
-import {PossibleSearchGroup} from "../domain/history/PossibleSearchGroup";
+//TODO: find a way to import all of the below as a single statement
+import HistoryVisit from "../domain/history/HistoryVisit";
+import GoogleSearch from "../domain/history/GoogleSearch";
+import PossibleSearchGroup from "../domain/history/PossibleSearchGroup";
 
 //TODO: relatednessScore can be put in an interface.
 export interface SearchGroupMember {

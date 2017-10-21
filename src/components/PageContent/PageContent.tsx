@@ -1,6 +1,6 @@
 import * as React from "react";
-import ChromeHistorySearch from "../History";
-import {LoadingPage} from "../LoadingPage/LoadingPage";
+import ChromeHistorySearch from "../HistoryComponent";
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 interface ContentState {
     isLoading: boolean
