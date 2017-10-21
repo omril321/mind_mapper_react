@@ -10,6 +10,10 @@ export interface SearchGroupMember {
     readonly relatednessScore: number;
 }
 
+/**
+ * A search group is built from a Google search,
+ * and a group of visits that are related to that search.
+ */
 export interface SearchGroup {
     readonly search: GoogleSearch;
     readonly members: ReadonlyArray<SearchGroupMember>;
@@ -20,30 +24,30 @@ export interface SearchJourneyMember {
     readonly relatednessScore: number
 }
 
+/**
+ * A SearchSession is consisted of multiple SearchGroups that are related to each other in some way.
+ * For example, a search for "flex alignment", and a following search for "flex position",
+ * can become a search session, since the combination of the two searches can become a new conclusion.
+ */
 export interface SearchSession {
     readonly members: ReadonlyArray<SearchJourneyMember>;
 }
 
 
-export class SearchGroupExtractor {
-    private readonly historyItems: ChromeHistoryItem[];
+export class SearchGroupBuilder {
+    readonly possibleGroups: ReadonlyArray<PossibleSearchGroup>;
 
-    constructor(historyItems: ChromeHistoryItem[]) {
-        this.historyItems = historyItems;
+    constructor(_possibleGroups: Array<PossibleSearchGroup>) {
+        this.possibleGroups = _possibleGroups;
     }
 
     public build(): SearchGroup[] {
-
-        console.log("starting getting possible groups...");
-        const possibleGroups = this.groupBySearches();
-        console.log("finished getting possible groups. number: ", possibleGroups.length);
-
         //TODO: refactor for readability
         console.log("starting getting search groups...");
-        const groups: SearchGroup[] = possibleGroups.map(possGroup => {
+        const groups: SearchGroup[] = this.possibleGroups.map(possGroup => {
             const search: GoogleSearch = possGroup.getSearch();
             const relatedVisits: HistoryVisit[] = _.filter(possGroup.getVisits(), visit => {
-                return SearchGroupExtractor.visitBelongsToSearch(visit, search)
+                return SearchGroupBuilder.visitBelongsToSearch(visit, search)
             });
             const relatedToSearch: SearchGroupMember[] = relatedVisits.map(visit => {
                 return {visit: visit, relatednessScore: 1} //TODO calculate score.
@@ -56,42 +60,6 @@ export class SearchGroupExtractor {
         return groups;
     }
 
-    private groupBySearches(): PossibleSearchGroup[] {
-        //assume items are sorted by date, descending (first is new, last is old)
-        const groups: PossibleSearchGroup[] = [];
-
-        let currentIndex = 0;
-        let firstItemInGroupIndex = 0;
-        while(currentIndex < this.historyItems.length) {
-            const asSearch = this.asGoogleSearchByIndex(currentIndex);
-            if(asSearch !== null) {
-                //found search, add this group.
-                const itemsInGroup = this.historyItems.slice(firstItemInGroupIndex, currentIndex)
-                    .map(item => new HistoryVisit(item));
-                const group = new PossibleSearchGroup(asSearch, itemsInGroup);
-                groups.push(group);
-
-                firstItemInGroupIndex = currentIndex + 1; //set the first item in the next group.
-            }
-
-            ++currentIndex;
-        }
-
-        return groups;
-    }
-
-    private asGoogleSearchByIndex(visitIndex: number): GoogleSearch | null {
-        const visit = this.historyItems[visitIndex];
-        return SearchGroupExtractor.asGoogleSearch(new HistoryVisit(visit));
-    }
-
-    private static asGoogleSearch(visit: HistoryVisit): GoogleSearch | null {
-        try {
-            return new GoogleSearch(visit);
-        } catch (error) {
-            return null;
-        }
-    }
 
 
     //TODO: extract to a strategy and inject

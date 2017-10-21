@@ -1,5 +1,8 @@
 import HistoryVisit from "./HistoryVisit";
 
+/**
+ * A history visit which is was a Google search
+ * */
 export default class GoogleSearch {
     static readonly SEARCH_TITLE_POSTFIX = " - Google Search";
     static readonly GOOGLE_SEARCH_URL_REGEX = new RegExp("https?:\/\/www\.google\..*\/search\?.*q=([^&]+)");
