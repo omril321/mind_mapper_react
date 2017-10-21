@@ -1,4 +1,4 @@
-import SearchGroupBuilder from "./SearchGroupsBuilder";
+import SearchGroupBuilder from "../services/SearchGroupsBuilder";
 import PossibleSearchGroupBuilder from "../services/PossibleSearchGroupBuilder";
 
 interface ChromeHistoryQuery {
