@@ -1,4 +1,5 @@
 import {SearchGroupBuilder} from "./SearchSession";
+import PossibleSearchGroupBuilder from "../services/PossibleSearchGroupBuilder";
 
 interface ChromeHistoryQuery {
     text: String
@@ -16,7 +17,8 @@ const allHistoryQuery: ChromeHistoryQuery = {text: '', startTime: 0, maxResults:
 function ChromeHistorySearch(callback: HistoryQueryCallback, query: ChromeHistoryQuery = allHistoryQuery): void {
 
     chrome.history.search(query, (items: ChromeHistoryItem[]) => {
-        new SearchGroupBuilder(items).build();
+        const possibleGroups = new PossibleSearchGroupBuilder(items).build();
+        const searchGroups = new SearchGroupBuilder(possibleGroups).build();
         callback(items)
     });
 

@@ -3,21 +3,8 @@ import * as _ from "lodash";
 import HistoryVisit from "../common/history/HistoryVisit";
 import GoogleSearch from "../common/history/GoogleSearch";
 import PossibleSearchGroup from "../common/history/PossibleSearchGroup";
+import {SearchGroup, SearchGroupMember} from "../common/history/SearchGroup";
 
-//TODO: relatednessScore can be put in an interface.
-export interface SearchGroupMember {
-    readonly visit: HistoryVisit;
-    readonly relatednessScore: number;
-}
-
-/**
- * A search group is built from a Google search,
- * and a group of visits that are related to that search.
- */
-export interface SearchGroup {
-    readonly search: GoogleSearch;
-    readonly members: ReadonlyArray<SearchGroupMember>;
-}
 
 export interface SearchJourneyMember {
     readonly member: SearchGroup;
@@ -50,10 +37,10 @@ export class SearchGroupBuilder {
                 return SearchGroupBuilder.visitBelongsToSearch(visit, search)
             });
             const relatedToSearch: SearchGroupMember[] = relatedVisits.map(visit => {
-                return {visit: visit, relatednessScore: 1} //TODO calculate score.
+                return new SearchGroupMember(visit, 1) //TODO calculate score.
             });
 
-            return {search: search, members: relatedToSearch};
+            return new SearchGroup(search, relatedToSearch);
         });
         console.log("finished getting search groups. number: ", groups.length);
         console.log("groups", groups);

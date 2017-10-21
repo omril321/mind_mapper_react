@@ -17,6 +17,4 @@ export default class PossibleSearchGroup {
 
     public getSearch = () => this._search;
     public getVisits = () => this._visits;
-
-
 }
