@@ -1,16 +1,9 @@
-
-
 import HistoryVisit from "./HistoryVisit";
 import GoogleSearch from "./GoogleSearch";
 
-export class SearchGroupMember {
-    private readonly visit: HistoryVisit;
-    private readonly relatednessScore: number;
-
-    public constructor(_visit: HistoryVisit, _relatednessScore: number){
-        this.visit = _visit;
-        this.relatednessScore = _relatednessScore;
-    }
+export interface SearchGroupMember {
+    readonly visit: HistoryVisit;
+    readonly relatednessScore: number;
 }
 
 /**

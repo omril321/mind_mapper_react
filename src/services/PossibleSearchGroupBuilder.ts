@@ -45,10 +45,10 @@ export default class PossibleSearchGroupBuilder {
 
     private asGoogleSearchByIndex(visitIndex: number): GoogleSearch | null {
         const visit = this.historyItems[visitIndex];
-        return this.asGoogleSearch(new HistoryVisit(visit));
+        return PossibleSearchGroupBuilder.asGoogleSearch(new HistoryVisit(visit));
     }
 
-    private asGoogleSearch(visit: HistoryVisit): GoogleSearch | null {
+    private static asGoogleSearch(visit: HistoryVisit): GoogleSearch | null {
         try {
             return new GoogleSearch(visit);
         } catch (error) {
