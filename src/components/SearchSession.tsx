@@ -34,10 +34,12 @@ export class SearchGroupExtractor {
 
     public build(): SearchGroup[] {
 
-        const searchesIndices: number[] = this.getSearchIndices();
-        console.log("Indices length: ", searchesIndices.length);
+        console.log("starting getting possible groups...");
+        const possibleGroups = this.groupBySearches();
+        console.log("finished getting possible groups. number: ", possibleGroups.length);
 
-        const possibleGroups: PossibleSearchGroup[] = this.splitToPossibleSearchGroups(searchesIndices);
+        //TODO: refactor for readability
+        console.log("starting getting search groups...");
         const groups: SearchGroup[] = possibleGroups.map(possGroup => {
             const search: GoogleSearch = possGroup.getSearch();
             const relatedVisits: HistoryVisit[] = _.filter(possGroup.getVisits(), visit => {
@@ -49,39 +51,38 @@ export class SearchGroupExtractor {
 
             return {search: search, members: relatedToSearch};
         });
-
+        console.log("finished getting search groups. number: ", groups.length);
         console.log("groups", groups);
         return groups;
     }
 
-    private getSearchIndices(): number[] {
-        const searchIndices: number[] = [];
-        _.forEach(this.historyItems, (item, key) => {
-            const visit: HistoryVisit = new HistoryVisit(item);
-            if (SearchGroupExtractor.isGoogleSearch(visit)) {
-                searchIndices.push(key);
-            }
-        });
-        return searchIndices;
-    }
+    private groupBySearches(): PossibleSearchGroup[] {
+        //assume items are sorted by date, descending (first is new, last is old)
+        const groups: PossibleSearchGroup[] = [];
 
-    private splitToPossibleSearchGroups(searchItemsIndices: number[]): PossibleSearchGroup[] {
-        let result: PossibleSearchGroup[] = [];
-        for (let i = 0; i < searchItemsIndices.length; ++i) {
-            let currentSearchIndex = searchItemsIndices[i];
-            let nextSearchIndex = searchItemsIndices[i + 1];
-            const item = this.historyItems[currentSearchIndex];
-            let googleSearch = SearchGroupExtractor.asGoogleSearch(new HistoryVisit(item));
-            let itemsForSearch: HistoryVisit[] = this.historyItems.slice(currentSearchIndex + 1, nextSearchIndex) //don't take the search itself
-                .map(item => new HistoryVisit(item));
-            result.push(new PossibleSearchGroup(googleSearch, itemsForSearch));
+        let currentIndex = 0;
+        let firstItemInGroupIndex = 0;
+        while(currentIndex < this.historyItems.length) {
+            const asSearch = this.asGoogleSearchByIndex(currentIndex);
+            if(asSearch !== null) {
+                //found search, add this group.
+                const itemsInGroup = this.historyItems.slice(firstItemInGroupIndex, currentIndex)
+                    .map(item => new HistoryVisit(item));
+                const group = new PossibleSearchGroup(asSearch, itemsInGroup);
+                groups.push(group);
+
+                firstItemInGroupIndex = currentIndex + 1; //set the first item in the next group.
+            }
+
+            ++currentIndex;
         }
 
-        return result;
+        return groups;
     }
 
-    private static isGoogleSearch(visit: HistoryVisit): boolean {
-        return SearchGroupExtractor.asGoogleSearch(visit) !== null;
+    private asGoogleSearchByIndex(visitIndex: number): GoogleSearch | null {
+        const visit = this.historyItems[visitIndex];
+        return SearchGroupExtractor.asGoogleSearch(new HistoryVisit(visit));
     }
 
     private static asGoogleSearch(visit: HistoryVisit): GoogleSearch | null {

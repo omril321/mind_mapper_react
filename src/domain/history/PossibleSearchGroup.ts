@@ -12,4 +12,6 @@ export class PossibleSearchGroup {
 
     public getSearch = () => this._search;
     public getVisits = () => this._visits;
+
+
 }
