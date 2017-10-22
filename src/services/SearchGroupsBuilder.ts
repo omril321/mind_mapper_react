@@ -1,5 +1,4 @@
 import * as _ from "lodash";
-//TODO: find a way to import all of the below as a single statement
 import HistoryVisit from "../common/history/HistoryVisit";
 import GoogleSearch from "../common/history/GoogleSearch";
 import PossibleSearchGroup from "../common/history/PossibleSearchGroup";
@@ -17,11 +16,7 @@ export default class SearchGroupBuilder {
         console.log("starting getting search groups...");
         const groups: SearchGroup[] = this.possibleGroups.map(possGroup => {
             const search: GoogleSearch = possGroup.getSearch();
-            const members: SearchGroupMember[] = possGroup.getVisits().map( visit => {
-                const score = SearchGroupBuilder.visitRelatednessScoreToSearch(visit, search);
-                return {visit: visit, relatednessScore: score}
-            });
-
+            const members: SearchGroupMember[] = SearchGroupBuilder.searchGroupMembersFromVisits(search, possGroup.getVisits());
             return new SearchGroup(search, members);
         });
         console.log("finished getting search groups. number: ", groups.length);
@@ -29,7 +24,12 @@ export default class SearchGroupBuilder {
         return groups;
     }
 
-
+    private static searchGroupMembersFromVisits(search: GoogleSearch, visits: ReadonlyArray<HistoryVisit>): SearchGroupMember[] {
+        return visits.map( visit => {
+            const score = SearchGroupBuilder.visitRelatednessScoreToSearch(visit, search);
+            return {visit: visit, relatednessScore: score}
+        });
+    }
 
     //TODO: extract to a strategy and inject
     private static visitRelatednessScoreToSearch(visit: HistoryVisit, search: GoogleSearch): number {
