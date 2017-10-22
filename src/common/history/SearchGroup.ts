@@ -18,4 +18,9 @@ export class SearchGroup {
         this.search = _search;
         this.members = _members;
     }
+
+    public getSearch = () => this.search;
+    public getMembers = () => this.members;
+
+    //TODO: add getMembersAboveRelatedness
 }

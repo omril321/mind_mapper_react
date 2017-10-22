@@ -1,19 +1,24 @@
 import * as React from "react";
-import ChromeHistorySearch from "../HistoryComponent";
+import HistoryService from "../../services/HistoryService";
 import LoadingPage from "../LoadingPage/LoadingPage";
+import {SearchGroup} from "../../common/history/SearchGroup";
 
 interface ContentState {
-    isLoading: boolean
+    isLoading: boolean,
+    searchGroups: SearchGroup[]
 }
 
 export class PageContent extends React.Component<{}, ContentState> {
     constructor(props: {}) {
         super(props);
-        this.state = {isLoading: true};
+        this.state = {isLoading: true, searchGroups: []};
 
-        ChromeHistorySearch((items) => {
-                console.log("Items are:", items);
-                this.setState({isLoading: false})
+        HistoryService((searchGroups) => {
+                console.log("groups are:", searchGroups);
+                this.setState({
+                    isLoading: false,
+                    searchGroups: searchGroups
+                })
             }
         );
     }
@@ -21,10 +26,22 @@ export class PageContent extends React.Component<{}, ContentState> {
     render() {
         const isLoading = this.state.isLoading;
         return <div id="content">
-            I'm containing!
             <LoadingPage isLoading={isLoading}/>
 
-            I'm after...
+            {this.state.searchGroups.map((searchGroup, index) => {
+                    return <div key={index}>
+                        <div>
+                            <h4>{searchGroup.getSearch().getSearchQuery()}</h4>
+                            {searchGroup.getMembers().map((member, index) =>
+                                <div key={index}>
+                                    <p>{member.relatednessScore} - {member.visit.getTitle()}</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                }
+            )}
+
         </div>
     }
 

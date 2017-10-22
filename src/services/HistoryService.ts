@@ -1,5 +1,6 @@
-import SearchGroupBuilder from "../services/SearchGroupsBuilder";
-import PossibleSearchGroupBuilder from "../services/PossibleSearchGroupBuilder";
+import SearchGroupBuilder from "./SearchGroupsBuilder";
+import PossibleSearchGroupBuilder from "./PossibleSearchGroupBuilder";
+import {SearchGroup} from "../common/history/SearchGroup";
 
 interface ChromeHistoryQuery {
     text: String
@@ -8,7 +9,7 @@ interface ChromeHistoryQuery {
     maxResults?: number
 }
 
-type HistoryQueryCallback = ((items: ChromeHistoryItem[]) => void);
+type HistoryQueryCallback = ((items: SearchGroup[]) => void);
 
 declare let chrome: any;
 
@@ -19,7 +20,7 @@ function ChromeHistorySearch(callback: HistoryQueryCallback, query: ChromeHistor
     chrome.history.search(query, (items: ChromeHistoryItem[]) => {
         const possibleGroups = new PossibleSearchGroupBuilder(items).build();
         const searchGroups = new SearchGroupBuilder(possibleGroups).build();
-        callback(items)
+        callback(searchGroups)
     });
 
 }

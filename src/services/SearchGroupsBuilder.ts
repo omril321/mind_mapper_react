@@ -12,7 +12,6 @@ export default class SearchGroupBuilder {
     }
 
     public build(): SearchGroup[] {
-        //TODO: refactor for readability
         console.log("starting getting search groups...");
         const groups: SearchGroup[] = this.possibleGroups.map(possGroup => {
             const search: GoogleSearch = possGroup.getSearch();
@@ -25,7 +24,7 @@ export default class SearchGroupBuilder {
     }
 
     private static searchGroupMembersFromVisits(search: GoogleSearch, visits: ReadonlyArray<HistoryVisit>): SearchGroupMember[] {
-        return visits.map( visit => {
+        return visits.map(visit => {
             const score = SearchGroupBuilder.visitRelatednessScoreToSearch(visit, search);
             return {visit: visit, relatednessScore: score}
         });
@@ -35,10 +34,15 @@ export default class SearchGroupBuilder {
     private static visitRelatednessScoreToSearch(visit: HistoryVisit, search: GoogleSearch): number {
         //TODO: should return true if has at least one common word, and was at difference of 15 mins from the search
         //TODO: think of more complex heuristic..? score?
+        const lowerCasedWords = (input: string): string[] =>
+            input.split('[\ \.\,\;\\\'\/]')
+                .map(word => word.toLowerCase());
 
-
-        const searchWords = _.words(search.getSearchQuery());
-        const visitTitleWords = _.words(visit.getTitle());
+        const searchWords = lowerCasedWords(search.getSearchQuery());
+        const visitTitleWords = lowerCasedWords(visit.getTitle());
+        if (searchWords.lastIndexOf('typescript') > -1) {
+            debugger;
+        }
         return (_.intersection(visitTitleWords, searchWords).length > 0) ? 1 : 0;
 
     }
