@@ -6,7 +6,38 @@
   "scripts": {
     "webpack": "webpack",
     "watch": "webpack --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "jest": {
+    "setupFiles": [
+      "./test/jestsetup.ts"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "verbose": true,
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest",
+      "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js",
+      ".*": "<rootDir>/node_modules/jest-css-modules"
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/(?!lodash-es)"
+    ],
+    "testEnvironment": "node",
+    "globals": {
+      "NODE_ENV": "test"
+    },
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json"
+    ]
   },
   "author": "Omri Lavi",
   "license": "ISC",
@@ -20,12 +51,21 @@
     "react-transition-group": "^1.2.1"
   },
   "devDependencies": {
+    "@types/enzyme-adapter-react-16": "^1.0.0",
+    "@types/jest": "^21.1.5",
     "awesome-typescript-loader": "^3.2.3",
     "css-loader": "^0.28.7",
+    "enzyme": "^3.1.0",
+    "enzyme-adapter-react-16": "^1.0.2",
+    "enzyme-to-json": "^3.1.4",
+    "jest": "^21.2.1",
+    "jest-css-modules": "^1.1.0",
     "node-sass": "^4.5.3",
+    "react-test-renderer": "^16.0.0",
     "sass-loader": "^6.0.6",
     "source-map-loader": "^0.2.2",
     "style-loader": "^0.19.0",
+    "ts-jest": "^21.1.4",
     "typescript": "^2.5.3",
     "webpack": "^3.7.1",
     "webpack-dev-server": "^2.9.1"
