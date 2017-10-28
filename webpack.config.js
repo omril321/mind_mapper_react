@@ -1,3 +1,5 @@
+const TsConfigPathsPlugin = require('awesome-typescript-loader').TsConfigPathsPlugin;
+
 module.exports = {
     entry: "./src/index.tsx",
     output: {
@@ -8,8 +10,12 @@ module.exports = {
     devtool: "#inline-source-map",
 
     resolve: {
+        modules: [ __dirname , 'node_modules'],
         // Add '.ts' and '.tsx' as resolvable extensions.
-        extensions: [".ts", ".tsx", ".js", ".json"]
+        extensions: [".ts", ".tsx", ".js", ".json"],
+        plugins: [
+            new TsConfigPathsPlugin()
+        ]
     },
 
     module: {

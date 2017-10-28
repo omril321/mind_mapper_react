@@ -1,5 +1,5 @@
-import HistoryVisit from "./HistoryVisit";
-import GoogleSearch from "./GoogleSearch";
+import HistoryVisit from "~/dto/HistoryVisit";
+import GoogleSearch from "~/dto/GoogleSearch";
 
 export interface SearchGroupMember {
     readonly visit: HistoryVisit;

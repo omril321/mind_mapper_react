@@ -1,7 +1,7 @@
 import * as React from "react";
-import HistoryService from "../../services/HistoryService";
-import LoadingPage from "../LoadingPage/LoadingPage";
-import {SearchGroup} from "../../dto/SearchGroup";
+import HistoryService from "~/services/HistoryService";
+import LoadingPage from "~/components/LoadingPage/LoadingPage";
+import {SearchGroup} from "~/dto/SearchGroup";
 
 interface ContentState {
     isLoading: boolean,

@@ -1,6 +1,6 @@
-import SearchGroupBuilder from "./SearchGroupsBuilder";
-import PossibleSearchGroupBuilder from "./PossibleSearchGroupBuilder";
-import {SearchGroup} from "../dto/SearchGroup";
+import SearchGroupBuilder from "~/services/SearchGroupsBuilder";
+import PossibleSearchGroupBuilder from "~/services/PossibleSearchGroupBuilder";
+import {SearchGroup} from "~/dto/SearchGroup";
 
 interface ChromeHistoryQuery {
     text: String

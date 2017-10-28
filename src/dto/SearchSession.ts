@@ -1,4 +1,4 @@
-import {SearchGroup} from "./SearchGroup";
+import {SearchGroup} from "~/dto/SearchGroup";
 
 export interface SearchSessionMember {
     readonly member: SearchGroup;

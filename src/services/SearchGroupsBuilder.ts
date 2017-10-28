@@ -1,8 +1,8 @@
 import * as _ from "lodash";
-import HistoryVisit from "../dto/HistoryVisit";
-import GoogleSearch from "../dto/GoogleSearch";
-import PossibleSearchGroup from "../dto/PossibleSearchGroup";
-import {SearchGroup, SearchGroupMember} from "../dto/SearchGroup";
+import HistoryVisit from "~/dto/HistoryVisit";
+import GoogleSearch from "~/dto/GoogleSearch";
+import PossibleSearchGroup from "~/dto/PossibleSearchGroup";
+import {SearchGroup, SearchGroupMember} from "~/dto/SearchGroup";
 
 export default class SearchGroupBuilder {
     readonly possibleGroups: ReadonlyArray<PossibleSearchGroup>;

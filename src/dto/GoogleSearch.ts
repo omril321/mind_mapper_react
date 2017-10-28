@@ -1,4 +1,4 @@
-import HistoryVisit from "./HistoryVisit";
+import HistoryVisit from "~/dto/HistoryVisit";
 
 /**
  * A history visit which is was a Google search

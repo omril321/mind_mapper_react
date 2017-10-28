@@ -1,6 +1,6 @@
-import HistoryVisit from "../dto/HistoryVisit";
-import GoogleSearch from "../dto/GoogleSearch";
-import PossibleSearchGroup from "../dto/PossibleSearchGroup";
+import HistoryVisit from "~/dto/HistoryVisit";
+import GoogleSearch from "~/dto/GoogleSearch";
+import PossibleSearchGroup from "~/dto/PossibleSearchGroup";
 
 export default class PossibleSearchGroupBuilder {
     private readonly historyItems: ChromeHistoryItem[];
