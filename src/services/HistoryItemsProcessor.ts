@@ -1,6 +1,7 @@
-import SearchGroupBuilder from "~/services/SearchGroupsBuilder";
-import PossibleSearchGroupBuilder from "~/services/PossibleSearchGroupBuilder";
+import SearchGroupBuilder from "~/services/search_group/SearchGroupsBuilder";
+import PossibleSearchGroupBuilder from "~/services/possible_search_group/PossibleSearchGroupBuilder";
 import {SearchGroup} from "~/dto/SearchGroup";
+import {ChromeHistoryItem} from "~/dto/ChromeHistoryItem";
 
 /**
  * A processor class which gets history items as input, and outputs SearchSessions (or a higher level grouping)

@@ -1,9 +1,10 @@
 import HistoryVisit from "~/dto/HistoryVisit";
 import GoogleSearch from "~/dto/GoogleSearch";
+import {RelatednessScore} from "~/dto/RelatednessScore";
 
 export interface SearchGroupMember {
     readonly visit: HistoryVisit;
-    readonly relatednessScore: number;
+    readonly score: RelatednessScore;
 }
 
 /**

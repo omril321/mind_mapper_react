@@ -31,9 +31,7 @@
       "/node_modules/(?!lodash-es)"
     ],
     "testEnvironment": "node",
-    "globals": {
-      "NODE_ENV": "test"
-    },
+    "collectCoverageFrom" : ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"],
     "moduleFileExtensions": [
       "ts",
       "tsx",

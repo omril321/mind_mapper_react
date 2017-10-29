@@ -1,3 +1,5 @@
+import {ChromeHistoryItem} from "~/dto/ChromeHistoryItem";
+
 export interface ChromeHistoryQuery {
     text: String
     startTime?: number

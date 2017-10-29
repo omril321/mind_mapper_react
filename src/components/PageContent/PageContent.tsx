@@ -39,7 +39,7 @@ export class PageContent extends React.Component<{}, ContentState> {
                             <h4>{searchGroup.getSearch().getSearchQuery()}</h4>
                             {searchGroup.getMembers().map((member, index) =>
                                 <div key={index}>
-                                    <p>{member.relatednessScore} - {member.visit.getTitle()}</p>
+                                    <p>{member.score.value} - {member.visit.getTitle()}</p>
                                 </div>
                             )}
                         </div>
