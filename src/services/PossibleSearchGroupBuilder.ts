@@ -3,9 +3,9 @@ import GoogleSearch from "~/dto/GoogleSearch";
 import PossibleSearchGroup from "~/dto/PossibleSearchGroup";
 
 export default class PossibleSearchGroupBuilder {
-    private readonly historyItems: ChromeHistoryItem[];
+    private readonly historyItems: ReadonlyArray<ChromeHistoryItem>;
 
-    constructor(_historyItems: ChromeHistoryItem[]) {
+    constructor(_historyItems: ReadonlyArray<ChromeHistoryItem>) {
         this.historyItems = _historyItems;
     }
 

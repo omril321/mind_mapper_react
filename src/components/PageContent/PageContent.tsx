@@ -1,7 +1,8 @@
 import * as React from "react";
-import HistoryService from "~/services/HistoryService";
+import {ChromeHistoryService} from "~/services/ChromeHistoryService";
 import LoadingPage from "~/components/LoadingPage/LoadingPage";
 import {SearchGroup} from "~/dto/SearchGroup";
+import {HistoryItemsProcessor} from "~/services/HistoryItemsProcessor";
 
 interface ContentState {
     isLoading: boolean,
@@ -13,7 +14,9 @@ export class PageContent extends React.Component<{}, ContentState> {
         super(props);
         this.state = {isLoading: true, searchGroups: []};
 
-        HistoryService((searchGroups) => {
+        //TODO: refactor this
+        const historyService = new ChromeHistoryService((items) => {
+                const searchGroups = new HistoryItemsProcessor().processHistoryItems(items);
                 console.log("groups are:", searchGroups);
                 this.setState({
                     isLoading: false,
@@ -21,6 +24,8 @@ export class PageContent extends React.Component<{}, ContentState> {
                 })
             }
         );
+
+        historyService.startQuery();
     }
 
     render() {
