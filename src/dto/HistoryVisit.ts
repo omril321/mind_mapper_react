@@ -1,4 +1,6 @@
 
+import {ChromeHistoryItem} from "~/dto/ChromeHistoryItem";
+
 export default class HistoryVisit {
     private readonly _historyItem: ChromeHistoryItem;
     constructor(historyItem: ChromeHistoryItem) {

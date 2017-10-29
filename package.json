@@ -24,6 +24,9 @@
       "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js",
       ".*": "<rootDir>/node_modules/jest-css-modules"
     },
+    "moduleNameMapper": {
+      "~/(.*)": "<rootDir>/src/$1"
+    },
     "transformIgnorePatterns": [
       "/node_modules/(?!lodash-es)"
     ],
