@@ -3,3 +3,4 @@ node_modules/
 *.iml
 dist/compiled/
 npm-debug.log
+coverage
