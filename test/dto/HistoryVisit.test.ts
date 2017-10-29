@@ -10,7 +10,7 @@ describe('HistoryVisit', () => {
         expect(visit.getTitle()).toBe("this is a test!");
     });
 
-    it('should return the history item title using the proper getter', () => {
+    it('should return the history item url using the proper getter', () => {
         const visit = new HistoryVisit({
             id: 200,
             url: "some url"
