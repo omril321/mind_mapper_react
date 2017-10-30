@@ -23,5 +23,7 @@ export class SearchGroup {
     public getSearch = () => this.search;
     public getMembers = () => this.members;
 
-    //TODO: add getMembersAboveRelatedness
+    public getMembersWithAtLeastRelatedness(minScore: number) {
+        return this.members.filter(member => member.score.value >= minScore);
+    }
 }
