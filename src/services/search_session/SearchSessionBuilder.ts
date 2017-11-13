@@ -12,7 +12,6 @@ interface SearchSessionBuild {
 }
 
 export default function buildSearchSessions(buildFrom: ReadonlyArray<SearchGroup>): SearchSession[] {
-    //TODO: test
     const builds: SearchSessionBuild[] = [];
     const allSessionsUnderConstruction = buildFrom.reduce(addToPreviousSearchSessionOrAddNew, builds);
     return finalizedSearchSessions(allSessionsUnderConstruction);
@@ -32,7 +31,6 @@ const addToPreviousSearchSessionOrAddNew = (allSearchSessions: SearchSessionBuil
         allSearchSessions.push(newSession);
     }
 
-//TODO: refactor!
     if (allSearchSessions.length === 0) { //empty, add first member
         addSearchGroupAsSearchSessionBuild(currentGroup);
     } else { //not empty
@@ -50,7 +48,6 @@ const addToPreviousSearchSessionOrAddNew = (allSearchSessions: SearchSessionBuil
             addSearchGroupAsSearchSessionBuild(currentGroup);
         }
     }
-
 
     return allSearchSessions;
 };

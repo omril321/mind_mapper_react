@@ -15,7 +15,7 @@ export interface SearchSessionMember {
 export class SearchSession {
     private readonly members: Array<SearchSessionMember>;
     private readonly keywords: WordsCount;
-    public readonly uniqueKey: number; //TODO: test
+    public readonly uniqueKey: number;
 
     public constructor(_members: Array<SearchSessionMember>, _keywords: WordsCount) {
         this.members = _members;

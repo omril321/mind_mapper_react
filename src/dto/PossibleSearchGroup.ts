@@ -11,7 +11,6 @@ export default class PossibleSearchGroup {
 
     public constructor(search: GoogleSearch, visits: Array<HistoryVisit>) {
         this._search = search;
-        //TODO: check that the visits contain no google searches.
         this._visits = visits;
     }
 
