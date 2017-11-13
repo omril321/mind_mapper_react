@@ -1,26 +1,27 @@
 import * as React from "react";
 import {ChromeHistoryService} from "~/services/ChromeHistoryService";
 import LoadingPage from "~/components/LoadingPage/LoadingPage";
-import {SearchGroup} from "~/dto/SearchGroup";
 import {HistoryItemsProcessor} from "~/services/HistoryItemsProcessor";
+import {SearchSession} from "~/dto/SearchSession";
 
 interface ContentState {
     isLoading: boolean,
-    searchGroups: SearchGroup[]
+    searchSessions: SearchSession[]
 }
 
 export class PageContent extends React.Component<{}, ContentState> {
     constructor(props: {}) {
         super(props);
-        this.state = {isLoading: true, searchGroups: []};
+        this.state = {isLoading: true, searchSessions: []};
 
-        //TODO: refactor this
+        //TODO: move this to somewhere else?
         const historyService = new ChromeHistoryService((items) => {
-                const searchGroups = new HistoryItemsProcessor().processHistoryItems(items);
-                console.log("groups are:", searchGroups);
+                const searchSessions = new HistoryItemsProcessor().processHistoryItems(items);
+                console.log("sessions are:", searchSessions);
+                console.log("sessions longer than 2 are: ", searchSessions.filter(session => session.getMembers().length > 2))
                 this.setState({
                     isLoading: false,
-                    searchGroups: searchGroups
+                    searchSessions: searchSessions
                 })
             }
         );
@@ -33,16 +34,17 @@ export class PageContent extends React.Component<{}, ContentState> {
         return <div id="content">
             <LoadingPage isLoading={isLoading}/>
 
-            {this.state.searchGroups.map((searchGroup, index) => {
+            {this.state.searchSessions.map((searchSession, index) => {
                     return <div key={index}>
                         <div>
-                            <h4>{searchGroup.getSearch().getSearchQuery()}</h4>
-                            {searchGroup.getMembersWithAtLeastRelatedness(0.1)
-                                .map((member, index) =>
-                                    <div key={index}>
-                                        <p>{member.score.value} - {member.visit.getTitle()}</p>
-                                    </div>
-                                )}
+                            {searchSession.getKeywords()}
+                            {/*<h4>{searchGroup.getSearch().getSearchQuery()}</h4>*/}
+                            {/*{searchGroup.getMembersWithAtLeastRelatedness(0.1)*/}
+                                {/*.map((member, index) =>*/}
+                                    {/*<div key={index}>*/}
+                                        {/*<p>{member.score.value} - {member.visit.getTitle()}</p>*/}
+                                    {/*</div>*/}
+                                {/*)}*/}
                         </div>
                     </div>
                 }

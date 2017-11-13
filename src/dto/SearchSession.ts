@@ -1,9 +1,10 @@
 import {SearchGroup} from "~/dto/SearchGroup";
-import {countKeywords, KeywordsCount, splitToWords} from "~/services/strings/Words";
+import {RelatednessScore} from "~/dto/RelatednessScore";
+import WordsCount from "~/dto/WordsCount";
 
 export interface SearchSessionMember {
     readonly member: SearchGroup;
-    readonly relatednessScore: number
+    readonly score: RelatednessScore
 }
 
 /**
@@ -11,19 +12,19 @@ export interface SearchSessionMember {
  * A SearchSession’s KEYWORDS are ALL the words, that appear in more than one SearchGroup in the SearchSession.
  */
 export class SearchSession {
-    readonly members: ReadonlyArray<SearchSessionMember>;
-    readonly keywords: KeywordsCount;
+    private readonly members: Array<SearchSessionMember>;
+    private readonly keywords: WordsCount;
 
-    public constructor(_members: ReadonlyArray<SearchSessionMember>) {
+    public constructor(_members: Array<SearchSessionMember>, _keywords: WordsCount) {
         this.members = _members;
-        this.keywords = this.getKeywords(this.members);
+        this.keywords = _keywords;
     }
 
-    //TODO: this should be in a SearchSessionBuilder
-    private getKeywords(members: ReadonlyArray<SearchSessionMember>): KeywordsCount {
-        const queries = members.map(member => member.member.getSearch().getSearchQuery());
-        const bags = queries.map(splitToWords);
-        return countKeywords(bags);
+    public getKeywords(): WordsCount {
+        return this.keywords;
     }
 
+    public getMembers(): ReadonlyArray<SearchSessionMember> {
+        return this.members;
+    }
 }

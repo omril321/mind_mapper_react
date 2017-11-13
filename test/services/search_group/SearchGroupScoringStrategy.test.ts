@@ -1,6 +1,6 @@
-import calculateRelatedness from "../../src/services/search_group/SearchGroupScoringStrategy";
-import HistoryVisit from "../../src/dto/HistoryVisit";
-import {googleSearchFor} from "../testutils/builder";
+import calculateRelatedness from "../../../src/services/search_group/SearchGroupScoringStrategy";
+import HistoryVisit from "../../../src/dto/HistoryVisit";
+import {googleSearchFor} from "../../testutils/builder";
 
 describe('SearchGroupScoringStrategy', () => {
     it('should return a score of 1 if the search contains a word from the title of the visit', () => {

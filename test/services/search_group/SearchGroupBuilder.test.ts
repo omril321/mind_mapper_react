@@ -1,8 +1,8 @@
-import SearchGroupBuilder from "../../src/services/search_group/SearchGroupsBuilder";
-import PossibleSearchGroup from "../../src/dto/PossibleSearchGroup";
-import {googleSearchFor, historyVisitFor} from "../testutils/builder";
-import {SearchGroup} from "../../src/dto/SearchGroup";
-import {RelatednessScore} from "../../src/dto/RelatednessScore";
+import SearchGroupBuilder from "../../../src/services/search_group/SearchGroupsBuilder";
+import PossibleSearchGroup from "../../../src/dto/PossibleSearchGroup";
+import {googleSearchFor, historyVisitFor} from "../../testutils/builder";
+import {SearchGroup} from "../../../src/dto/SearchGroup";
+import {RelatednessScore} from "../../../src/dto/RelatednessScore";
 
 describe('SearchGroupBuilder', () => {
     it('should return an empty array when given an empty array', () => {
