@@ -1,6 +1,7 @@
 import {SearchGroup} from "~/dto/SearchGroup";
 import {RelatednessScore} from "~/dto/RelatednessScore";
 import WordsCount from "~/dto/WordsCount";
+import generateUniqueKey from "~/services/UniqueKeyGenerator";
 
 export interface SearchSessionMember {
     readonly member: SearchGroup;
@@ -14,10 +15,12 @@ export interface SearchSessionMember {
 export class SearchSession {
     private readonly members: Array<SearchSessionMember>;
     private readonly keywords: WordsCount;
+    public readonly uniqueKey: number; //TODO: test
 
     public constructor(_members: Array<SearchSessionMember>, _keywords: WordsCount) {
         this.members = _members;
         this.keywords = _keywords;
+        this.uniqueKey = generateUniqueKey();
     }
 
     public getKeywords(): WordsCount {

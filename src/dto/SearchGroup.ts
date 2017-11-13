@@ -20,8 +20,12 @@ export class SearchGroup {
         this.members = _members;
     }
 
-    public getSearch = () => this.search;
-    public getMembers = () => this.members;
+    public getSearch(): GoogleSearch {
+        return this.search;
+    }
+    public getMembers(): ReadonlyArray<SearchGroupMember> {
+        return this.members;
+    }
 
     public getMembersWithAtLeastRelatedness(minScore: number) {
         return this.members.filter(member => member.score.value >= minScore);
