@@ -1,4 +1,5 @@
 import BagOfWords from "~/dto/BagOfWords";
+import * as _ from "lodash";
 
 type WordToNumber = { [word: string]: number };
 
@@ -13,6 +14,11 @@ export default class WordsCount {
 
     public getWordCount(): ReadonlyWordToNumber {
         return this.wordcount;
+    }
+
+    //TODO: test
+    public getWordsOnly(): BagOfWords {
+        return new BagOfWords(..._.keys(this.wordcount));
     }
 
     private calcWordCount(bags: ReadonlyArray<BagOfWords>): WordToNumber {
