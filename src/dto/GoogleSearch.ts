@@ -21,5 +21,11 @@ export default class GoogleSearch {
         this._historyVisit = historyVisit;
     }
 
-    public getSearchQuery = () => this._searchQuery;
+    public getSearchQuery(){
+        return this._searchQuery;
+    }
+
+    public getUniqueId() {
+        return this._historyVisit.getUniqueKey();
+    }
 }
