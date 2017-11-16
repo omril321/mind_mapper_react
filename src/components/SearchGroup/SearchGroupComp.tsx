@@ -11,7 +11,7 @@ export class SearchGroupComp extends React.Component<SearchGroupCompProps, {}> {
 
     render() {
         const search = this.props.searchGroup.getSearch();
-        const members = this.props.searchGroup.getMembers();
+        const members = this.props.searchGroup.getGroupMembers();
         //TODO: what's the id of the item?
         return <div>
             <h2>Search: {search.getSearchQuery()}</h2>

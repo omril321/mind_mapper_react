@@ -10,4 +10,8 @@ export default class HistoryVisit {
     public getVisitUrl = () => this._historyItem.url;
 
     public getTitle = () => this._historyItem.title;
+
+    public getUniqueKey() {
+        return this._historyItem.id;
+    }
 }

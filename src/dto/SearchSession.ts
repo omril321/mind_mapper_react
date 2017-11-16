@@ -31,7 +31,7 @@ export class SearchSession {
         return this.getKeywords().getWordsOnly().getWords();
     }
 
-    public getMembers(): ReadonlyArray<SearchSessionMember> {
+    public getSessionMembers(): ReadonlyArray<SearchSessionMember> {
         return this.members;
     }
 }

@@ -12,7 +12,7 @@ export class SearchSessionComp extends React.Component<SearchSessionCompProps, {
 
     render() {
         const session = this.props.searchSession;
-        const members = session.getMembers();
+        const members = session.getSessionMembers();
         const keywords = session.getKeywords();
 
         return <div>

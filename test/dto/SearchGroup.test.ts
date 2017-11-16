@@ -10,7 +10,7 @@ describe('SearchGroup', () => {
         const members = [member1, member2];
         const searchGroup = new SearchGroup(googleSearch, members);
 
-        expect(searchGroup.getMembers()).toBe(members);
+        expect(searchGroup.getGroupMembers()).toBe(members);
     });
 
     it('should return the google search when using getter', () => {

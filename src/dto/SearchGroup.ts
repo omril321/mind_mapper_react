@@ -23,7 +23,7 @@ export class SearchGroup {
     public getSearch(): GoogleSearch {
         return this.search;
     }
-    public getMembers(): ReadonlyArray<SearchGroupMember> {
+    public getGroupMembers(): ReadonlyArray<SearchGroupMember> {
         return this.members;
     }
 

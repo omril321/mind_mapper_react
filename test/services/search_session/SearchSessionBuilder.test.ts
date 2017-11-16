@@ -46,7 +46,7 @@ describe('SearchSessionBuilder', () => {
         const result = buildSearchSessions(groups);
 
         expect(result.length).toEqual(1);
-        expect(result[0].getMembers()).toEqual(expectedMembers);
+        expect(result[0].getSessionMembers()).toEqual(expectedMembers);
         expect(result[0].getKeywords().getWordCount()).toEqual(expectedWords);
     });
 
@@ -65,11 +65,11 @@ describe('SearchSessionBuilder', () => {
         const result = buildSearchSessions(groups);
 
         expect(result.length).toEqual(3);
-        expect(result[0].getMembers()).toEqual(expectedMembers1);
+        expect(result[0].getSessionMembers()).toEqual(expectedMembers1);
         expect(result[0].getKeywords().getWordCount()).toEqual(expectedWords1);
-        expect(result[1].getMembers()).toEqual(expectedMembers2);
+        expect(result[1].getSessionMembers()).toEqual(expectedMembers2);
         expect(result[1].getKeywords().getWordCount()).toEqual(expectedWords2);
-        expect(result[2].getMembers()).toEqual(expectedMembers3);
+        expect(result[2].getSessionMembers()).toEqual(expectedMembers3);
         expect(result[2].getKeywords().getWordCount()).toEqual(expectedWords3);
     });
 
@@ -87,9 +87,9 @@ describe('SearchSessionBuilder', () => {
         const result = buildSearchSessions(groups);
 
         expect(result.length).toEqual(2);
-        expect(result[0].getMembers()).toEqual(expectedMembers1);
+        expect(result[0].getSessionMembers()).toEqual(expectedMembers1);
         expect(result[0].getKeywords().getWordCount()).toEqual(expectedWords1);
-        expect(result[1].getMembers()).toEqual(expectedMembers2);
+        expect(result[1].getSessionMembers()).toEqual(expectedMembers2);
         expect(result[1].getKeywords().getWordCount()).toEqual(expectedWords2);
     });
 });
