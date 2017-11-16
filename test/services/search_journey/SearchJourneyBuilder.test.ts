@@ -21,42 +21,33 @@ describe('SearchJourneyBuilder', () => {
         expect(result).toEqual(expected);
     });
 
-    it('should return a single search journey with a single search session when given a single search session', () => {
+
+    it('should return empty array, when given a single search session', () => {
         const searchSession = searchSessionForUniqueKeywords('test', 'this', 'class');
         const sessions: SearchSession[] = [searchSession];
         const builder = new SearchJourneyBuilder(sessions);
-        const expected: SearchJourney[] = [
-            new SearchJourney('test', [searchSession]),
-            new SearchJourney('this', [searchSession]),
-            new SearchJourney('class', [searchSession]),
-        ];
+        const expected: SearchJourney[] = [];
 
         const result = builder.build();
 
         expect(result).toEqual(expected);
     });
 
-    it('should return 6 search journeys, each with a single search session, when given 3 sessions with 2 keywords that are not common', () => {
+
+    it('should return empty array, when given 3 sessions with 2 keywords that are not common', () => {
         const searchSession1 = searchSessionForUniqueKeywords('some1', 'thing1');
         const searchSession2 = searchSessionForUniqueKeywords('some2', 'thing2');
         const searchSession3 = searchSessionForUniqueKeywords('some3', 'thing3');
         const sessions: SearchSession[] = [searchSession1, searchSession2, searchSession3];
         const builder = new SearchJourneyBuilder(sessions);
-        const expected: SearchJourney[] = [
-            new SearchJourney('some1', [searchSession1]),
-            new SearchJourney('thing1', [searchSession1]),
-            new SearchJourney('some2', [searchSession2]),
-            new SearchJourney('thing2', [searchSession2]),
-            new SearchJourney('some3', [searchSession3]),
-            new SearchJourney('thing3', [searchSession3]),
-        ];
+        const expected: SearchJourney[] = [];
 
         const result = builder.build();
 
         expect(result).toEqual(expected);
     });
 
-    it('should return one search journey with all search sessions, when given 3 sessions with 2 keywords that are common to all', () => {
+    it('should return two search journeys with all search sessions, when given 3 sessions with 2 keywords that are common to all', () => {
         const searchSession1 = searchSessionForUniqueKeywords('some', 'thing');
         const searchSession2 = searchSessionForUniqueKeywords('some', 'thing');
         const searchSession3 = searchSessionForUniqueKeywords('some', 'thing');
@@ -72,18 +63,13 @@ describe('SearchJourneyBuilder', () => {
         expect(result).toEqual(expected);
     });
 
-    it('should return 4 search journey when given 3 sessions, each with a common keyword and a unique keyword', () => {
+    it('should return 1 search journey, when given 3 sessions, each with a common keyword and a unique keyword', () => {
         const searchSession1 = searchSessionForUniqueKeywords('test', 'keyword1');
         const searchSession2 = searchSessionForUniqueKeywords('test', 'keyword2');
         const searchSession3 = searchSessionForUniqueKeywords('test', 'keyword3');
         const sessions: SearchSession[] = [searchSession1, searchSession2, searchSession3];
         const builder = new SearchJourneyBuilder(sessions);
-        const expected: SearchJourney[] = [
-            new SearchJourney('test', [searchSession1, searchSession2, searchSession3]),
-            new SearchJourney('keyword1', [searchSession1]),
-            new SearchJourney('keyword2', [searchSession2]),
-            new SearchJourney('keyword3', [searchSession3]),
-        ];
+        const expected: SearchJourney[] = [new SearchJourney('test', [searchSession1, searchSession2, searchSession3])];
 
         const result = builder.build();
 

@@ -7,7 +7,7 @@ import * as _ from "lodash";
 type PotentialSearchJourneys = { [keyword: string]: Array<SearchSession> }
 
 export class SearchJourneyBuilder {
-    private static readonly MINIMUM_JOURNEY_MEMBERS = 1;
+    private static readonly MINIMUM_JOURNEY_MEMBERS = 2;
 
     private readonly sessions: ReadonlyArray<SearchSession>;
 
@@ -22,7 +22,9 @@ export class SearchJourneyBuilder {
             keywordsOfSession.forEach(word => allPotentialJourneys[word].push(session))
         });
 
-        return SearchJourneyBuilder.finalizePotentialJourneys(allPotentialJourneys);
+        const searchJourneys = SearchJourneyBuilder.finalizePotentialJourneys(allPotentialJourneys);
+        console.log("searchJourneys : ", searchJourneys);
+        return searchJourneys;
     }
 
     private getAllKeywordsOfSessions(): BagOfWords {
