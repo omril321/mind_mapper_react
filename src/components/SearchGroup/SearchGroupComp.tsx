@@ -15,11 +15,13 @@ export class SearchGroupComp extends React.Component<ISearchGroupCompProps, {}> 
         const search = this.props.searchGroup.getSearch();
         const members = this.props.searchGroup.getGroupMembers();
 
+        const membersComps = members.map((member) =>
+            <HistoryVisitComp key={member.visit.getUniqueKey()} visit={member.visit}/>);
+
         return (
-            <div key={search.getUniqueId()}>
+            <div>
                 <h2>Search: {search.getSearchQuery()}</h2>
-                <h2>Members:</h2>
-                {members.map((member) => <HistoryVisitComp key={member.visit.getUniqueKey()} visit={member.visit}/>)}
+                <h2>Members:</h2> {membersComps}
             </div>);
     }
 }
