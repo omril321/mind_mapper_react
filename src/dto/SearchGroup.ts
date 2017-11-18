@@ -23,8 +23,13 @@ export class SearchGroup {
     public getSearch(): GoogleSearch {
         return this.search;
     }
+
     public getGroupMembers(): ReadonlyArray<ISearchGroupMember> {
         return this.members;
+    }
+
+    public getUniqueKey(): string {
+        return this.search.getUniqueId();
     }
 
     public getMembersWithAtLeastRelatedness(minScore: number) {

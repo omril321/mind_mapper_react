@@ -20,8 +20,8 @@ export class SearchGroupComp extends React.Component<ISearchGroupCompProps, {}> 
 
         return (
             <div>
-                <h2>Search: {search.getSearchQuery()}</h2>
-                <h2>Members:</h2> {membersComps}
+                <h4>Search Group: {search.getSearchQuery()}</h4>
+                <h5>Members:</h5> {membersComps}
             </div>);
     }
 }
