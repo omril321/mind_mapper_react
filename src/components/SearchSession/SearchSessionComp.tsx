@@ -1,6 +1,6 @@
 import * as React from "react";
-import {SearchSession} from "~/dto/SearchSession";
 import {SearchGroupComp} from "~/components/SearchGroup/SearchGroupComp";
+import {SearchSession} from "~/dto/SearchSession";
 
 interface ISearchSessionCompProps {
     readonly searchSession: SearchSession;
