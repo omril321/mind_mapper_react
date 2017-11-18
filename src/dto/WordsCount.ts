@@ -11,7 +11,7 @@ interface IReadonlyWordToNumber {
 
 export default class WordsCount {
     private static addWordsToCount(count: IWordToNumber, bag: BagOfWords): IWordToNumber {
-        bag.getWords().forEach((word) => {
+        bag.words.forEach((word) => {
             const currentWordCount = count[word];
             count[word] = currentWordCount !== undefined ? currentWordCount + 1 : 1;
         });
@@ -29,7 +29,6 @@ export default class WordsCount {
         return this.wordcount;
     }
 
-    // TODO: test
     public getWordsOnly(): BagOfWords {
         return new BagOfWords(..._.keys(this.wordcount));
     }

@@ -1,13 +1,27 @@
-import {SearchSession} from "~/dto/SearchSession";
-import {SearchJourney} from "~/dto/SearchJourney";
-import BagOfWords from "~/dto/BagOfWords";
 import * as _ from "lodash";
+import BagOfWords from "~/dto/BagOfWords";
+import {SearchJourney} from "~/dto/SearchJourney";
+import {SearchSession} from "~/dto/SearchSession";
 
-
-type PotentialSearchJourneys = { [keyword: string]: Array<SearchSession> }
+interface IPotentialSearchJourneys { [keyword: string]: SearchSession[]; }
 
 export class SearchJourneyBuilder {
     private static readonly MINIMUM_JOURNEY_MEMBERS = 2;
+
+    private static keywordsOfSessionAsString(session: SearchSession): string[] {
+        return [...session.getKeywordsAsStrings()];
+    }
+
+    private static finalizePotentialJourneys(potentialJourneys: IPotentialSearchJourneys): SearchJourney[] {
+        const allJourneyKeywords = _.keys(potentialJourneys);
+        const keywordJourneyHasEnoughMembers = (keyword: string) =>
+            potentialJourneys[keyword].length >= SearchJourneyBuilder.MINIMUM_JOURNEY_MEMBERS;
+        const keywordJourneyToSearchJourney = (keyword: string) =>
+            new SearchJourney(keyword, potentialJourneys[keyword]);
+        return allJourneyKeywords
+            .filter(keywordJourneyHasEnoughMembers)
+            .map(keywordJourneyToSearchJourney);
+    }
 
     private readonly sessions: ReadonlyArray<SearchSession>;
 
@@ -15,11 +29,11 @@ export class SearchJourneyBuilder {
         this.sessions = buildFrom;
     }
 
-    public build(): Array<SearchJourney> {
-        const allPotentialJourneys: PotentialSearchJourneys = this.getAllPotentialJourneys();
-        this.sessions.forEach(session => {
+    public build(): SearchJourney[] {
+        const allPotentialJourneys: IPotentialSearchJourneys = this.getAllPotentialJourneys();
+        this.sessions.forEach((session) => {
             const keywordsOfSession = SearchJourneyBuilder.keywordsOfSessionAsString(session);
-            keywordsOfSession.forEach(word => allPotentialJourneys[word].push(session))
+            keywordsOfSession.forEach((word) => allPotentialJourneys[word].push(session));
         });
 
         const searchJourneys = SearchJourneyBuilder.finalizePotentialJourneys(allPotentialJourneys);
@@ -37,26 +51,13 @@ export class SearchJourneyBuilder {
         return new BagOfWords(...words);
     }
 
-    private getAllPotentialJourneys(): PotentialSearchJourneys {
-        const potentialJourneys: PotentialSearchJourneys = {};
+    private getAllPotentialJourneys(): IPotentialSearchJourneys {
+        const potentialJourneys: IPotentialSearchJourneys = {};
         const allKeywords = this.getAllKeywordsOfSessions();
         const initPotentialJourneyOfKeyword = (keyword: string) => {
-            potentialJourneys[keyword] = []
+            potentialJourneys[keyword] = [];
         };
-        allKeywords.getWords().forEach(initPotentialJourneyOfKeyword);
+        allKeywords.words.forEach(initPotentialJourneyOfKeyword);
         return potentialJourneys;
-    }
-
-    private static keywordsOfSessionAsString(session: SearchSession): string[] {
-        return [...session.getKeywordsAsStrings()];
-    }
-
-    private static finalizePotentialJourneys(potentialJourneys: PotentialSearchJourneys): Array<SearchJourney> {
-        const allJourneyKeywords = _.keys(potentialJourneys);
-        const keywordJourneyHasEnoughMembers = (keyword: string) => potentialJourneys[keyword].length >= SearchJourneyBuilder.MINIMUM_JOURNEY_MEMBERS;
-        const keywordJourneyToSearchJourney = (keyword: string) => new SearchJourney(keyword, potentialJourneys[keyword]);
-        return allJourneyKeywords
-            .filter(keywordJourneyHasEnoughMembers)
-            .map(keywordJourneyToSearchJourney);
     }
 }

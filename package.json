@@ -10,7 +10,7 @@
     "test-unit": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "lint": "tslint src/**/*.{tsx,ts}"
+    "lint": "tslint 'src/**/*.{tsx,ts}'"
   },
   "jest": {
     "setupFiles": [

@@ -1,6 +1,6 @@
+import BagOfWords from "~/dto/BagOfWords";
 import {RelatednessScore} from "~/dto/RelatednessScore";
 import {splitToWords} from "~/services/strings/Words";
-import BagOfWords from "~/dto/BagOfWords";
 
 export function calcPhrasesRelatedness(phrase1: string, phrase2: string): RelatednessScore {
     const words1 = splitToWords(phrase1);

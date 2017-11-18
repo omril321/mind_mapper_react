@@ -4,7 +4,7 @@ import {RelatednessScore} from "~/dto/RelatednessScore";
 import {calcPhrasesRelatedness} from "~/services/strings/StringsRelatednessScoreStrategy";
 
 export default function calculateRelatedness(visit: HistoryVisit, search: GoogleSearch): RelatednessScore {
-    //TODO: think of more complex heuristic..? including time as well?
+    // TODO: think of more complex heuristic..? including time as well?
 
     return calcPhrasesRelatedness(visit.getTitle(), search.getSearchQuery());
 }

@@ -28,7 +28,7 @@ export class SearchSession {
     }
 
     public getKeywordsAsStrings(): ReadonlyArray<string> {
-        return this.getKeywords().getWordsOnly().getWords();
+        return this.getKeywords().getWordsOnly().words;
     }
 
     public getSessionMembers(): ReadonlyArray<ISearchSessionMember> {

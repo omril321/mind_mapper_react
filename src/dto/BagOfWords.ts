@@ -6,13 +6,9 @@ export default class BagOfWords {
         return _.intersection(bag1.words, bag2.words).length > 0;
     }
 
-    private words: string[];
+    public words: ReadonlyArray<string>;
 
     constructor(...words: string[]) {
         this.words = _.uniq(words);
-    }
-
-    public getWords(): ReadonlyArray<string> {
-        return this.words;
     }
 }

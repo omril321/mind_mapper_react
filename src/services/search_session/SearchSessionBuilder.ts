@@ -1,47 +1,45 @@
-import {SearchSession, ISearchSessionMember} from "~/dto/SearchSession";
-import {SearchGroup} from "~/dto/SearchGroup";
-import {splitToWords} from "~/services/strings/Words";
 import BagOfWords from "~/dto/BagOfWords";
-import WordsCount from "~/dto/WordsCount";
 import {RelatednessScore} from "~/dto/RelatednessScore";
+import {SearchGroup} from "~/dto/SearchGroup";
+import {ISearchSessionMember, SearchSession} from "~/dto/SearchSession";
+import WordsCount from "~/dto/WordsCount";
+import {splitToWords} from "~/services/strings/Words";
 
-
-interface SearchSessionBuild {
+interface ISearchSessionBuild {
     members: SearchGroup[];
     wordsSoFar: BagOfWords;
 }
 
 export default function buildSearchSessions(buildFrom: ReadonlyArray<SearchGroup>): SearchSession[] {
-    const builds: SearchSessionBuild[] = [];
+    const builds: ISearchSessionBuild[] = [];
     const allSessionsUnderConstruction = buildFrom.reduce(addToPreviousSearchSessionOrAddNew, builds);
     return finalizedSearchSessions(allSessionsUnderConstruction);
 }
 
 function searchGroupQueryAsBagOfWords(group: SearchGroup): BagOfWords {
-    return splitToWords(group.getSearch().getSearchQuery())
+    return splitToWords(group.getSearch().getSearchQuery());
 }
 
-
-const addToPreviousSearchSessionOrAddNew = (allSearchSessions: SearchSessionBuild[], currentGroup: SearchGroup) => {
+const addToPreviousSearchSessionOrAddNew = (allSearchSessions: ISearchSessionBuild[], currentGroup: SearchGroup) => {
     function addSearchGroupAsSearchSessionBuild(group: SearchGroup) {
-        const newSession: SearchSessionBuild = {
+        const newSession: ISearchSessionBuild = {
             members: [group],
-            wordsSoFar: searchGroupQueryAsBagOfWords(group)
+            wordsSoFar: searchGroupQueryAsBagOfWords(group),
         };
         allSearchSessions.push(newSession);
     }
 
-    if (allSearchSessions.length === 0) { //empty, add first member
+    if (allSearchSessions.length === 0) { // empty, add first member
         addSearchGroupAsSearchSessionBuild(currentGroup);
-    } else { //not empty
+    } else { // not empty
         const currentSearchSession = allSearchSessions[allSearchSessions.length - 1];
-        //decide if the current search group needs to be added to the last session, or be added to a new session
+        // decide if the current search group needs to be added to the last session, or be added to a new session
         const currentSessionWords = currentSearchSession.wordsSoFar;
         const currentGroupWords = searchGroupQueryAsBagOfWords(currentGroup);
         const isGroupRelatedToSearch = BagOfWords.hasCommonWords(currentSessionWords, currentGroupWords);
 
         if (isGroupRelatedToSearch) {
-            const sessionWithGroupWords: string[] = [...currentSessionWords.getWords(), ...currentGroupWords.getWords()];
+            const sessionWithGroupWords: string[] = [...currentSessionWords.words, ...currentGroupWords.words];
             currentSearchSession.wordsSoFar = new BagOfWords(...sessionWithGroupWords);
             currentSearchSession.members.push(currentGroup);
         } else {
@@ -52,14 +50,14 @@ const addToPreviousSearchSessionOrAddNew = (allSearchSessions: SearchSessionBuil
     return allSearchSessions;
 };
 
-function finalizedSearchSessions(builds: SearchSessionBuild[]): SearchSession[] {
-    function finalizeSearchSession(build: SearchSessionBuild): SearchSession {
-        const members: ISearchSessionMember[] = build.members.map(_member => {
-            return {member: _member, score: new RelatednessScore(1)}
+function finalizedSearchSessions(builds: ISearchSessionBuild[]): SearchSession[] {
+    function finalizeSearchSession(build: ISearchSessionBuild): SearchSession {
+        const members: ISearchSessionMember[] = build.members.map((member) => {
+            return {member, score: new RelatednessScore(1)};
         });
 
         const words: BagOfWords[] = build.members.map(searchGroupQueryAsBagOfWords);
-        return new SearchSession(members, new WordsCount(words))
+        return new SearchSession(members, new WordsCount(words));
     }
     return builds.map(finalizeSearchSession);
 }
