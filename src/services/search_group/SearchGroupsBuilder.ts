@@ -19,7 +19,6 @@ export default class SearchGroupBuilder {
             return new SearchGroup(search, members);
         });
         console.log("finished getting search groups. number: ", groups.length);
-        console.log("groups", groups);
         return groups;
     }
 

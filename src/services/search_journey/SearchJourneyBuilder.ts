@@ -23,7 +23,6 @@ export class SearchJourneyBuilder {
         });
 
         const searchJourneys = SearchJourneyBuilder.finalizePotentialJourneys(allPotentialJourneys);
-        console.log("searchJourneys : ", searchJourneys);
         return searchJourneys;
     }
 

@@ -14,6 +14,10 @@ export class HistoryItemsProcessor {
         const searchGroups =  new SearchGroupBuilder(possibleGroups).build();
         const searchSessions = buildSearchSessions(searchGroups);
         const searchJourneys = new SearchJourneyBuilder(searchSessions).build();
+        console.log("searchSessions: ");
+        console.log(searchSessions);
+        console.log("searchJourneys: ");
+        console.log(searchJourneys);
         return searchSessions;
     }
 }
