@@ -57,6 +57,7 @@
       }
     }
   },
+  "pre-commit": ["test"],
   "author": "Omri Lavi",
   "license": "ISC",
   "dependencies": {
