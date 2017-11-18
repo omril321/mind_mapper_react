@@ -1,4 +1,4 @@
-import {ChromeHistoryQuery, ChromeHistoryService} from "../../src/services/ChromeHistoryService";
+import {IChromeHistoryQuery, ChromeHistoryService} from "../../src/services/ChromeHistoryService";
 
 let chrome: any = {history: { search: () => null}}; //this is a mock
 declare let global: any; //this is parallel to "window"
@@ -7,7 +7,7 @@ global.chrome = chrome; //inject the mock to the window, as if chrome supplied t
 describe('ChromeHistoryService', () => {
     it('should call chrome api search function with query of all items', () => {
         const service = new ChromeHistoryService(() => null);
-        let actualQuery: ChromeHistoryQuery = undefined;
+        let actualQuery: IChromeHistoryQuery = undefined;
         jest.spyOn(chrome.history, 'search').mockImplementation((_query, _callback) => actualQuery = _query);
 
         service.startQuery();

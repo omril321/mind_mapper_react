@@ -6,14 +6,14 @@ import HistoryVisit from "./HistoryVisit";
  * The visits should not contain other Google searches..
  */
 export default class PossibleSearchGroup {
-    private readonly _search: GoogleSearch;
-    private readonly _visits: ReadonlyArray<HistoryVisit>;
+    private readonly search: GoogleSearch;
+    private readonly visits: ReadonlyArray<HistoryVisit>;
 
-    public constructor(search: GoogleSearch, visits: Array<HistoryVisit>) {
-        this._search = search;
-        this._visits = visits;
+    public constructor(search: GoogleSearch, visits: HistoryVisit[]) {
+        this.search = search;
+        this.visits = visits;
     }
 
-    public getSearch = () => this._search;
-    public getVisits = () => this._visits;
+    public getSearch = () => this.search;
+    public getVisits = () => this.visits;
 }

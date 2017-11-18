@@ -1,10 +1,10 @@
 import HistoryVisit from "../../src/dto/HistoryVisit";
 import GoogleSearch from "../../src/dto/GoogleSearch";
-import {ChromeHistoryItem} from "../../src/dto/ChromeHistoryItem";
+import {IChromeHistoryItem} from "../../src/dto/ChromeHistoryItem";
 
 let incrementedVisitId = 0;
 
-export function historyItemFor(url: string, title: string): ChromeHistoryItem {
+export function historyItemFor(url: string, title: string): IChromeHistoryItem {
     return {
         id: (incrementedVisitId++).toString(),
         url: url,

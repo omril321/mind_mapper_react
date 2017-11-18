@@ -1,11 +1,11 @@
-import {SearchGroup} from "~/dto/SearchGroup";
 import {RelatednessScore} from "~/dto/RelatednessScore";
+import {SearchGroup} from "~/dto/SearchGroup";
 import WordsCount from "~/dto/WordsCount";
 import generateUniqueKey from "~/services/UniqueKeyGenerator";
 
-export interface SearchSessionMember {
+export interface ISearchSessionMember {
     readonly member: SearchGroup;
-    readonly score: RelatednessScore
+    readonly score: RelatednessScore;
 }
 
 /**
@@ -13,13 +13,13 @@ export interface SearchSessionMember {
  * A SearchSession’s KEYWORDS are ALL the words, that appear in more than one SearchGroup in the SearchSession.
  */
 export class SearchSession {
-    private readonly members: Array<SearchSessionMember>;
-    private readonly keywords: WordsCount;
     public readonly uniqueKey: number;
+    private readonly members: ISearchSessionMember[];
+    private readonly keywords: WordsCount;
 
-    public constructor(_members: Array<SearchSessionMember>, _keywords: WordsCount) {
-        this.members = _members;
-        this.keywords = _keywords;
+    public constructor(members: ISearchSessionMember[], keywords: WordsCount) {
+        this.members = members;
+        this.keywords = keywords;
         this.uniqueKey = generateUniqueKey();
     }
 
@@ -31,7 +31,7 @@ export class SearchSession {
         return this.getKeywords().getWordsOnly().getWords();
     }
 
-    public getSessionMembers(): ReadonlyArray<SearchSessionMember> {
+    public getSessionMembers(): ReadonlyArray<ISearchSessionMember> {
         return this.members;
     }
 }

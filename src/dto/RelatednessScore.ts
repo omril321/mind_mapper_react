@@ -1,7 +1,10 @@
-const MIN_SCORE = 0;
-const MAX_SCORE = 1;
-
 export class RelatednessScore {
+    private static readonly MIN_SCORE = 0;
+    private static readonly MAX_SCORE = 1;
+
+    private static inRange(value: number) {
+        return value >= RelatednessScore.MIN_SCORE && value <= RelatednessScore.MAX_SCORE;
+    }
 
     public readonly value: number;
 
@@ -10,10 +13,6 @@ export class RelatednessScore {
             throw new Error(`The following value is not a valid score: ${value}`);
         }
 
-        this.value = value
-    }
-
-    private static inRange(value: number) {
-        return value >= MIN_SCORE && value <= MAX_SCORE;
+        this.value = value;
     }
 }

@@ -1,4 +1,4 @@
-import {SearchSession, SearchSessionMember} from "~/dto/SearchSession";
+import {SearchSession, ISearchSessionMember} from "~/dto/SearchSession";
 import {SearchGroup} from "~/dto/SearchGroup";
 import {splitToWords} from "~/services/strings/Words";
 import BagOfWords from "~/dto/BagOfWords";
@@ -54,7 +54,7 @@ const addToPreviousSearchSessionOrAddNew = (allSearchSessions: SearchSessionBuil
 
 function finalizedSearchSessions(builds: SearchSessionBuild[]): SearchSession[] {
     function finalizeSearchSession(build: SearchSessionBuild): SearchSession {
-        const members: SearchSessionMember[] = build.members.map(_member => {
+        const members: ISearchSessionMember[] = build.members.map(_member => {
             return {member: _member, score: new RelatednessScore(1)}
         });
 

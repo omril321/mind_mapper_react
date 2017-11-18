@@ -1,7 +1,7 @@
 import buildSearchSessions from "../../../src/services/search_session/SearchSessionBuilder";
 import {SearchGroup} from "../../../src/dto/SearchGroup";
 import {googleSearchFor} from "../../testutils/builder";
-import {SearchSession, SearchSessionMember} from "../../../src/dto/SearchSession";
+import {SearchSession, ISearchSessionMember} from "../../../src/dto/SearchSession";
 import WordsCount from "../../../src/dto/WordsCount";
 import BagOfWords from "../../../src/dto/BagOfWords";
 import {splitToWords} from "../../../src/services/strings/Words";
@@ -9,7 +9,7 @@ import {RelatednessScore} from "../../../src/dto/RelatednessScore";
 
 interface GroupMemberTestSubject {
     group: SearchGroup;
-    member: SearchSessionMember;
+    member: ISearchSessionMember;
 }
 
 function buildGroupMemberTestSubjectForQuery(searchQuery: string): GroupMemberTestSubject {

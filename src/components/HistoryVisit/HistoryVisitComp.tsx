@@ -1,19 +1,21 @@
 import * as React from "react";
 import HistoryVisit from "~/dto/HistoryVisit";
 
-interface HistoryVisitCompProps {
+interface IHistoryVisitCompProps {
     readonly visit: HistoryVisit;
 }
 
-export class HistoryVisitComp extends React.Component<HistoryVisitCompProps, {}> {
-    constructor(props: HistoryVisitCompProps) {
+export class HistoryVisitComp extends React.Component<IHistoryVisitCompProps, {}> {
+    constructor(props: IHistoryVisitCompProps) {
         super(props);
     }
 
-    render() {
+    public render() {
         const visit = this.props.visit;
-        return <div key={visit.getUniqueKey()}>
-            <a href={visit.getVisitUrl()}>{visit.getTitle()}</a>
-        </div>
+        return (
+            <div>
+                <a href={visit.getVisitUrl()}>{visit.getTitle()}</a>
+            </div>
+        );
     }
 }

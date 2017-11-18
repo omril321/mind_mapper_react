@@ -1,17 +1,17 @@
-
-import {ChromeHistoryItem} from "~/dto/ChromeHistoryItem";
+import {IChromeHistoryItem} from "~/dto/ChromeHistoryItem";
 
 export default class HistoryVisit {
-    private readonly _historyItem: ChromeHistoryItem;
-    constructor(historyItem: ChromeHistoryItem) {
-        this._historyItem = historyItem;
+    private readonly historyItem: IChromeHistoryItem;
+
+    constructor(historyItem: IChromeHistoryItem) {
+        this.historyItem = historyItem;
     }
 
-    public getVisitUrl = () => this._historyItem.url;
+    public getVisitUrl = () => this.historyItem.url;
 
-    public getTitle = () => this._historyItem.title;
+    public getTitle = () => this.historyItem.title;
 
     public getUniqueKey() {
-        return this._historyItem.id;
+        return this.historyItem.id;
     }
 }

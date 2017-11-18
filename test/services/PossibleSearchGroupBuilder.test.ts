@@ -1,5 +1,5 @@
 import PossibleSearchGroupBuilder from "../../src/services/possible_search_group/PossibleSearchGroupBuilder";
-import {ChromeHistoryItem} from "../../src/dto/ChromeHistoryItem";
+import {IChromeHistoryItem} from "../../src/dto/ChromeHistoryItem";
 import {googleSearchUrlFor, historyItemFor} from "../testutils/builder";
 import PossibleSearchGroup from "../../src/dto/PossibleSearchGroup";
 import GoogleSearch from "../../src/dto/GoogleSearch";
@@ -20,7 +20,7 @@ describe('PossibleSearchGroupBuilder', () => {
         const related3 = historyItemFor("something.com", "something");
         const searchVisit = historyItemFor(googleSearchUrlFor("react tests"), "react tests - Google Search");
         const nonRelatedVisit = historyItemFor("react.com", "react subject1");
-        const items: ChromeHistoryItem[] = [ //first is last visit
+        const items: IChromeHistoryItem[] = [ //first is last visit
             related3,
             related2,
             related1,
@@ -50,7 +50,7 @@ describe('PossibleSearchGroupBuilder', () => {
         const searchVisit2 = historyItemFor(googleSearchUrlFor("visit2"), "visit2 - Google Search");
         const searchVisit1 = historyItemFor(googleSearchUrlFor("visit1"), "visit1 - Google Search");
         const nonRelatedVisit = historyItemFor("nonRelated", "nonRelated");
-        const items: ChromeHistoryItem[] = [ //first is last visit
+        const items: IChromeHistoryItem[] = [ //first is last visit
             related2,
             related1,
             searchVisit2,
@@ -78,7 +78,7 @@ describe('PossibleSearchGroupBuilder', () => {
         const related3 = historyItemFor("related3", "related3");
         const related2 = historyItemFor("related2", "related2");
         const related1 = historyItemFor("related1", "related1");
-        const items: ChromeHistoryItem[] = [ //first is last visit
+        const items: IChromeHistoryItem[] = [ //first is last visit
             related3,
             related2,
             related1,
