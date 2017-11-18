@@ -6,7 +6,7 @@
   "scripts": {
     "webpack": "webpack",
     "watch": "webpack --watch",
-    "test": "jest",
+    "test": "jest --coverage",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"
   },
@@ -31,14 +31,31 @@
       "/node_modules/(?!lodash-es)"
     ],
     "testEnvironment": "node",
-    "collectCoverageFrom" : ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"],
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "src/**/*.jsx",
+      "src/**/*.ts",
+      "src/**/*.tsx"
+    ],
     "moduleFileExtensions": [
       "ts",
       "tsx",
       "js",
       "jsx",
       "json"
-    ]
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 100,
+        "functions": 94,
+        "lines": 90,
+        "statements": 89
+      },
+      "./src/components/**/*.tsx": {
+        "branches": 0,
+        "statements": 0
+      }
+    }
   },
   "author": "Omri Lavi",
   "license": "ISC",
@@ -62,6 +79,7 @@
     "jest": "^21.2.1",
     "jest-css-modules": "^1.1.0",
     "node-sass": "^4.5.3",
+    "pre-commit": "^1.2.2",
     "react-test-renderer": "^16.0.0",
     "sass-loader": "^6.0.6",
     "source-map-loader": "^0.2.2",
