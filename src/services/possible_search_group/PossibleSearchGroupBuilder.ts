@@ -56,4 +56,5 @@ export default class PossibleSearchGroupBuilder {
             return null;
         }
     }
+
 }
