@@ -1,3 +1,4 @@
+import HistoryVisit from "~/dto/HistoryVisit";
 import {SearchSession} from "~/dto/SearchSession";
 
 /**
@@ -6,11 +7,16 @@ import {SearchSession} from "~/dto/SearchSession";
  * A search journey needs to have minimal number of search sessions (otherwise it is not really a journey, isn’t it?)
  */
 export class SearchJourney {
-    private readonly keyword: string;
-    private readonly members: ReadonlyArray<SearchSession>;
+    public readonly keyword: string;
+    public readonly members: ReadonlyArray<SearchSession>;
 
     constructor(keyword: string, members: ReadonlyArray<SearchSession>) {
         this.keyword = keyword;
         this.members = members;
+    }
+
+    public getAllRelatedHistoryVisits(): ReadonlyArray<HistoryVisit> {
+        return this.members.reduce((allVisits: ReadonlyArray<HistoryVisit>, journeyMember) =>
+            allVisits.concat(journeyMember.getAllRelatedHistoryVisits()), []);
     }
 }

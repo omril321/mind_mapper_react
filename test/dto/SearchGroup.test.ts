@@ -3,72 +3,52 @@ import {ISearchGroupMember, SearchGroup} from "../../src/dto/SearchGroup";
 import {googleSearchFor, historyVisitFor} from "../testutils/builder";
 
 describe("SearchGroup", () => {
-    it("should return the members when using getter", () => {
-        const googleSearch = googleSearchFor("some search");
-        const member1: ISearchGroupMember = {
-            score: new RelatednessScore(0.5),
-            visit: historyVisitFor("some url", "title1"),
-        };
-        const member2: ISearchGroupMember = {
-            score: new RelatednessScore(1),
-            visit: historyVisitFor("another url", "another title"),
-        };
-        const members = [member1, member2];
-        const searchGroup = new SearchGroup(googleSearch, members);
 
-        expect(searchGroup.getGroupMembers()).toBe(members);
+    describe("getAllRelatedHistoryVisits", () => {
+        it("should return an empty array when group is empty", () => {
+            const googleSearch = googleSearchFor("some search");
+            const searchGroup = new SearchGroup(googleSearch, []);
+
+            expect(searchGroup.getAllRelatedHistoryVisits()).toEqual([]);
+        });
+
+        it("should return an empty array when all members are with score 0", () => {
+            const googleSearch = googleSearchFor("some search");
+            const members: ISearchGroupMember[] = [
+                {score: new RelatednessScore(0), visit: historyVisitFor("some url", "title1")},
+                {score: new RelatednessScore(0), visit: historyVisitFor("another url", "title2")},
+                {score: new RelatednessScore(0), visit: historyVisitFor("url again!", "title3")},
+            ];
+            const searchGroup = new SearchGroup(googleSearch, members);
+
+            const result = searchGroup.getAllRelatedHistoryVisits();
+
+            expect(result).toEqual([]);
+        });
+
+        it("should return only visits with non-zero relatedness", () => {
+            const googleSearch = googleSearchFor("some search");
+            const related1 = {score: new RelatednessScore(0.001), visit: historyVisitFor("some url", "title1")};
+            const related2 = {score: new RelatednessScore(1), visit: historyVisitFor("another url", "title2")};
+            const nonRelated = {score: new RelatednessScore(0), visit: historyVisitFor("url again!", "title3")};
+            const members: ISearchGroupMember[] = [related1, nonRelated, related2];
+            const searchGroup = new SearchGroup(googleSearch, members);
+
+            const result = searchGroup.getAllRelatedHistoryVisits();
+
+            expect(result).toEqual([related1.visit, related2.visit]);
+        });
     });
 
-    it("should return the google search when using getter", () => {
-        const googleSearch = googleSearchFor("some search");
-        const member1: ISearchGroupMember = {
-            score: new RelatednessScore(0.5),
-            visit: historyVisitFor("some url", "title1"),
-        };
-        const member2: ISearchGroupMember = {
-            score: new RelatednessScore(1),
-            visit: historyVisitFor("another url", "another title"),
-        };
-        const members = [member1, member2];
-        const searchGroup = new SearchGroup(googleSearch, members);
+    describe("getUniqueKey", () => {
+        it("Should return the id of the search", () => {
+            const googleSearch = googleSearchFor("something");
+            const searchGroup = new SearchGroup(googleSearch, []);
+            const expected = googleSearch.getUniqueId();
 
-        expect(searchGroup.getSearch()).toBe(googleSearch);
-    });
+            const actual = searchGroup.getUniqueKey();
 
-    it("should return no members when the group is empty", () => {
-        const googleSearch = googleSearchFor("some search");
-        const searchGroup = new SearchGroup(googleSearch, []);
-
-        expect(searchGroup.getMembersWithAtLeastRelatedness(-100)).toEqual([]);
-    });
-
-    it("should return only members with at least relatedness", () => {
-        const googleSearch = googleSearchFor("some search");
-        const member1: ISearchGroupMember = {
-            score: new RelatednessScore(0.5),
-            visit: historyVisitFor("some url", "title1"),
-        };
-        const member2: ISearchGroupMember = {
-            score: new RelatednessScore(1),
-            visit: historyVisitFor("another url", "another title"),
-        };
-        const member3: ISearchGroupMember = {
-            score: new RelatednessScore(0),
-            visit: historyVisitFor("url3", "title..."),
-        };
-        const members = [member1, member2, member3];
-        const searchGroup = new SearchGroup(googleSearch, members);
-
-        expect(searchGroup.getMembersWithAtLeastRelatedness(0.5)).toEqual([member1, member2]);
-    });
-
-    it("Should return the id of the search when calling getUniqueKey", () => {
-        const googleSearch = googleSearchFor("something");
-        const searchGroup = new SearchGroup(googleSearch, []);
-        const expected = googleSearch.getUniqueId();
-
-        const actual = searchGroup.getUniqueKey();
-
-        expect(actual).toEqual(expected);
+            expect(actual).toEqual(expected);
+        });
     });
 });

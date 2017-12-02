@@ -17,7 +17,7 @@ export default function buildSearchSessions(buildFrom: ReadonlyArray<SearchGroup
 }
 
 function searchGroupQueryAsBagOfWords(group: SearchGroup): BagOfWords {
-    return splitToWords(group.getSearch().getSearchQuery());
+    return splitToWords(group.search.getSearchQuery());
 }
 
 const addToPreviousSearchSessionOrAddNew = (allSearchSessions: ISearchSessionBuild[], currentGroup: SearchGroup) => {

@@ -2,6 +2,7 @@ import {RelatednessScore} from "~/dto/RelatednessScore";
 import {SearchGroup} from "~/dto/SearchGroup";
 import WordsCount from "~/dto/WordsCount";
 import generateUniqueKey from "~/services/UniqueKeyGenerator";
+import HistoryVisit from "~/dto/HistoryVisit";
 
 export interface ISearchSessionMember {
     readonly member: SearchGroup;
@@ -35,9 +36,12 @@ export class SearchSession {
         return this.members;
     }
 
-    // TODO: test
-    public getNonEmptyMembersWithItemsOfMinimalRelatedness(minimalRelatedness: number) {
-        return this.members.filter((member) =>
-            member.member.getMembersWithAtLeastRelatedness(minimalRelatedness).length > 0);
+    public getAllRelatedHistoryVisits(): ReadonlyArray<HistoryVisit> {
+        return this.members.reduce((allVisits: ReadonlyArray<HistoryVisit>, sessionMember) => {
+            if (sessionMember.score.value > 0) {
+                allVisits = allVisits.concat(sessionMember.member.getAllRelatedHistoryVisits());
+            }
+            return allVisits;
+        }, []);
     }
 }
