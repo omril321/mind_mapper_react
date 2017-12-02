@@ -1,8 +1,8 @@
+import HistoryVisit from "~/dto/HistoryVisit";
 import {RelatednessScore} from "~/dto/RelatednessScore";
 import {SearchGroup} from "~/dto/SearchGroup";
 import WordsCount from "~/dto/WordsCount";
 import generateUniqueKey from "~/services/UniqueKeyGenerator";
-import HistoryVisit from "~/dto/HistoryVisit";
 
 export interface ISearchSessionMember {
     readonly member: SearchGroup;
