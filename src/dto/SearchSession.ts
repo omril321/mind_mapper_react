@@ -34,4 +34,10 @@ export class SearchSession {
     public getSessionMembers(): ReadonlyArray<ISearchSessionMember> {
         return this.members;
     }
+
+    // TODO: test
+    public getNonEmptyMembersWithItemsOfMinimalRelatedness(minimalRelatedness: number) {
+        return this.members.filter((member) =>
+            member.member.getMembersWithAtLeastRelatedness(minimalRelatedness).length > 0);
+    }
 }

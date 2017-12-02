@@ -13,9 +13,9 @@ export class SearchGroupComp extends React.Component<ISearchGroupCompProps, {}> 
 
     public render() {
         const search = this.props.searchGroup.getSearch();
-        const members = this.props.searchGroup.getGroupMembers();
+        const membersToRender = this.props.searchGroup.getMembersWithAtLeastRelatedness(0.1);
 
-        const membersComps = members.map((member) =>
+        const membersComps = membersToRender.map((member) =>
             <HistoryVisitComp key={member.visit.getUniqueKey()} visit={member.visit}/>);
 
         return (
