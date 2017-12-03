@@ -12,16 +12,16 @@ export class SearchGroupComp extends React.Component<ISearchGroupCompProps, {}> 
     }
 
     public render() {
-        const search = this.props.searchGroup.getSearch();
-        const membersToRender = this.props.searchGroup.getMembersWithAtLeastRelatedness(0.1);
+        const search = this.props.searchGroup.search;
+        const visitsToRender = this.props.searchGroup.getAllRelatedHistoryVisits();
 
-        const membersComps = membersToRender.map((member) =>
-            <HistoryVisitComp key={member.visit.getUniqueKey()} visit={member.visit}/>);
+        const visitComps = visitsToRender.map((visit) =>
+            <HistoryVisitComp key={visit.getUniqueKey()} visit={visit}/>);
 
         return (
             <div>
                 <h4>Search Group: {search.getSearchQuery()}</h4>
-                <h5>Members:</h5> {membersComps}
+                {visitComps}
             </div>);
     }
 }

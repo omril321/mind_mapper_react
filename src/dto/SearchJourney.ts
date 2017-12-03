@@ -1,5 +1,7 @@
+import * as crypto from "crypto";
 import HistoryVisit from "~/dto/HistoryVisit";
 import {SearchSession} from "~/dto/SearchSession";
+import generateUniqueKey from "~/services/UniqueKeyGenerator";
 
 /**
  * A collection of search sessions (not necessarily sequential), that have a connection by a certain keyword.
@@ -9,10 +11,12 @@ import {SearchSession} from "~/dto/SearchSession";
 export class SearchJourney {
     public readonly keyword: string;
     public readonly members: ReadonlyArray<SearchSession>;
+    public readonly uniqueKey: number;
 
     constructor(keyword: string, members: ReadonlyArray<SearchSession>) {
         this.keyword = keyword;
         this.members = members;
+        this.uniqueKey = generateUniqueKey();
     }
 
     public getAllRelatedHistoryVisits(): ReadonlyArray<HistoryVisit> {

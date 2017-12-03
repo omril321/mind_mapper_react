@@ -21,8 +21,7 @@ export class SearchSessionComp extends React.Component<ISearchSessionCompProps, 
 
         return (
             <div>
-                <h2>Session keywords: {wordsCountString}</h2>
-                <h3>Num of members: {members.length}, which are:</h3>
+                <h2>Session keywords: {wordsCountString}, with {members.length} members</h2>
                 {membersComps}
             </div>);
     }

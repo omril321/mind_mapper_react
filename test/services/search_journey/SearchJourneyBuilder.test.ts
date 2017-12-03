@@ -52,14 +52,14 @@ describe("SearchJourneyBuilder", () => {
         const searchSession3 = searchSessionForUniqueKeywords("some", "thing");
         const sessions: SearchSession[] = [searchSession1, searchSession2, searchSession3];
         const builder = new SearchJourneyBuilder(sessions);
-        const expected: SearchJourney[] = [
-            new SearchJourney("some", [searchSession1, searchSession2, searchSession3]),
-            new SearchJourney("thing", [searchSession1, searchSession2, searchSession3]),
+        const expected = [
+            {keyword: "some", members: [searchSession1, searchSession2, searchSession3]},
+            {keyword: "thing", members: [searchSession1, searchSession2, searchSession3]},
         ];
 
         const result = builder.build();
 
-        expect(result).toEqual(expected);
+        expect(result).toMatchObject(expected);
     });
 
     it("should return 1 search journey, when given 3 sessions, each with a common keyword and a unique keyword", () => {
@@ -68,11 +68,11 @@ describe("SearchJourneyBuilder", () => {
         const searchSession3 = searchSessionForUniqueKeywords("test", "keyword3");
         const sessions: SearchSession[] = [searchSession1, searchSession2, searchSession3];
         const builder = new SearchJourneyBuilder(sessions);
-        const expected: SearchJourney[] = [new SearchJourney("test", [searchSession1, searchSession2, searchSession3])];
+        const expected = [{keyword: "test", members: [searchSession1, searchSession2, searchSession3]}];
 
         const result = builder.build();
 
-        expect(result).toEqual(expected);
+        expect(result).toMatchObject(expected);
     });
 
     it("should return 3 search journey when given 3 sessions, each have common keyword with another session", () => {
@@ -81,14 +81,14 @@ describe("SearchJourneyBuilder", () => {
         const searchSession3 = searchSessionForUniqueKeywords("test3", "test1");
         const sessions: SearchSession[] = [searchSession1, searchSession2, searchSession3];
         const builder = new SearchJourneyBuilder(sessions);
-        const expected: SearchJourney[] = [
-            new SearchJourney("test1", [searchSession1, searchSession3]),
-            new SearchJourney("test2", [searchSession1, searchSession2]),
-            new SearchJourney("test3", [searchSession2, searchSession3]),
+        const expected = [
+            {keyword: "test1", members: [searchSession1, searchSession3]},
+            {keyword: "test2", members: [searchSession1, searchSession2]},
+            {keyword: "test3", members: [searchSession2, searchSession3]},
         ];
 
         const result = builder.build();
 
-        expect(result).toEqual(expected);
+        expect(result).toMatchObject(expected);
     });
 });
