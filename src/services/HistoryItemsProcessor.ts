@@ -1,17 +1,17 @@
 import {IChromeHistoryItem} from "~/dto/ChromeHistoryItem";
 import {SearchGroup} from "~/dto/SearchGroup";
-import {SearchJourney} from "~/dto/SearchJourney";
 import {SearchSession} from "~/dto/SearchSession";
+import {WordSearchSessions} from "~/dto/WordSearchSessions";
 import PossibleSearchGroupBuilder from "~/services/possible_search_group/PossibleSearchGroupBuilder";
 import SearchGroupBuilder from "~/services/search_group/SearchGroupsBuilder";
-import {SearchJourneyBuilder} from "~/services/search_journey/SearchJourneyBuilder";
-import filterInterestingJourneys from "~/services/search_journey/SearchJourneyFilter";
 import buildSearchSessions from "~/services/search_session/SearchSessionBuilder";
+import filterInterestingWords from "~/services/word_searches/InterestingWordSearchesFilter";
+import {WordSearchesBuilder} from "~/services/word_searches/WordSearchesBuilder";
 
 export interface IProcessedHistoryResult {
     searchGroups: SearchGroup[];
     searchSessions: SearchSession[];
-    searchJourneys: SearchJourney[];
+    wordSearchSessions: WordSearchSessions[];
 }
 
 /**
@@ -22,8 +22,8 @@ export class HistoryItemsProcessor {
         const possibleGroups = new PossibleSearchGroupBuilder(items).build();
         const searchGroups =  new SearchGroupBuilder(possibleGroups).build();
         const searchSessions = buildSearchSessions(searchGroups);
-        const searchJourneys = new SearchJourneyBuilder(searchSessions).build();
-        const filteredSearchJourneys = filterInterestingJourneys(searchJourneys);
-        return {searchGroups, searchSessions, searchJourneys: filteredSearchJourneys};
+        const wordSearches = new WordSearchesBuilder(searchSessions).build();
+        const filteredWordSearches = filterInterestingWords(wordSearches);
+        return {searchGroups, searchSessions, wordSearchSessions: filteredWordSearches};
     }
 }
