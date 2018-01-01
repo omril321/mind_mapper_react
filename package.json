@@ -69,7 +69,8 @@
     "@types/react-transition-group": "^1.1.2",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
-    "react-transition-group": "^1.2.1"
+    "react-transition-group": "^1.2.1",
+    "stopword": "^0.1.9"
   },
   "devDependencies": {
     "@types/enzyme-adapter-react-16": "^1.0.0",

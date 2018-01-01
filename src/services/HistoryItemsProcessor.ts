@@ -5,6 +5,7 @@ import {SearchSession} from "~/dto/SearchSession";
 import PossibleSearchGroupBuilder from "~/services/possible_search_group/PossibleSearchGroupBuilder";
 import SearchGroupBuilder from "~/services/search_group/SearchGroupsBuilder";
 import {SearchJourneyBuilder} from "~/services/search_journey/SearchJourneyBuilder";
+import filterInterestingJourneys from "~/services/search_journey/SearchJourneyFilter";
 import buildSearchSessions from "~/services/search_session/SearchSessionBuilder";
 
 export interface IProcessedHistoryResult {
@@ -22,6 +23,7 @@ export class HistoryItemsProcessor {
         const searchGroups =  new SearchGroupBuilder(possibleGroups).build();
         const searchSessions = buildSearchSessions(searchGroups);
         const searchJourneys = new SearchJourneyBuilder(searchSessions).build();
-        return {searchGroups, searchSessions, searchJourneys};
+        const filteredSearchJourneys = filterInterestingJourneys(searchJourneys);
+        return {searchGroups, searchSessions, searchJourneys: filteredSearchJourneys};
     }
 }
