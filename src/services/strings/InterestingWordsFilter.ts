@@ -1,7 +1,8 @@
+import * as _ from "lodash";
 import * as stopword from "stopword";
 
 function isSingleWord(word: string): boolean {
-    return word.split(" ").length === 1;
+    return word.split(" ").length === 1 && ! _.isFunction(word);
 }
 
 function isNotANumber(word: string): boolean {

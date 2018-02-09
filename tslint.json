@@ -6,7 +6,8 @@
     "rules": {
         "no-implicit-dependencies": false,
         "no-submodule-imports": false,
-        "no-trailing-whitespace": false
+        "no-trailing-whitespace": false,
+        "max-line-length": [false]
     },
     "rulesDirectory": []
 }

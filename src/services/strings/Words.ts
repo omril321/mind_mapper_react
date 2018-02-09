@@ -1,6 +1,6 @@
 import BagOfWords from "~/dto/BagOfWords";
 
-const wordsRegex = new RegExp("[ \.\,\;\\'\/]");
+const wordsRegex = new RegExp("[ \.\,\;\\\/\"]");
 
 export function splitToWords(phrase: string): BagOfWords {
     const words = phrase.split(wordsRegex)
