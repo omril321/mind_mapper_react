@@ -1,10 +1,10 @@
 const MINIMUM_OCC_FOR_TEST = 2;
 jest.setMock("~/conf/config", {default: {minimum_occurrences_for_combining_entities: MINIMUM_OCC_FOR_TEST}});
 
+import {EntityOccurrences} from "~/services/corpus_analyzer/dto/EntityOccurrences";
+import {SearchQueryString} from "~/services/corpus_analyzer/dto/SearchQueryString";
+import {areEntitiesCombinable, combineEntities} from "~/services/corpus_analyzer/entity_detection/EntityCombiner";
 import BagOfWords from "../../../../src/dto/BagOfWords";
-import EntityCombiner from "../../../../src/services/corpus_analyzer/entity_detection/EntityCombiner";
-import {EntityOccurrences} from "../../../../src/services/corpus_analyzer/dto/EntityOccurrences";
-import {SearchQueryString} from "../../../../src/services/corpus_analyzer/dto/SearchQueryString";
 
 describe("EntityCombiner", () => {
     describe("areEntitiesCombinable", () => {
@@ -13,7 +13,7 @@ describe("EntityCombiner", () => {
             const e2 = new EntityOccurrences(new BagOfWords("word100", "word200"), [new SearchQueryString(""), new SearchQueryString("")]);
             const expected = true;
 
-            const result = EntityCombiner.areEntitiesCombinable(e1, e2);
+            const result = areEntitiesCombinable(e1, e2);
 
             expect(result).toBe(expected);
         });
@@ -23,7 +23,7 @@ describe("EntityCombiner", () => {
             const e2 = new EntityOccurrences(new BagOfWords("word100", "word200"), [new SearchQueryString(""), new SearchQueryString("")]);
             const expected = false;
 
-            const result = EntityCombiner.areEntitiesCombinable(e1, e2);
+            const result = areEntitiesCombinable(e1, e2);
 
             expect(result).toBe(expected);
         });
@@ -33,7 +33,7 @@ describe("EntityCombiner", () => {
             const e2 = new EntityOccurrences(new BagOfWords("word100", "word200"), [new SearchQueryString("")]);
             const expected = false;
 
-            const result = EntityCombiner.areEntitiesCombinable(e1, e2);
+            const result = areEntitiesCombinable(e1, e2);
 
             expect(result).toBe(expected);
         });
@@ -43,7 +43,7 @@ describe("EntityCombiner", () => {
             const e2 = new EntityOccurrences(new BagOfWords("word1"), [new SearchQueryString(""), new SearchQueryString("")]);
             const expected = false;
 
-            const result = EntityCombiner.areEntitiesCombinable(e1, e2);
+            const result = areEntitiesCombinable(e1, e2);
 
             expect(result).toBe(expected);
         });
@@ -53,7 +53,7 @@ describe("EntityCombiner", () => {
             const e2 = new EntityOccurrences(new BagOfWords("word1", "word2"), [new SearchQueryString(""), new SearchQueryString("")]);
             const expected = false;
 
-            const result = EntityCombiner.areEntitiesCombinable(e1, e2);
+            const result = areEntitiesCombinable(e1, e2);
 
             expect(result).toBe(expected);
         });
@@ -65,7 +65,7 @@ describe("EntityCombiner", () => {
             const entity2 = new EntityOccurrences(new BagOfWords("word2"), [new SearchQueryString("word2 but that is it")]);
             const expected = new EntityOccurrences(new BagOfWords("word1", "word2"), []);
 
-            const result = EntityCombiner.combineEntities(entity1, entity2);
+            const result = combineEntities(entity1, entity2);
 
             expect(result).toEqual(expected);
         });
@@ -76,7 +76,7 @@ describe("EntityCombiner", () => {
             const entity2 = new EntityOccurrences(new BagOfWords("word2"), [new SearchQueryString("word2 but that is it")]);
             const expected = new EntityOccurrences(new BagOfWords("word1", "word2"), [queryWithBoth]);
 
-            const result = EntityCombiner.combineEntities(entity1, entity2);
+            const result = combineEntities(entity1, entity2);
 
             expect(result).toEqual(expected);
         });
@@ -87,7 +87,7 @@ describe("EntityCombiner", () => {
             const entity2 = new EntityOccurrences(new BagOfWords("word2"), [queryWithBoth, new SearchQueryString("word2 but that is it")]);
             const expected = new EntityOccurrences(new BagOfWords("word1", "word2"), [queryWithBoth]);
 
-            const result = EntityCombiner.combineEntities(entity1, entity2);
+            const result = combineEntities(entity1, entity2);
 
             expect(result).toEqual(expected);
         });

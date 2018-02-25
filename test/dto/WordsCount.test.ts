@@ -43,7 +43,7 @@ describe("WordsCount", () => {
 
             it("should return empty array when wordCount is empty", () => {
                 const count = new WordsCount([]);
-                const expected = [];
+                const expected: string[] = [];
 
                 const actual = count.getWordsOnly();
 

@@ -3,7 +3,7 @@ import BagOfWords from "../../src/dto/BagOfWords";
 describe("BagOfWords", () => {
     it("should return empty words array when constructing an empty bag", () => {
         const bag = new BagOfWords();
-        const expected = [];
+        const expected: string[] = [];
 
         expect(bag.words).toEqual(expected);
     });

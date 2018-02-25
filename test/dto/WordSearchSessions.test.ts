@@ -1,15 +1,16 @@
-import {WordSearchSessions} from "../../src/dto/WordSearchSessions";
+import HistoryVisit from "~/dto/HistoryVisit";
+import {WordSearchSessions} from "~/dto/WordSearchSessions";
 
 describe("WordSearchSessions", () => {
     describe("getAllRelatedHistoryVisits", () => {
 
-        function mockSessionWithRelatedVisits(relatedVisitsResult) {
+        function mockSessionWithRelatedVisits(relatedVisitsResult: string[]): any {
             return {getAllRelatedHistoryVisits: () => relatedVisitsResult};
         }
 
         it("should return an empty array when word sessions is empty", () => {
             const wordSearchSessions = new WordSearchSessions("test", []);
-            const expected = [];
+            const expected: HistoryVisit[] = [];
 
             const result = wordSearchSessions.getAllRelatedHistoryVisits();
 

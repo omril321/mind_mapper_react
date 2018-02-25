@@ -1,14 +1,16 @@
 import BagOfWords from "../../src/dto/BagOfWords";
 import {RelatednessScore} from "../../src/dto/RelatednessScore";
-import {SearchSession} from "../../src/dto/SearchSession";
+import {ISearchSessionMember, SearchSession} from "../../src/dto/SearchSession";
 import WordsCount from "../../src/dto/WordsCount";
+import HistoryVisit from "~/dto/HistoryVisit";
+import {SearchGroup} from "~/dto/SearchGroup";
 
 describe("SearchSession", () => {
     describe("getKeywordsAsStrings", () => {
 
         it("should return an empty array when keywords are empty", () => {
             const session = new SearchSession([], new WordsCount([]));
-            const expected = [];
+            const expected: string[] = [];
 
             const result = session.getKeywordsAsStrings();
 
@@ -30,12 +32,12 @@ describe("SearchSession", () => {
     });
 
     describe("getAllRelatedHistoryVisits", () => {
-        function mockSessionMemberWithVisits(visitsArray, score) {
+        function mockSessionMemberWithVisits(visitsArray: string[], score: number): any {
             return {member: {getAllRelatedHistoryVisits: () => visitsArray}, score: new RelatednessScore(score)};
         }
 
         it("should return an empty array when session has no members", () => {
-            const session = new SearchSession([], []);
+            const session = new SearchSession([], new WordsCount([]));
 
             const result = session.getAllRelatedHistoryVisits();
 
@@ -47,8 +49,8 @@ describe("SearchSession", () => {
                 mockSessionMemberWithVisits(["non related 1", "non related 2"], 0),
                 mockSessionMemberWithVisits(["non related 3"], 0),
             ];
-            const expected = [];
-            const session = new SearchSession(members, []);
+            const expected: HistoryVisit[] = [];
+            const session = new SearchSession(members, new WordsCount([]));
 
             const result = session.getAllRelatedHistoryVisits();
 
@@ -63,7 +65,7 @@ describe("SearchSession", () => {
                 mockSessionMemberWithVisits(["related 3"], 1),
             ];
             const expected = ["related 1", "related 2", "related 3"];
-            const session = new SearchSession(members, []);
+            const session = new SearchSession(members, new WordsCount([]));
 
             const result = session.getAllRelatedHistoryVisits();
 

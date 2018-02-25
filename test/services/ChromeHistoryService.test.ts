@@ -1,28 +1,28 @@
-import {IChromeHistoryQuery, ChromeHistoryService} from "../../src/services/ChromeHistoryService";
+import {ChromeHistoryService, IChromeHistoryQuery} from "~/services/ChromeHistoryService";
 
-let chrome: any = {history: { search: () => null}}; //this is a mock
-declare let global: any; //this is parallel to "window"
-global.chrome = chrome; //inject the mock to the window, as if chrome supplied this object
+const chrome: any = {history: { search: () => null as any}}; // this is a mock
+declare let global: any; // this is parallel to "window"
+global.chrome = chrome; // inject the mock to the window, as if chrome supplied this object
 
-describe('ChromeHistoryService', () => {
-    it('should call chrome api search function with query of all items', () => {
+describe("ChromeHistoryService", () => {
+    it("should call chrome api search function with query of all items", () => {
         const service = new ChromeHistoryService(() => null);
-        let actualQuery: IChromeHistoryQuery = undefined;
-        jest.spyOn(chrome.history, 'search').mockImplementation((_query, _callback) => actualQuery = _query);
+        let actualQuery: IChromeHistoryQuery;
+        jest.spyOn(chrome.history, "search").mockImplementation((mockedQuery, mockedCallback) => actualQuery = mockedQuery);
 
         service.startQuery();
 
         expect(actualQuery.startTime).toBe(0);
         expect(actualQuery.endTime).toBe(undefined);
-        expect(actualQuery.text).toBe('');
+        expect(actualQuery.text).toBe("");
         expect(actualQuery.maxResults).toBeGreaterThan(80000);
     });
 
-    it('should call chrome api search function with injected callback', () => {
+    it("should call chrome api search function with injected callback", () => {
         const items = ["some", "items", "that", "are", "history"];
-        const callback = jasmine.createSpy('items callback');
+        const callback = jasmine.createSpy("items callback");
         const service = new ChromeHistoryService(callback);
-        jest.spyOn(chrome.history, 'search').mockImplementation((_query, _callback) => _callback(items));
+        jest.spyOn(chrome.history, "search").mockImplementation((mockedQuery, mockedCallback) => mockedCallback(items));
 
         service.startQuery();
 

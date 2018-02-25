@@ -1,46 +1,46 @@
-import {QueryCorpusParser} from "~/services/corpus_analyzer/corpus_parsing/QueryCorpusParser";
+import * as _ from "lodash";
+import parseQueryCorpus from "~/services/corpus_analyzer/corpus_parsing/QueryCorpusParser";
+import {EntityOccurrences} from "~/services/corpus_analyzer/dto/EntityOccurrences";
 import IAsyncEntityAnalyzationIterationEvent from "~/services/corpus_analyzer/dto/IAsyncEntityAnalyzationIterationEvent";
 import {SearchQueryString} from "~/services/corpus_analyzer/dto/SearchQueryString";
-import {IncrementalEntityCombiner} from "~/services/corpus_analyzer/entity_detection/IncrementalEntityCombiner";
+import generateCombinationsForEntity from "~/services/corpus_analyzer/entity_detection/IncrementalEntityCombiner";
 import SortedEntitiesOccurrences from "~/services/corpus_analyzer/entity_detection/SortedEntitiesOccurrences";
 
 export type EntityAnalyzationCallback = (event: IAsyncEntityAnalyzationIterationEvent) => void;
+export type AnalyzationFinishedCallback = (result: ReadonlyArray<EntityOccurrences>) => void;
 
-export default class AsyncCorpusEntitiesAnalyzer {
+export interface IAnalyzationConfiguration {
+    entityCallback: EntityAnalyzationCallback;
+    finishedCallback: AnalyzationFinishedCallback;
+}
 
-    private readonly queryStrings: SearchQueryString[];
-    private readonly entityResultCallback: EntityAnalyzationCallback;
+export function startAsyncAnalyzation(queryStrings: SearchQueryString[],
+                                      configuration: IAnalyzationConfiguration) {
+    console.time("Analyzation");
+    // TODO: this should actually be async
+    const parsedEntities = parseQueryCorpus(queryStrings);
 
-    public constructor(queryStrings: SearchQueryString[], entityResultCallback: EntityAnalyzationCallback) {
-        this.queryStrings = queryStrings;
-        this.entityResultCallback = entityResultCallback;
+    const sortedEntitiesHolder = new SortedEntitiesOccurrences(parsedEntities);
+    let currentIndex = 0;
+    while (currentIndex < sortedEntitiesHolder.getSortedEntities().length) {
+        // TODO: each step should also generate entities relation
+        const sortedEntities = sortedEntitiesHolder.getSortedEntities();
+        const currentEntity = sortedEntities[currentIndex];
+        const newEntities = generateCombinationsForEntity(currentEntity, sortedEntities);
+        sortedEntitiesHolder.insertNewEntities(...newEntities);
+
+        ++currentIndex;
+
+        const event: IAsyncEntityAnalyzationIterationEvent = {
+            // TODO: this causes x3 runtime, but is required since the callbacks might use it... how can this be removed / improved?
+            allKnownEntities: _.cloneDeep(sortedEntitiesHolder.getSortedEntities()),
+            analyzedEntity: currentEntity,
+            entitiesFromThisIteration: newEntities,
+            numEntitiesAnalyzedSoFar: currentIndex,
+        };
+        configuration.entityCallback(event);
     }
 
-    public startAsyncAnalyzation(): SortedEntitiesOccurrences {
-        const parsedEntities = new QueryCorpusParser(this.queryStrings).parse();
-
-        const sortedEntitiesHolder = new SortedEntitiesOccurrences(parsedEntities);
-        const analyzer = new IncrementalEntityCombiner();
-        let currentIndex = 0;
-        while (currentIndex < sortedEntitiesHolder.getSortedEntities().length) {
-            //TODO: each step should also generate entities relation
-            const sortedEntities = sortedEntitiesHolder.getSortedEntities();
-            const currentEntity = sortedEntities[currentIndex];
-            const newEntities = analyzer.generateCombinationsForEntity(currentEntity, sortedEntities);
-            sortedEntitiesHolder.insertNewEntities(...newEntities);
-
-            ++currentIndex;
-
-            const event: IAsyncEntityAnalyzationIterationEvent = {
-                allKnownEntities: sortedEntitiesHolder.getSortedEntities(),
-                analyzedEntity: currentEntity,
-                entitiesFromThisIteration: newEntities,
-                numEntitiesAnalyzedSoFar: currentIndex,
-            };
-            this.entityResultCallback(event);
-        }
-
-        return sortedEntitiesHolder;
-    }
-
+    configuration.finishedCallback(sortedEntitiesHolder.getSortedEntities());
+    console.timeEnd("Analyzation");
 }

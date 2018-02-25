@@ -1,13 +1,14 @@
 import BagOfWords from "../../../../src/dto/BagOfWords";
 import SortedEntitiesOccurrences from "../../../../src/services/corpus_analyzer/entity_detection/SortedEntitiesOccurrences";
 import {EntityOccurrences} from "../../../../src/services/corpus_analyzer/dto/EntityOccurrences";
+import {SearchQueryString} from "~/services/corpus_analyzer/dto/SearchQueryString";
 
 let totalNum = 0;
 
 const createMockedEntityWithOccurrencesNumber: (num: number) => EntityOccurrences = (occNum: number) => {
-    const occurrences = [];
+    const occurrences: SearchQueryString[] = [];
     for (let i = 0; i < occNum; ++i) {
-        occurrences.push("" + (totalNum++));
+        occurrences.push(new SearchQueryString("" + (totalNum++)));
     }
     return new EntityOccurrences(new BagOfWords(""), occurrences);
 };
@@ -15,8 +16,8 @@ const createMockedEntityWithOccurrencesNumber: (num: number) => EntityOccurrence
 describe("SortedEntitiesOccurrences", () => {
     describe("constructor", () => {
         it("should return an empty array when given an empty array", () => {
-            const input = [];
-            const expected = [];
+            const input: EntityOccurrences[] = [];
+            const expected: EntityOccurrences[] = [];
 
             const result = new SortedEntitiesOccurrences(input).getSortedEntities();
 
@@ -40,7 +41,7 @@ describe("SortedEntitiesOccurrences", () => {
 
     describe("insertNewEntities", () => {
         it("should return a list with one item when inserting one item to an empty array", () => {
-            const initialInput = [];
+            const initialInput: EntityOccurrences[] = [];
             const insertedItem = createMockedEntityWithOccurrencesNumber(5);
             const expected = [insertedItem];
 

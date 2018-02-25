@@ -1,35 +1,19 @@
 import * as _ from "lodash";
-import config from "~/conf/config";
-import EntityCombiner from "~/services/corpus_analyzer/entity_detection/EntityCombiner";
 import {EntityOccurrences} from "~/services/corpus_analyzer/dto/EntityOccurrences";
+import tryCombiningEntities from "~/services/corpus_analyzer/entity_detection/EntityCombinationUtils";
 
-export class IncrementalEntityCombiner {
+export default function generateCombinationsForEntity(entityToAnalyze: EntityOccurrences, entitiesSoFar: ReadonlyArray<EntityOccurrences>): EntityOccurrences[] {
+    const newEntities: EntityOccurrences[] = [];
 
-    public generateCombinationsForEntity(entityToAnalyze: EntityOccurrences, entitiesSoFar: ReadonlyArray<EntityOccurrences>): EntityOccurrences[] {
-        const newEntities: EntityOccurrences[] = [];
-        const analyzeKnownEntityWithEntityToAnalyze = (entity: EntityOccurrences) => {
-            if (!EntityCombiner.areEntitiesCombinable(entityToAnalyze, entity)) {
-                return;
-            }
+    const analyzeKnownEntityWithEntityToAnalyze = (entity: EntityOccurrences) => {
+        const combinedEntityResult = tryCombiningEntities(entityToAnalyze, entity, entitiesSoFar, newEntities);
+        if (combinedEntityResult.result) {
+            newEntities.push(combinedEntityResult.result);
+        }
 
-            const combinedEntity = EntityCombiner.combineEntities(entityToAnalyze, entity);
-            const combinedEntityHasEnoughOccurrences = combinedEntity.containingQueries.length >= config.minimum_occurrences_for_entity_to_be_meaningful;
-            if (!combinedEntityHasEnoughOccurrences) {
-                return;
-            }
-            const isEntityWordsContainingCombinedEntityWords = (e: EntityOccurrences) => e.entityWords.containsOtherBag(combinedEntity.entityWords);
-            const combinedEntityAlreadyExists =
-                entitiesSoFar.concat(newEntities)
-                    .some(isEntityWordsContainingCombinedEntityWords);
+    };
+    entitiesSoFar.forEach(analyzeKnownEntityWithEntityToAnalyze);
 
-            if (combinedEntityAlreadyExists) {
-                return;
-            }
-            newEntities.push(combinedEntity);
-        };
-        entitiesSoFar.forEach(analyzeKnownEntityWithEntityToAnalyze);
-
-        return _.uniq(newEntities);
-    }
+    return _.uniq(newEntities);
 
 }

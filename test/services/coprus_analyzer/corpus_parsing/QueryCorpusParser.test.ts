@@ -1,7 +1,7 @@
-import {QueryCorpusParser} from "../../../../src/services/corpus_analyzer/corpus_parsing/QueryCorpusParser";
-import {EntityOccurrences} from "../../../../src/services/corpus_analyzer/dto/EntityOccurrences";
-import {SearchQueryString} from "../../../../src/services/corpus_analyzer/dto/SearchQueryString";
+import {EntityOccurrences} from "~/services/corpus_analyzer/dto/EntityOccurrences";
+import {SearchQueryString} from "~/services/corpus_analyzer/dto/SearchQueryString";
 import BagOfWords from "../../../../src/dto/BagOfWords";
+import parseQueryCorpus from "../../../../src/services/corpus_analyzer/corpus_parsing/QueryCorpusParser";
 
 describe("QueryCorpusParser", () => {
 
@@ -9,7 +9,7 @@ describe("QueryCorpusParser", () => {
         const input: SearchQueryString[] = [];
         const expected: EntityOccurrences[] = [];
 
-        const result = new QueryCorpusParser(input).parse();
+        const result = parseQueryCorpus(input);
 
         expect(result).toEqual(expected);
     });
@@ -25,7 +25,7 @@ describe("QueryCorpusParser", () => {
             new EntityOccurrences(new BagOfWords("word3"), [allWords, word3And1Only]),
         ];
 
-        const result = new QueryCorpusParser(input).parse();
+        const result = parseQueryCorpus(input);
 
         expect(result).toEqual(expected);
     });

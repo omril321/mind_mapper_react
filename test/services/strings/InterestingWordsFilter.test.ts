@@ -1,6 +1,6 @@
-let stopwordsMockResult;
+let stopwordsMockResult: string[];
 
-jest.setMock("stopword", {removeStopwords: (wordsToScan) => stopwordsMockResult || wordsToScan});
+jest.setMock("stopword", {removeStopwords: (wordsToScan: string[]) => stopwordsMockResult || wordsToScan});
 
 import isWordInteresting from "../../../src/services/strings/InterestingWordsFilter";
 

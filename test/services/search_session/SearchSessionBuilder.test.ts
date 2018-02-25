@@ -1,6 +1,6 @@
 import {RelatednessScore} from "../../../src/dto/RelatednessScore";
 import {SearchGroup} from "../../../src/dto/SearchGroup";
-import {ISearchSessionMember} from "../../../src/dto/SearchSession";
+import {ISearchSessionMember, SearchSession} from "../../../src/dto/SearchSession";
 import buildSearchSessions from "../../../src/services/search_session/SearchSessionBuilder";
 import {googleSearchFor} from "../../testutils/builder";
 
@@ -20,7 +20,7 @@ function buildGroupMemberTestSubjectForQuery(searchQuery: string): IGroupMemberT
 describe("SearchSessionBuilder", () => {
     it("should build an empty search session when given an empty array of groups", () => {
         const groups: SearchGroup[] = [];
-        const expected = [];
+        const expected: SearchSession[] = [];
         const result = buildSearchSessions(groups);
 
         expect(result).toEqual(expected);
