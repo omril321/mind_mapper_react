@@ -4,8 +4,8 @@
   "description": "History Mind Mapper",
   "main": "index.js",
   "scripts": {
-    "webpack": "webpack",
-    "watch": "webpack --watch",
+    "webpack": "webpack --progress",
+    "watch": "webpack --watch --progress",
     "test": "jest --coverage && npm run lint",
     "test-unit": "jest",
     "test:watch": "jest --watch",
@@ -63,6 +63,7 @@
   "author": "Omri Lavi",
   "license": "ISC",
   "dependencies": {
+    "@types/enzyme": "^3.1.9",
     "@types/lodash": "^4.14.77",
     "@types/react": "^16.0.9",
     "@types/react-dom": "^16.0.0",
@@ -92,7 +93,8 @@
     "tslint": "^5.8.0",
     "tslint-react": "^3.2.0",
     "typescript": "^2.6.1",
-    "webpack": "^3.7.1",
-    "webpack-dev-server": "^2.9.1"
+    "webpack": "^3.11",
+    "webpack-dev-server": "^2.9.1",
+    "worker-loader": "^1.1.1"
   }
 }

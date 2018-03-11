@@ -1,3 +1,4 @@
+/*
 import {mockDefaultModuleExport} from "../../testutils/jestUtils";
 
 const fakeCombinationsGenerator = jest.fn();
@@ -11,13 +12,13 @@ import BagOfWords from "~/dto/BagOfWords";
 import {
     AnalyzationFinishedCallback,
     EntityAnalyzationCallback,
-    startAsyncAnalyzation,
-} from "~/services/corpus_analyzer/AsyncCorpusEntitiesAnalyzer";
+    startAnalyzation,
+} from "~/services/corpus_analyzer/CorpusEntitiesAnalyzer";
 import {EntityOccurrences} from "~/services/corpus_analyzer/dto/EntityOccurrences";
 import IAsyncEntityAnalyzationIterationEvent from "~/services/corpus_analyzer/dto/IAsyncEntityAnalyzationIterationEvent";
 import {SearchQueryString} from "~/services/corpus_analyzer/dto/SearchQueryString";
 
-describe("startAsyncAnalyzation", () => {
+describe("startAnalyzation", () => {
     let generatedEntitiesCounter = 0;
 
     beforeEach(() => {
@@ -41,7 +42,7 @@ describe("startAsyncAnalyzation", () => {
         newEntitiesEachIteration.forEach((mockedResult) => fakeCombinationsGenerator.mockReturnValueOnce(mockedResult));
 
         // the parameter for the function does not matter, since everything is mocked
-        startAsyncAnalyzation([], {entityCallback, finishedCallback});
+        startAnalyzation([], {entityCallback, finishedCallback});
     };
 
     describe("callback for analyzation completed", () => {
@@ -137,3 +138,4 @@ describe("startAsyncAnalyzation", () => {
         });
     });
 });
+*/

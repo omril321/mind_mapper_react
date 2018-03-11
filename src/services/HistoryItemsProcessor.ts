@@ -2,7 +2,9 @@ import {IChromeHistoryItem} from "~/dto/ChromeHistoryItem";
 import {SearchGroup} from "~/dto/SearchGroup";
 import {SearchSession} from "~/dto/SearchSession";
 import {WordSearchSessions} from "~/dto/WordSearchSessions";
-import {IAnalyzationConfiguration, startAsyncAnalyzation} from "~/services/corpus_analyzer/AsyncCorpusEntitiesAnalyzer";
+
+import {setWorkerOnMessageCallback, startWorkerProcessing} from "~/services/corpus_analyzer/CorpusAnalyzerService";
+import IAsyncEntityAnalyzationIterationEvent from "~/services/corpus_analyzer/dto/IAsyncEntityAnalyzationIterationEvent";
 import {SearchQueryString} from "~/services/corpus_analyzer/dto/SearchQueryString";
 import PossibleSearchGroupBuilder from "~/services/possible_search_group/PossibleSearchGroupBuilder";
 import SearchGroupBuilder from "~/services/search_group/SearchGroupsBuilder";
@@ -28,11 +30,10 @@ export class HistoryItemsProcessor {
             new SearchQueryString(pGroup.getSearch().getSearchQuery()));
 
         // TODO: use redux here, or another layer that wraps the analization
-        const analyzationConf: IAnalyzationConfiguration = {
-            entityCallback: (event) => ({}),
-            finishedCallback: (result) => ({}),
-        };
-        startAsyncAnalyzation(searchQueryStrings, analyzationConf);
+
+        // TODO: improve
+        setWorkerOnMessageCallback((event: IAsyncEntityAnalyzationIterationEvent) => console.log(`event: ${event}`));
+        startWorkerProcessing(searchQueryStrings);
 
         const searchGroups = new SearchGroupBuilder(possibleGroups).build();
         const searchSessions = buildSearchSessions(searchGroups);

@@ -20,7 +20,10 @@ const combineEntities = (entity1: EntityOccurrences, entity2: EntityOccurrences)
     const newEntityWords = new BagOfWords(...entity1.entityWords.words, ...entity2.entityWords.words);
 
     function filterQueriesForNewEntity(queries: ReadonlyArray<SearchQueryString>): ReadonlyArray<SearchQueryString> {
-        const isQueryContainingNewEntityWords = (query: SearchQueryString) => query.isContainingBagOfWords(newEntityWords);
+        const isQueryContainingNewEntityWords = (query: SearchQueryString) => {
+            console.log("OLOLOL - query: " , query);
+            query.isContainingBagOfWords(newEntityWords);
+        }
         return queries.filter(isQueryContainingNewEntityWords);
     }
 
