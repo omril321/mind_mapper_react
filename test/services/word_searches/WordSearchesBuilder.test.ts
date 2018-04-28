@@ -2,7 +2,7 @@ import BagOfWords from "../../../src/dto/BagOfWords";
 import {SearchSession} from "../../../src/dto/SearchSession";
 import WordsCount from "../../../src/dto/WordsCount";
 import {WordSearchSessions} from "../../../src/dto/WordSearchSessions";
-import {WordSearchesBuilder} from "../../../src/services/word_searches/WordSearchesBuilder";
+import {WordSearchesBuilder} from "../../../src/services/history_items/word_searches/WordSearchesBuilder";
 
 // duplicated keywords will be removed
 function searchSessionForUniqueKeywords(...words: string[]) {

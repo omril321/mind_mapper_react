@@ -14,7 +14,7 @@ export class WordSearchSessionsComp extends React.Component<IWordSearchSessionsC
     public render() {
         const keyword = this.props.wordSearchSessions.word;
         const sessions = this.props.wordSearchSessions.sessions;
-        const totalNumberOfVisits = this.props.wordSearchSessions.getAllRelatedHistoryVisits().length;
+        const totalNumberOfVisits = this.props.wordSearchSessions.allRelatedHistoryVisits.length;
 
         const membersComps = sessions.map((session) =>
             <SearchSessionComp key={session.uniqueKey} searchSession={session}/>);

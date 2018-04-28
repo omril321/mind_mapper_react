@@ -18,7 +18,7 @@ export default function parseQueryCorpus(queryCorpus: ReadonlyArray<SearchQueryS
 
     // TODO: prettify!
     queryCorpus.forEach((query) => {
-        query.interestingQueryWords.words.forEach((word) => {
+        query.interestingQueryWords.sortedWords.forEach((word) => {
             // TODO wat. is this shit.
             if (word === "constructor") {
                 return;

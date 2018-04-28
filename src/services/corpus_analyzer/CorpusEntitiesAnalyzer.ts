@@ -29,6 +29,7 @@ const startAnalyzation = (queryStrings: SearchQueryString[],
             allKnownEntities: _.cloneDeep(sortedEntitiesHolder.getSortedEntities()),
             analyzedEntity: currentEntity,
             entitiesFromThisIteration: newEntities,
+            isLastAnalyzation: currentIndex === sortedEntitiesHolder.getSortedEntities().length - 1,
             numEntitiesAnalyzedSoFar: currentIndex,
         };
         entityCallback(event);

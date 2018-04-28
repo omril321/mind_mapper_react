@@ -15,8 +15,8 @@ describe("isWordInteresting", () => {
         expect(result).toBe(true);
     });
 
-    it("should return false if the string is containing multiple words", () => {
-        const result = isWordInteresting("two words");
+    it("should return false if the string is containing multiple sortedWords", () => {
+        const result = isWordInteresting("two sortedWords");
 
         expect(result).toBe(false);
     });

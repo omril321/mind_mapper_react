@@ -60,7 +60,7 @@ describe("EntityCombiner", () => {
     });
 
     describe("combineEntities", () => {
-        it("should return an entity without occurrences when given entities have no occurrences which contains the combined entity", () => {
+        it("should return an entity without occurrences when given entities have no occurrences which contains the combined entity completely", () => {
             const entity1 = new EntityOccurrences(new BagOfWords("word1"), [new SearchQueryString("word1 some other words")]);
             const entity2 = new EntityOccurrences(new BagOfWords("word2"), [new SearchQueryString("word2 but that is it")]);
             const expected = new EntityOccurrences(new BagOfWords("word1", "word2"), []);
@@ -83,7 +83,7 @@ describe("EntityCombiner", () => {
 
         it("should return combined entity with occurrences that appear in both given entities, without repetitions", () => {
             const queryWithBoth = new SearchQueryString("word1 and word2");
-            const entity1 = new EntityOccurrences(new BagOfWords("word1"), [queryWithBoth, new SearchQueryString("word1 bla")]);
+            const entity1 = new EntityOccurrences(new BagOfWords("word1"), [queryWithBoth, new SearchQueryString("word1 only")]);
             const entity2 = new EntityOccurrences(new BagOfWords("word2"), [queryWithBoth, new SearchQueryString("word2 but that is it")]);
             const expected = new EntityOccurrences(new BagOfWords("word1", "word2"), [queryWithBoth]);
 

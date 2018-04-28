@@ -6,8 +6,9 @@ const ctx: Worker = self as any;
 
 // NOTE: This module is intended to be loaded with worker-loader
 
+// TODO: somehow, make this type safe
 const startWorkingForInput = (queryStringsInput: SearchQueryString[]): void => {
-    // Post data to parent thread
+    // Post data to parent thread. this is an update event, and may be called many times.
     const callback = (event: IAsyncEntityAnalyzationIterationEvent) => ctx.postMessage(event);
     startAnalyzation(queryStringsInput, callback);
 };
@@ -18,7 +19,6 @@ ctx.addEventListener("message", (event: {data: SearchQueryString[]}) => {
     const queryStringsInput = event.data;
     startWorkingForInput(queryStringsInput);
 });
-
 
 /*import {SearchQueryString} from "~/services/corpus_analyzer/dto/SearchQueryString";
 import {EntityAnalyzationCallback, startAnalyzation} from "./CorpusEntitiesAnalyzer";

@@ -12,20 +12,21 @@ export interface ISearchGroupMember {
  * and a group of visits that are related to that search.
  */
 export class SearchGroup {
+    private static getAllRelatedHistoryVisits(members: ReadonlyArray<ISearchGroupMember>): ReadonlyArray<HistoryVisit> {
+        return members
+            .filter((member) => member.score.value > 0)
+            .map((member) => member.visit);
+    }
+
     public readonly search: GoogleSearch;
     public readonly members: ReadonlyArray<ISearchGroupMember>;
+    public readonly uniqueId: string;
+    public readonly allRelatedHistoryVisits: ReadonlyArray<HistoryVisit>;
 
     public constructor(search: GoogleSearch, members: ReadonlyArray<ISearchGroupMember>) {
         this.search = search;
         this.members = members;
-    }
-
-    public getUniqueKey(): string {
-        return this.search.getUniqueId();
-    }
-
-    public getAllRelatedHistoryVisits(): ReadonlyArray<HistoryVisit> {
-        return this.members.filter((member) => member.score.value > 0)
-            .map((member) => member.visit);
+        this.uniqueId = this.search.uniqueId;
+        this.allRelatedHistoryVisits = SearchGroup.getAllRelatedHistoryVisits(this.members);
     }
 }

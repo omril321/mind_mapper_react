@@ -1,4 +1,4 @@
-import SearchGroupBuilder from "../../../src/services/search_group/SearchGroupsBuilder";
+import SearchGroupBuilder from "../../../src/services/history_items/search_group/SearchGroupsBuilder";
 import PossibleSearchGroup from "../../../src/dto/PossibleSearchGroup";
 import {googleSearchFor, historyVisitFor} from "../../testutils/builder";
 import {SearchGroup} from "../../../src/dto/SearchGroup";

@@ -1,22 +1,21 @@
 import {IKeywordWeight, WordSearchesSummary} from "~/dto/WordSearchesSummary";
-import {WordSearchSessions} from "~/dto/WordSearchSessions";
 
 describe("WordSearchesSummary", () => {
     describe("getKeywordsWithWeight", () => {
         function mocWordSessions(word: string, historyMembersResult: number[]): any {
-            return {getAllRelatedHistoryVisits: () => historyMembersResult, word};
+            return {allRelatedHistoryVisits: historyMembersResult, word};
         }
 
-        it("should return an empty array when there are no words data", () => {
+        it("should return an empty array when there are no sortedWords data", () => {
             const summary = new WordSearchesSummary([]);
             const expected: IKeywordWeight[] = [];
 
-            const actual = summary.getKeywordsWithWeight();
+            const actual = summary.keywordsWithWeight;
 
             expect(actual).toEqual(expected);
         });
 
-        it("should return an array of words and calculated weights by number of history visits in each word data",
+        it("should return an array of sortedWords and calculated weights by number of history visits in each word data",
             () => {
                 const summary = new WordSearchesSummary([
                     mocWordSessions("3 sessions", [1, 2, 3]),
@@ -29,7 +28,7 @@ describe("WordSearchesSummary", () => {
                     {keyword: "no sessions", weight: 0},
                 ];
 
-                const actual = summary.getKeywordsWithWeight();
+                const actual = summary.keywordsWithWeight;
 
                 expect(actual).toEqual(expected);
             });

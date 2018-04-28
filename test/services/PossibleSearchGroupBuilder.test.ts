@@ -1,4 +1,4 @@
-import PossibleSearchGroupBuilder from "../../src/services/possible_search_group/PossibleSearchGroupBuilder";
+import PossibleSearchGroupBuilder from "../../src/services/history_items/possible_search_group/PossibleSearchGroupBuilder";
 import {IChromeHistoryItem} from "../../src/dto/ChromeHistoryItem";
 import {googleSearchUrlFor, historyItemFor} from "../testutils/builder";
 import PossibleSearchGroup from "../../src/dto/PossibleSearchGroup";

@@ -11,37 +11,30 @@ export interface ISearchSessionMember {
 
 /**
  * a non-empty collection of sequential search groups, which their searches have a relatedness score of above 0.
- * A SearchSession’s KEYWORDS are ALL the words, that appear in more than one SearchGroup in the SearchSession.
+ * A SearchSession’s KEYWORDS are ALL the sortedWords, that appear in more than one SearchGroup in the SearchSession.
  */
 export class SearchSession {
-    public readonly uniqueKey: number;
-    private readonly members: ISearchSessionMember[];
-    private readonly keywords: WordsCount;
-
-    public constructor(members: ISearchSessionMember[], keywords: WordsCount) {
-        this.members = members;
-        this.keywords = keywords;
-        this.uniqueKey = generateUniqueKey();
-    }
-
-    public getKeywords(): WordsCount {
-        return this.keywords;
-    }
-
-    public getKeywordsAsStrings(): ReadonlyArray<string> {
-        return this.getKeywords().getWordsOnly().words;
-    }
-
-    public getSessionMembers(): ReadonlyArray<ISearchSessionMember> {
-        return this.members;
-    }
-
-    public getAllRelatedHistoryVisits(): ReadonlyArray<HistoryVisit> {
-        return this.members.reduce((allVisits: ReadonlyArray<HistoryVisit>, sessionMember) => {
+    private static getAllRelatedHistoryVisits(sessionMembers: ReadonlyArray<ISearchSessionMember>): ReadonlyArray<HistoryVisit> {
+        return sessionMembers.reduce((allVisits: ReadonlyArray<HistoryVisit>, sessionMember) => {
             if (sessionMember.score.value > 0) {
-                allVisits = allVisits.concat(sessionMember.member.getAllRelatedHistoryVisits());
+                allVisits = allVisits.concat(sessionMember.member.allRelatedHistoryVisits);
             }
             return allVisits;
         }, []);
+    }
+
+    public readonly uniqueKey: number;
+    public readonly sessionMembers: ReadonlyArray<ISearchSessionMember>;
+    public readonly keywords: WordsCount;
+    public readonly keywordsAsStrings: ReadonlyArray<string>;
+
+    public readonly allRelatedHistoryVisits: ReadonlyArray<HistoryVisit>;
+
+    public constructor(members: ISearchSessionMember[], keywords: WordsCount) {
+        this.sessionMembers = members;
+        this.keywords = keywords;
+        this.uniqueKey = generateUniqueKey();
+        this.keywordsAsStrings = this.keywords.wordsOnly.sortedWords;
+        this.allRelatedHistoryVisits = SearchSession.getAllRelatedHistoryVisits(this.sessionMembers);
     }
 }

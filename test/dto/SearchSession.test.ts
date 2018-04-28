@@ -1,23 +1,22 @@
-import BagOfWords from "../../src/dto/BagOfWords";
-import {RelatednessScore} from "../../src/dto/RelatednessScore";
-import {ISearchSessionMember, SearchSession} from "../../src/dto/SearchSession";
-import WordsCount from "../../src/dto/WordsCount";
 import HistoryVisit from "~/dto/HistoryVisit";
-import {SearchGroup} from "~/dto/SearchGroup";
+import {RelatednessScore} from "~/dto/RelatednessScore";
+import {SearchSession} from "~/dto/SearchSession";
+import BagOfWords from "../../src/dto/BagOfWords";
+import WordsCount from "../../src/dto/WordsCount";
 
 describe("SearchSession", () => {
-    describe("getKeywordsAsStrings", () => {
+    describe("keywordsAsStrings", () => {
 
         it("should return an empty array when keywords are empty", () => {
             const session = new SearchSession([], new WordsCount([]));
             const expected: string[] = [];
 
-            const result = session.getKeywordsAsStrings();
+            const result = session.keywordsAsStrings;
 
             expect(result).toEqual(expected);
         });
 
-        it("should return non duplicated words as array", () => {
+        it("should return non duplicated sortedWords as array", () => {
             const bags: BagOfWords[] = [
                 new BagOfWords("word1", "word2", "word3"),
                 new BagOfWords("word2", "word3", "word4"),
@@ -25,21 +24,21 @@ describe("SearchSession", () => {
             const session = new SearchSession([], new WordsCount(bags));
             const expected = ["word1", "word2", "word3", "word4"];
 
-            const result = session.getKeywordsAsStrings();
+            const result = session.keywordsAsStrings;
 
             expect(result).toEqual(expected);
         });
     });
 
-    describe("getAllRelatedHistoryVisits", () => {
+    describe("allRelatedHistoryVisits", () => {
         function mockSessionMemberWithVisits(visitsArray: string[], score: number): any {
-            return {member: {getAllRelatedHistoryVisits: () => visitsArray}, score: new RelatednessScore(score)};
+            return {member: {allRelatedHistoryVisits: visitsArray}, score: new RelatednessScore(score)};
         }
 
         it("should return an empty array when session has no members", () => {
             const session = new SearchSession([], new WordsCount([]));
 
-            const result = session.getAllRelatedHistoryVisits();
+            const result = session.allRelatedHistoryVisits;
 
             expect(result).toEqual([]);
         });
@@ -52,7 +51,7 @@ describe("SearchSession", () => {
             const expected: HistoryVisit[] = [];
             const session = new SearchSession(members, new WordsCount([]));
 
-            const result = session.getAllRelatedHistoryVisits();
+            const result = session.allRelatedHistoryVisits;
 
             expect(result).toEqual(expected);
         });
@@ -67,7 +66,7 @@ describe("SearchSession", () => {
             const expected = ["related 1", "related 2", "related 3"];
             const session = new SearchSession(members, new WordsCount([]));
 
-            const result = session.getAllRelatedHistoryVisits();
+            const result = session.allRelatedHistoryVisits;
 
             expect(result).toEqual(expected);
         });

@@ -3,13 +3,13 @@ import WordsCount from "../../src/dto/WordsCount";
 
 describe("WordsCount", () => {
     describe("getWordCount", () => {
-        it("should create an empty map when given no words", () => {
+        it("should create an empty map when given no sortedWords", () => {
             const bags: BagOfWords[] = [];
             const expected = {};
 
             const words = new WordsCount(bags);
 
-            expect(words.getWordCount()).toEqual(expected);
+            expect(words.wordcount).toEqual(expected);
         });
 
         it("should create single entry map when given a single word", () => {
@@ -18,10 +18,10 @@ describe("WordsCount", () => {
 
             const words = new WordsCount(bags);
 
-            expect(words.getWordCount()).toEqual(expected);
+            expect(words.wordcount).toEqual(expected);
         });
 
-        it("should create map duplicated words to the matching number of occurrences", () => {
+        it("should create map duplicated sortedWords to the matching number of occurrences", () => {
             const bags: BagOfWords[] = [
                 new BagOfWords("hello", "hi"),
                 new BagOfWords("hello", "test1"),
@@ -36,7 +36,7 @@ describe("WordsCount", () => {
 
             const words = new WordsCount(bags);
 
-            expect(words.getWordCount()).toEqual(expected);
+            expect(words.wordcount).toEqual(expected);
         });
 
         describe("getWordsOnly", () => {
@@ -45,12 +45,12 @@ describe("WordsCount", () => {
                 const count = new WordsCount([]);
                 const expected: string[] = [];
 
-                const actual = count.getWordsOnly();
+                const actual = count.wordsOnly;
 
-                expect(actual.words).toEqual(expected);
+                expect(actual.sortedWords).toEqual(expected);
             });
 
-            it("should return unique words for a words count build from repeated words", () => {
+            it("should return unique sortedWords for a sortedWords count build from repeated sortedWords", () => {
                 const count = new WordsCount(
                     [
                         new BagOfWords("hello", "hi"),
@@ -59,9 +59,9 @@ describe("WordsCount", () => {
                     ]);
                 const expected = ["hello", "hi", "test"];
 
-                const actual = count.getWordsOnly();
+                const actual = count.wordsOnly;
 
-                expect(actual.words).toEqual(expected);
+                expect(actual.sortedWords).toEqual(expected);
             });
 
         });

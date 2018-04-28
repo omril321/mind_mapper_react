@@ -11,7 +11,7 @@ export class WordSearchesBuilder {
     private static readonly MINIMUM_REQ_WORD_SEARCHES = 2;
 
     private static keywordsOfSessionAsString(session: SearchSession): string[] {
-        return [...session.getKeywordsAsStrings()];
+        return [...session.keywordsAsStrings];
     }
 
     private static finalizePotentialWordSearches(potentialWordSearches: IPotentialWordSearches): WordSearchSessions[] {
@@ -58,7 +58,7 @@ export class WordSearchesBuilder {
         const initSessionsOfWord = (keyword: string) => {
             potentialWordSearches[keyword] = [];
         };
-        allKeywords.words.forEach(initSessionsOfWord);
+        allKeywords.sortedWords.forEach(initSessionsOfWord);
         return potentialWordSearches;
     }
 }

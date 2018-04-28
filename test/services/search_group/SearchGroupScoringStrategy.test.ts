@@ -1,4 +1,4 @@
-import calculateRelatedness from "../../../src/services/search_group/SearchGroupScoringStrategy";
+import calculateRelatedness from "../../../src/services/history_items/search_group/SearchGroupScoringStrategy";
 import HistoryVisit from "../../../src/dto/HistoryVisit";
 import {googleSearchFor} from "../../testutils/builder";
 
@@ -21,7 +21,7 @@ describe("SearchGroupScoringStrategy", () => {
         expect(score.value).toBe(1);
     });
 
-    it("should return a score of 0 if the visit title and search query has no common words", () => {
+    it("should return a score of 0 if the visit title and search query has no common sortedWords", () => {
         const visit = new HistoryVisit({id: "1", title: "angular js"});
         const search = googleSearchFor("react");
 

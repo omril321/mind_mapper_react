@@ -13,11 +13,11 @@ export class SearchSessionComp extends React.Component<ISearchSessionCompProps, 
 
     public render() {
         const session = this.props.searchSession;
-        const members = session.getSessionMembers();
-        const keywords = session.getKeywords();
+        const members = session.sessionMembers;
+        const keywords = session.keywords;
         const membersComps = members.map((member) =>
-            <SearchGroupComp key={member.member.getUniqueKey()} searchGroup={member.member}/>);
-        const wordsCountString = JSON.stringify(keywords.getWordCount());
+            <SearchGroupComp key={member.member.uniqueId} searchGroup={member.member}/>);
+        const wordsCountString = JSON.stringify(keywords.wordcount);
 
         return (
             <div>

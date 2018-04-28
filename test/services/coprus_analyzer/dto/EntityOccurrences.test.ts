@@ -1,6 +1,6 @@
 import BagOfWords from "../../../../src/dto/BagOfWords";
-import {EntityOccurrences} from "../../../../src/services/corpus_analyzer/dto/EntityOccurrences";
-import {SearchQueryString} from "../../../../src/services/corpus_analyzer/dto/SearchQueryString";
+import {EntityOccurrences} from "~/services/corpus_analyzer/dto/EntityOccurrences";
+import {SearchQueryString} from "~/services/corpus_analyzer/dto/SearchQueryString";
 
 describe("EntityOccurrences", () => {
     describe("calculateProbabilityGivenOtherEntity", () => {

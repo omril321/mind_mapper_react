@@ -11,19 +11,16 @@ const areEntitiesCombinable = (entity1: EntityOccurrences, entity2: EntityOccurr
         entity1.containingQueries.length >= MIN_OCCURRENCES_FOR_ANALYZATION &&
         entity2.containingQueries.length >= MIN_OCCURRENCES_FOR_ANALYZATION;
 
-    const notContained = () => !BagOfWords.oneBagIsContainingAnother(entity1.entityWords, entity2.entityWords);
+    const notContained = () => !BagOfWords.oneOfBagsIsContainingAnother(entity1.entityWords, entity2.entityWords);
 
     return enoughOccurrences() && notContained();
 };
 
 const combineEntities = (entity1: EntityOccurrences, entity2: EntityOccurrences): EntityOccurrences => {
-    const newEntityWords = new BagOfWords(...entity1.entityWords.words, ...entity2.entityWords.words);
+    const newEntityWords = new BagOfWords(...entity1.entityWords.sortedWords, ...entity2.entityWords.sortedWords);
 
     function filterQueriesForNewEntity(queries: ReadonlyArray<SearchQueryString>): ReadonlyArray<SearchQueryString> {
-        const isQueryContainingNewEntityWords = (query: SearchQueryString) => {
-            console.log("OLOLOL - query: " , query);
-            query.isContainingBagOfWords(newEntityWords);
-        }
+        const isQueryContainingNewEntityWords = (query: SearchQueryString) => SearchQueryString.isQueryContainingBagOfWords(query, newEntityWords);
         return queries.filter(isQueryContainingNewEntityWords);
     }
 

@@ -5,25 +5,25 @@ describe("Words", () => {
         it("should return an empty bag when splitting an empty string", () => {
             const result = splitToWords("");
 
-            expect(result.words).toEqual([]);
+            expect(result.sortedWords).toEqual([]);
         });
 
         it("should return an empty bag when splitting a space string", () => {
             const result = splitToWords(" ");
 
-            expect(result.words).toEqual([]);
+            expect(result.sortedWords).toEqual([]);
         });
 
         it("should return a single word bag when splitting a string of single word", () => {
             const result = splitToWords("test");
 
-            expect(result.words).toEqual(["test"]);
+            expect(result.sortedWords).toEqual(["test"]);
         });
 
-        it("should return a bag with unique occurrences of words", () => {
+        it("should return a bag with unique occurrences of sortedWords", () => {
             const result = splitToWords("test1 test1 test2");
 
-            expect(result.words).toEqual(["test1", "test2"]);
+            expect(result.sortedWords).toEqual(["test1", "test2"]);
         });
     });
 });

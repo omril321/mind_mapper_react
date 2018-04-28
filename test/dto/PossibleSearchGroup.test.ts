@@ -6,7 +6,7 @@ describe('PossibleSearchGroup', () => {
         const googleSearch = googleSearchFor("some search");
         const group = new PossibleSearchGroup(googleSearch, []);
 
-        expect(group.getSearch()).toBe(googleSearch);
+        expect(group.search).toBe(googleSearch);
     });
 
     it('should return the visits using getter', () => {
@@ -16,6 +16,6 @@ describe('PossibleSearchGroup', () => {
         const visits = [visit1, visit2];
         const group = new PossibleSearchGroup(googleSearch, visits);
 
-        expect(group.getVisits()).toBe(visits);
+        expect(group.visits).toBe(visits);
     });
 });

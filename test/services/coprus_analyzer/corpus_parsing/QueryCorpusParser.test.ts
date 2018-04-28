@@ -14,7 +14,7 @@ describe("QueryCorpusParser", () => {
         expect(result).toEqual(expected);
     });
 
-    it("should map between all words to their containing strings", () => {
+    it("should map between all sortedWords to their containing strings", () => {
         const allWords = new SearchQueryString("word1 word2 word3");
         const word2Only = new SearchQueryString("word2");
         const word3And1Only = new SearchQueryString("word3 word1");

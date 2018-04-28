@@ -1,6 +1,7 @@
 import config from "~/conf/config";
 import {EntityOccurrences} from "~/services/corpus_analyzer/dto/EntityOccurrences";
 import {areEntitiesCombinable, combineEntities} from "~/services/corpus_analyzer/entity_detection/EntityCombiner";
+import BagOfWords from "~/dto/BagOfWords";
 
 interface ICombinedEntityResult {
     readonly error?: string;
@@ -10,7 +11,7 @@ interface ICombinedEntityResult {
 const entityHasEnoughOccurrences = (e: EntityOccurrences) => e.containingQueries.length >= config.minimum_occurrences_for_entity_to_be_meaningful;
 
 const isCombinedEntityExistsAlready = (combinedEntity: EntityOccurrences, entitiesSoFar: ReadonlyArray<EntityOccurrences>, newEntities: ReadonlyArray<EntityOccurrences>) => {
-    const isEntityWordsContainingCombinedEntityWords = (e: EntityOccurrences) => e.entityWords.containsOtherBag(combinedEntity.entityWords);
+    const isEntityWordsContainingCombinedEntityWords = (e: EntityOccurrences) => BagOfWords.firstBagIsContainingTheSecond(e.entityWords, combinedEntity.entityWords);
     const isEntityCollectionContainsCombinedEntity = (collection: ReadonlyArray<EntityOccurrences>) => collection.some(isEntityWordsContainingCombinedEntityWords);
 
     return isEntityCollectionContainsCombinedEntity(entitiesSoFar) ||

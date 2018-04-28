@@ -19,7 +19,7 @@ export class EntityOccurrences {
     public calculateProbabilityGivenOtherEntity(otherEntity: EntityOccurrences): number {
         const pW1 = otherEntity.containingQueries.length;
         const pW1W2 = otherEntity.containingQueries.filter((otherQuery) =>
-            otherQuery.isContainingBagOfWords(this.entityWords)).length;
+            SearchQueryString.isQueryContainingBagOfWords(otherQuery, this.entityWords)).length;
         return pW1W2 / pW1;
     }
 }

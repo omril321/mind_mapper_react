@@ -17,7 +17,7 @@ export default function buildSearchSessions(buildFrom: ReadonlyArray<SearchGroup
 }
 
 function searchGroupQueryAsBagOfWords(group: SearchGroup): BagOfWords {
-    return splitToWords(group.search.getSearchQuery());
+    return splitToWords(group.search.searchQuery);
 }
 
 const addToPreviousSearchSessionOrAddNew = (allSearchSessions: ISearchSessionBuild[], currentGroup: SearchGroup) => {
@@ -39,7 +39,7 @@ const addToPreviousSearchSessionOrAddNew = (allSearchSessions: ISearchSessionBui
         const isGroupRelatedToSearch = BagOfWords.hasCommonWords(currentSessionWords, currentGroupWords);
 
         if (isGroupRelatedToSearch) {
-            const sessionWithGroupWords: string[] = [...currentSessionWords.words, ...currentGroupWords.words];
+            const sessionWithGroupWords: string[] = [...currentSessionWords.sortedWords, ...currentGroupWords.sortedWords];
             currentSearchSession.wordsSoFar = new BagOfWords(...sessionWithGroupWords);
             currentSearchSession.members.push(currentGroup);
         } else {

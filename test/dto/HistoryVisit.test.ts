@@ -7,7 +7,7 @@ describe("HistoryVisit", () => {
             title: "this is a test!"
         });
 
-        expect(visit.getTitle()).toBe("this is a test!");
+        expect(visit.visitTitle).toBe("this is a test!");
     });
 
     it("should return the history item url using the proper getter", () => {
@@ -16,6 +16,6 @@ describe("HistoryVisit", () => {
             url: "some url"
         });
 
-        expect(visit.getVisitUrl()).toBe("some url");
+        expect(visit.visitUrl).toBe("some url");
     });
 });

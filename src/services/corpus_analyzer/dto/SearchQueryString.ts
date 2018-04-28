@@ -8,10 +8,10 @@ export class SearchQueryString {
 
     constructor(query: string) {
         this.query = query;
-        this.interestingQueryWords = new BagOfWords(...splitToWords(query).words.filter(isWordInteresting));
+        this.interestingQueryWords = new BagOfWords(...splitToWords(query).sortedWords.filter(isWordInteresting));
     }
 
-    public isContainingBagOfWords(bag: BagOfWords): boolean {
-        return this.interestingQueryWords.containsOtherBag(bag);
+    public static isQueryContainingBagOfWords(searchQueryString: SearchQueryString, bag: BagOfWords): boolean {
+        return BagOfWords.firstBagIsContainingTheSecond(searchQueryString.interestingQueryWords, bag);
     }
 }

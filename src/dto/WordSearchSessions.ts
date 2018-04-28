@@ -8,18 +8,21 @@ import generateUniqueKey from "~/services/UniqueKeyGenerator";
  * A word search object needs to have minimal number of search sessions
  */
 export class WordSearchSessions {
+    private static getAllRelatedHistoryVisits(sessionMembers: ReadonlyArray<SearchSession>): ReadonlyArray<HistoryVisit> {
+        return sessionMembers.reduce((allVisits: ReadonlyArray<HistoryVisit>, session) =>
+            allVisits.concat(session.allRelatedHistoryVisits), []);
+    }
+
     public readonly word: string;
     public readonly sessions: ReadonlyArray<SearchSession>;
     public readonly uniqueKey: number;
+
+    public readonly allRelatedHistoryVisits: ReadonlyArray<HistoryVisit>;
 
     constructor(word: string, members: ReadonlyArray<SearchSession>) {
         this.word = word;
         this.sessions = members;
         this.uniqueKey = generateUniqueKey();
-    }
-
-    public getAllRelatedHistoryVisits(): ReadonlyArray<HistoryVisit> {
-        return this.sessions.reduce((allVisits: ReadonlyArray<HistoryVisit>, session) =>
-            allVisits.concat(session.getAllRelatedHistoryVisits()), []);
+        this.allRelatedHistoryVisits = WordSearchSessions.getAllRelatedHistoryVisits(this.sessions);
     }
 }

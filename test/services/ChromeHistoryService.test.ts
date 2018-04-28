@@ -1,4 +1,4 @@
-import {ChromeHistoryService, IChromeHistoryQuery} from "~/services/ChromeHistoryService";
+import {ChromeHistoryService, IChromeHistoryQuery} from "~/services/history_items/ChromeHistoryService";
 
 const chrome: any = {history: { search: () => null as any}}; // this is a mock
 declare let global: any; // this is parallel to "window"

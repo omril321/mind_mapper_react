@@ -1,7 +1,7 @@
-import {RelatednessScore} from "../../../src/dto/RelatednessScore";
-import {SearchGroup} from "../../../src/dto/SearchGroup";
-import {ISearchSessionMember, SearchSession} from "../../../src/dto/SearchSession";
-import buildSearchSessions from "../../../src/services/search_session/SearchSessionBuilder";
+import {RelatednessScore} from "~/dto/RelatednessScore";
+import {SearchGroup} from "~/dto/SearchGroup";
+import {ISearchSessionMember, SearchSession} from "~/dto/SearchSession";
+import buildSearchSessions from "../../../src/services/history_items/search_session/SearchSessionBuilder";
 import {googleSearchFor} from "../../testutils/builder";
 
 interface IGroupMemberTestSubject {
@@ -43,11 +43,11 @@ describe("SearchSessionBuilder", () => {
         const result = buildSearchSessions(groups);
 
         expect(result.length).toEqual(1);
-        expect(result[0].getSessionMembers()).toEqual(expectedMembers);
-        expect(result[0].getKeywords().getWordCount()).toEqual(expectedWords);
+        expect(result[0].sessionMembers).toEqual(expectedMembers);
+        expect(result[0].keywords.wordcount).toEqual(expectedWords);
     });
 
-    it("should build 3 search sessions when given 3 groups with no common words", () => {
+    it("should build 3 search sessions when given 3 groups with no common sortedWords", () => {
         const subject1 = buildGroupMemberTestSubjectForQuery("first thing");
         const subject2 = buildGroupMemberTestSubjectForQuery("something else");
         const subject3 = buildGroupMemberTestSubjectForQuery("not related");
@@ -62,15 +62,15 @@ describe("SearchSessionBuilder", () => {
         const result = buildSearchSessions(groups);
 
         expect(result.length).toEqual(3);
-        expect(result[0].getSessionMembers()).toEqual(expectedMembers1);
-        expect(result[0].getKeywords().getWordCount()).toEqual(expectedWords1);
-        expect(result[1].getSessionMembers()).toEqual(expectedMembers2);
-        expect(result[1].getKeywords().getWordCount()).toEqual(expectedWords2);
-        expect(result[2].getSessionMembers()).toEqual(expectedMembers3);
-        expect(result[2].getKeywords().getWordCount()).toEqual(expectedWords3);
+        expect(result[0].sessionMembers).toEqual(expectedMembers1);
+        expect(result[0].keywords.wordcount).toEqual(expectedWords1);
+        expect(result[1].sessionMembers).toEqual(expectedMembers2);
+        expect(result[1].keywords.wordcount).toEqual(expectedWords2);
+        expect(result[2].sessionMembers).toEqual(expectedMembers3);
+        expect(result[2].keywords.wordcount).toEqual(expectedWords3);
     });
 
-    it("should build 2 sessions when give 4 search groups, that are split to groups of 2 by common words", () => {
+    it("should build 2 sessions when give 4 search groups, that are split to groups of 2 by common sortedWords", () => {
         const subject1 = buildGroupMemberTestSubjectForQuery("first subject");
         const subject2 = buildGroupMemberTestSubjectForQuery("second subject");
         const subject3 = buildGroupMemberTestSubjectForQuery("something else");
@@ -84,9 +84,9 @@ describe("SearchSessionBuilder", () => {
         const result = buildSearchSessions(groups);
 
         expect(result.length).toEqual(2);
-        expect(result[0].getSessionMembers()).toEqual(expectedMembers1);
-        expect(result[0].getKeywords().getWordCount()).toEqual(expectedWords1);
-        expect(result[1].getSessionMembers()).toEqual(expectedMembers2);
-        expect(result[1].getKeywords().getWordCount()).toEqual(expectedWords2);
+        expect(result[0].sessionMembers).toEqual(expectedMembers1);
+        expect(result[0].keywords.wordcount).toEqual(expectedWords1);
+        expect(result[1].sessionMembers).toEqual(expectedMembers2);
+        expect(result[1].keywords.wordcount).toEqual(expectedWords2);
     });
 });

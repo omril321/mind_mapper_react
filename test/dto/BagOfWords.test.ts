@@ -1,18 +1,18 @@
 import BagOfWords from "../../src/dto/BagOfWords";
 
 describe("BagOfWords", () => {
-    it("should return empty words array when constructing an empty bag", () => {
+    it("should return empty sortedWords array when constructing an empty bag", () => {
         const bag = new BagOfWords();
         const expected: string[] = [];
 
-        expect(bag.words).toEqual(expected);
+        expect(bag.sortedWords).toEqual(expected);
     });
 
     it("should remove duplicates", () => {
         const bag = new BagOfWords("hello", "hello", "hi", "hi", "test");
         const expected = ["hello", "hi", "test"];
 
-        expect(bag.words).toEqual(expected);
+        expect(bag.sortedWords).toEqual(expected);
     });
 
     describe("HasCommonWords", () => {
@@ -30,7 +30,7 @@ describe("BagOfWords", () => {
             expect(BagOfWords.hasCommonWords(bag1, bag2)).toBeFalsy();
         });
 
-        it("should return false when there are no common words", () => {
+        it("should return false when there are no common sortedWords", () => {
             const bag1 = new BagOfWords("hello");
             const bag2 = new BagOfWords("hi");
 
@@ -44,7 +44,7 @@ describe("BagOfWords", () => {
             expect(BagOfWords.hasCommonWords(bag1, bag2)).toBeTruthy();
         });
 
-        it("should return true when there are some common words", () => {
+        it("should return true when there are some common sortedWords", () => {
             const bag1 = new BagOfWords("hello", "test1");
             const bag2 = new BagOfWords("hello", "test2");
 
@@ -52,55 +52,55 @@ describe("BagOfWords", () => {
         });
     });
 
-    describe("oneBagIsContainingAnother", () => {
+    describe("oneOfBagsIsContainingAnother", () => {
         it("should return true for empty bags", () => {
             const bag1 = new BagOfWords();
             const bag2 = new BagOfWords();
             const expected = true;
 
-            expect(BagOfWords.oneBagIsContainingAnother(bag1, bag2)).toBe(expected);
+            expect(BagOfWords.oneOfBagsIsContainingAnother(bag1, bag2)).toBe(expected);
         });
 
         it("should return true when one bag is empty", () => {
-            const bag1 = new BagOfWords("some", "words");
+            const bag1 = new BagOfWords("some", "sortedWords");
             const bag2 = new BagOfWords();
             const expected = true;
 
-            expect(BagOfWords.oneBagIsContainingAnother(bag1, bag2)).toBe(expected);
+            expect(BagOfWords.oneOfBagsIsContainingAnother(bag1, bag2)).toBe(expected);
         });
 
         it("should return true when one bag is contained in another", () => {
-            const bag1 = new BagOfWords("some", "words");
+            const bag1 = new BagOfWords("some", "sortedWords");
             const bag2 = new BagOfWords("some");
             const expected = true;
 
-            expect(BagOfWords.oneBagIsContainingAnother(bag1, bag2)).toBe(expected);
+            expect(BagOfWords.oneOfBagsIsContainingAnother(bag1, bag2)).toBe(expected);
         });
 
         it("should return true when bags are identical and non-empty", () => {
-            const bag1 = new BagOfWords("some", "words");
-            const bag2 = new BagOfWords("some", "words");
+            const bag1 = new BagOfWords("some", "sortedWords");
+            const bag2 = new BagOfWords("some", "sortedWords");
             const expected = true;
 
-            expect(BagOfWords.oneBagIsContainingAnother(bag1, bag2)).toBe(expected);
+            expect(BagOfWords.oneOfBagsIsContainingAnother(bag1, bag2)).toBe(expected);
         });
 
-        it("should return false when bags have only a few common words", () => {
+        it("should return false when bags have only a few common sortedWords", () => {
             const bag1 = new BagOfWords("this is", "first");
             const bag2 = new BagOfWords("and", "this is", "second");
             const expected = false;
 
-            expect(BagOfWords.oneBagIsContainingAnother(bag1, bag2)).toBe(expected);
+            expect(BagOfWords.oneOfBagsIsContainingAnother(bag1, bag2)).toBe(expected);
         });
     });
 
-    describe("containsOtherBag", () => {
+    describe("firstBagIsContainingTheSecond", () => {
         it("should return true for empty bag containing another empty bag", () => {
             const bag1 = new BagOfWords();
             const bag2 = new BagOfWords();
             const expected = true;
 
-            const result = bag1.containsOtherBag(bag2);
+            const result = BagOfWords.firstBagIsContainingTheSecond(bag1, bag2);
 
             expect(result).toBe(expected);
         });
@@ -110,7 +110,7 @@ describe("BagOfWords", () => {
             const bag2 = new BagOfWords("word2", "word3");
             const expected = false;
 
-            const result = bag1.containsOtherBag(bag2);
+            const result = BagOfWords.firstBagIsContainingTheSecond(bag1, bag2);
 
             expect(result).toBe(expected);
         });
@@ -120,7 +120,7 @@ describe("BagOfWords", () => {
             const bag2 = new BagOfWords("word1", "word2");
             const expected = true;
 
-            const result = bag1.containsOtherBag(bag2);
+            const result = BagOfWords.firstBagIsContainingTheSecond(bag1, bag2);
 
             expect(result).toBe(expected);
         });
@@ -129,7 +129,7 @@ describe("BagOfWords", () => {
             const bag = new BagOfWords("word1", "word2");
             const expected = true;
 
-            const result = bag.containsOtherBag(bag);
+            const result = BagOfWords.firstBagIsContainingTheSecond(bag, bag);
 
             expect(result).toBe(expected);
         });
@@ -139,7 +139,7 @@ describe("BagOfWords", () => {
             const bag2 = new BagOfWords();
             const expected = true;
 
-            const result = bag1.containsOtherBag(bag2);
+            const result = BagOfWords.firstBagIsContainingTheSecond(bag1, bag2);
 
             expect(result).toBe(expected);
         });
@@ -149,7 +149,7 @@ describe("BagOfWords", () => {
             const bag2 = new BagOfWords("word1", "word2");
             const expected = false;
 
-            const result = bag1.containsOtherBag(bag2);
+            const result = BagOfWords.firstBagIsContainingTheSecond(bag1, bag2);
 
             expect(result).toBe(expected);
         });

@@ -14,7 +14,7 @@ export class HistoryVisitComp extends React.Component<IHistoryVisitCompProps, {}
         const visit = this.props.visit;
         return (
             <div>
-                <a href={visit.getVisitUrl()}>{visit.getTitle()}</a>
+                <a href={visit.visitUrl}>{visit.visitTitle}</a>
             </div>
         );
     }

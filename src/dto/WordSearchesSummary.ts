@@ -8,18 +8,16 @@ export interface IKeywordWeight {
 export class WordSearchesSummary {
     private static wordSessionsAsKeywordWeight(wordSearchSessions: WordSearchSessions): IKeywordWeight {
         const keyword = wordSearchSessions.word;
-        const weight = wordSearchSessions.getAllRelatedHistoryVisits().length;
+        const weight = wordSearchSessions.allRelatedHistoryVisits.length;
 
         return {keyword, weight};
     }
 
+    public readonly keywordsWithWeight: ReadonlyArray<IKeywordWeight>;
     private readonly wordSearchSessions: ReadonlyArray<WordSearchSessions>;
 
     public constructor(wordSearchSessions: WordSearchSessions[]) {
         this.wordSearchSessions = wordSearchSessions;
-    }
-
-    public getKeywordsWithWeight(): IKeywordWeight[] {
-        return this.wordSearchSessions.map(WordSearchesSummary.wordSessionsAsKeywordWeight);
+        this.keywordsWithWeight = this.wordSearchSessions.map(WordSearchesSummary.wordSessionsAsKeywordWeight);
     }
 }

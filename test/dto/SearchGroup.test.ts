@@ -1,15 +1,15 @@
-import {RelatednessScore} from "../../src/dto/RelatednessScore";
-import {ISearchGroupMember, SearchGroup} from "../../src/dto/SearchGroup";
+import {RelatednessScore} from "~/dto/RelatednessScore";
+import {ISearchGroupMember, SearchGroup} from "~/dto/SearchGroup";
 import {googleSearchFor, historyVisitFor} from "../testutils/builder";
 
 describe("SearchGroup", () => {
 
-    describe("getAllRelatedHistoryVisits", () => {
+    describe("allRelatedHistoryVisits", () => {
         it("should return an empty array when group is empty", () => {
             const googleSearch = googleSearchFor("some search");
             const searchGroup = new SearchGroup(googleSearch, []);
 
-            expect(searchGroup.getAllRelatedHistoryVisits()).toEqual([]);
+            expect(searchGroup.allRelatedHistoryVisits).toEqual([]);
         });
 
         it("should return an empty array when all members are with score 0", () => {
@@ -21,7 +21,7 @@ describe("SearchGroup", () => {
             ];
             const searchGroup = new SearchGroup(googleSearch, members);
 
-            const result = searchGroup.getAllRelatedHistoryVisits();
+            const result = searchGroup.allRelatedHistoryVisits;
 
             expect(result).toEqual([]);
         });
@@ -34,19 +34,19 @@ describe("SearchGroup", () => {
             const members: ISearchGroupMember[] = [related1, nonRelated, related2];
             const searchGroup = new SearchGroup(googleSearch, members);
 
-            const result = searchGroup.getAllRelatedHistoryVisits();
+            const result = searchGroup.allRelatedHistoryVisits;
 
             expect(result).toEqual([related1.visit, related2.visit]);
         });
     });
 
-    describe("getUniqueKey", () => {
+    describe("uniqueId", () => {
         it("Should return the id of the search", () => {
             const googleSearch = googleSearchFor("something");
             const searchGroup = new SearchGroup(googleSearch, []);
-            const expected = googleSearch.getUniqueId();
+            const expected = googleSearch.uniqueId;
 
-            const actual = searchGroup.getUniqueKey();
+            const actual = searchGroup.uniqueId;
 
             expect(actual).toEqual(expected);
         });

@@ -2,7 +2,7 @@ import GoogleSearch from "~/dto/GoogleSearch";
 import HistoryVisit from "~/dto/HistoryVisit";
 import PossibleSearchGroup from "~/dto/PossibleSearchGroup";
 import {ISearchGroupMember, SearchGroup} from "~/dto/SearchGroup";
-import calculateRelatedness from "~/services/search_group/SearchGroupScoringStrategy";
+import calculateRelatedness from "~/services/history_items/search_group/SearchGroupScoringStrategy";
 
 export default class SearchGroupBuilder {
 
@@ -22,9 +22,9 @@ export default class SearchGroupBuilder {
 
     public build(): SearchGroup[] {
         const groups: SearchGroup[] = this.possibleGroups.map((possGroup) => {
-            const search: GoogleSearch = possGroup.getSearch();
+            const search: GoogleSearch = possGroup.search;
             const members: ISearchGroupMember[] =
-                SearchGroupBuilder.searchGroupMembersFromVisits(search, possGroup.getVisits());
+                SearchGroupBuilder.searchGroupMembersFromVisits(search, possGroup.visits);
             return new SearchGroup(search, members);
         });
         return groups;

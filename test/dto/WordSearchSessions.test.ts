@@ -4,15 +4,15 @@ import {WordSearchSessions} from "~/dto/WordSearchSessions";
 describe("WordSearchSessions", () => {
     describe("getAllRelatedHistoryVisits", () => {
 
-        function mockSessionWithRelatedVisits(relatedVisitsResult: string[]): any {
-            return {getAllRelatedHistoryVisits: () => relatedVisitsResult};
+        function mockSessionWithRelatedVisits(allRelatedHistoryVisits: string[]): any {
+            return {allRelatedHistoryVisits};
         }
 
         it("should return an empty array when word sessions is empty", () => {
             const wordSearchSessions = new WordSearchSessions("test", []);
             const expected: HistoryVisit[] = [];
 
-            const result = wordSearchSessions.getAllRelatedHistoryVisits();
+            const result = wordSearchSessions.allRelatedHistoryVisits;
 
             expect(result).toEqual(expected);
         });
@@ -25,7 +25,7 @@ describe("WordSearchSessions", () => {
             ]);
             const expected = ["related 1", "related 2", "related 3"];
 
-            const result = wordSearchSessions.getAllRelatedHistoryVisits();
+            const result = wordSearchSessions.allRelatedHistoryVisits;
 
             expect(result).toEqual(expected);
         });
