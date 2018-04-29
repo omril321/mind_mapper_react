@@ -1,6 +1,5 @@
 import {IChromeHistoryItem} from "~/dto/ChromeHistoryItem";
 import corpusAnalyzerWebWorkerWrapper from "~/services/corpus_analyzer/CorpusAnalyzerWrokerService";
-import IAsyncEntityAnalyzationIterationEvent from "~/services/corpus_analyzer/dto/IAsyncEntityAnalyzationIterationEvent";
 import {SearchQueryString} from "~/services/corpus_analyzer/dto/SearchQueryString";
 import {
     EntityAnalyzationUpdateCallback, HistoryProcessorCallback,
@@ -9,7 +8,7 @@ import {
 import {IProcessedHistoryResult} from "~/services/history_items/HistoryItemsProcessor";
 import historyItemsProcessorWorkerService from "~/services/history_items/HistoryItemsProcessorWorkerService";
 
-//TODO: is this the place for this?
+// TODO: is this the place for this?
 
 export default class AnalyzationFlowService {
 

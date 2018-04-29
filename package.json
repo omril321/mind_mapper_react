@@ -37,7 +37,8 @@
       "src/**/*.js",
       "src/**/*.jsx",
       "src/**/*.ts",
-      "src/**/*.tsx"
+      "src/**/*.tsx",
+      "!**/*.d.ts"
     ],
     "moduleFileExtensions": [
       "ts",
@@ -48,10 +49,10 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 93,
-        "functions": 92,
-        "lines": 88,
-        "statements": 87
+        "branches": 88,
+        "functions": 82,
+        "lines": 77,
+        "statements": 75
       },
       "./src/components/**/*.tsx": {
         "branches": 0,

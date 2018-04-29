@@ -15,6 +15,13 @@ const startAnalyzation = (queryStrings: SearchQueryString[],
 
     const sortedEntitiesHolder = new SortedEntitiesOccurrences(parsedEntities);
     let currentIndex = 0;
+    let lastEventFired: IAsyncEntityAnalyzationIterationEvent = {
+        allKnownEntities: [],
+        analyzedEntity: undefined,
+        entitiesFromThisIteration: [],
+        isLastAnalyzation: true,
+        numEntitiesAnalyzedSoFar: 0,
+    };
     while (currentIndex < sortedEntitiesHolder.getSortedEntities().length) {
         // TODO: each step should also generate entities relation
         const sortedEntities = sortedEntitiesHolder.getSortedEntities();
@@ -29,12 +36,15 @@ const startAnalyzation = (queryStrings: SearchQueryString[],
             allKnownEntities: _.cloneDeep(sortedEntitiesHolder.getSortedEntities()),
             analyzedEntity: currentEntity,
             entitiesFromThisIteration: newEntities,
-            isLastAnalyzation: currentIndex === sortedEntitiesHolder.getSortedEntities().length - 1,
+            isLastAnalyzation: false,
             numEntitiesAnalyzedSoFar: currentIndex,
         };
         entityCallback(event);
+        lastEventFired = event;
     }
 
+    lastEventFired = {...lastEventFired, isLastAnalyzation: true};
+    entityCallback(lastEventFired);
     console.timeEnd("Analyzation");
 };
 

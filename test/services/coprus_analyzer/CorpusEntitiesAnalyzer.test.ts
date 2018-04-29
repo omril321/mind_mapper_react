@@ -1,4 +1,3 @@
-/*
 import {mockDefaultModuleExport} from "../../testutils/jestUtils";
 
 const fakeCombinationsGenerator = jest.fn();
@@ -10,7 +9,6 @@ mockDefaultModuleExport("~/services/corpus_analyzer/corpus_parsing/QueryCorpusPa
 import * as _ from "lodash";
 import BagOfWords from "~/dto/BagOfWords";
 import {
-    AnalyzationFinishedCallback,
     EntityAnalyzationCallback,
     startAnalyzation,
 } from "~/services/corpus_analyzer/CorpusEntitiesAnalyzer";
@@ -36,67 +34,32 @@ describe("startAnalyzation", () => {
 
     const performTestAnalyzation = (initialParsedCorpusEntities: EntityOccurrences[],
                                     newEntitiesEachIteration: EntityOccurrences[][],
-                                    entityCallback: EntityAnalyzationCallback,
-                                    finishedCallback: AnalyzationFinishedCallback) => {
+                                    entityCallback: EntityAnalyzationCallback) => {
         fakeQueryCorpusParser.mockReturnValueOnce(initialParsedCorpusEntities);
         newEntitiesEachIteration.forEach((mockedResult) => fakeCombinationsGenerator.mockReturnValueOnce(mockedResult));
 
         // the parameter for the function does not matter, since everything is mocked
-        startAnalyzation([], {entityCallback, finishedCallback});
+        startAnalyzation([], entityCallback);
     };
 
-    describe("callback for analyzation completed", () => {
-        it("should be called with an empty array when running on an empty input", () => {
-            const finishedCallback: AnalyzationFinishedCallback = jest.fn();
-            const expectedResult: EntityOccurrences[] = [];
+    describe("entity callback", () => {
+        it("should fire default event when the entities array is empty", () => {
+            const entityAnalyzationCallback = jest.fn();
+            const expectedEvent: IAsyncEntityAnalyzationIterationEvent = {
+                allKnownEntities: [],
+                analyzedEntity: undefined,
+                entitiesFromThisIteration: [],
+                isLastAnalyzation: true,
+                numEntitiesAnalyzedSoFar: 0,
+            };
 
-            performTestAnalyzation([], [[]], jest.fn(), finishedCallback);
+            performTestAnalyzation([], [[]], entityAnalyzationCallback);
 
-            expect(finishedCallback).toHaveBeenCalledWith(expectedResult);
-        });
-
-        it("should be called back only with the input, when there are no newly combined entities", () => {
-            const finishedCallback = jest.fn();
-            const mockedEnt1 = newMockedEntityOccurrences();
-            const mockedEnt2 = newMockedEntityOccurrences();
-            const initialOccurrences = [mockedEnt1, mockedEnt2];
-            const newEntitiesOccurrences: EntityOccurrences[][] = [[]];
-            const expectedResult: EntityOccurrences[] = [mockedEnt1, mockedEnt2];
-
-            performTestAnalyzation(initialOccurrences, newEntitiesOccurrences, jest.fn(), finishedCallback);
-
-            expect(finishedCallback).toHaveBeenCalledWith(expectedResult);
-        });
-
-        it("should be called back with the initial generated entities, along with the newly generated (combined) entities", () => {
-            const finishedCallback = jest.fn();
-            const mockedEnt1 = newMockedEntityOccurrences();
-            const mockedEnt2 = newMockedEntityOccurrences();
-            const mockedEnt3 = newMockedEntityOccurrences();
-            const mockedEnt4 = newMockedEntityOccurrences();
-            const mockedEnt5 = newMockedEntityOccurrences();
-            const initialOccurrences = [mockedEnt1, mockedEnt2];
-            const newEntitiesOccurrences: EntityOccurrences[][] = [[mockedEnt3, mockedEnt4], [mockedEnt5], [], [], []];
-            // The order is a bit confusing because all entities here have same occurrences number
-            const expectedResult: EntityOccurrences[] = [mockedEnt5, mockedEnt4, mockedEnt3, mockedEnt1, mockedEnt2];
-
-            performTestAnalyzation(initialOccurrences, newEntitiesOccurrences, jest.fn(), finishedCallback);
-
-            expect(finishedCallback).toHaveBeenCalledWith(expectedResult);
-        });
-    });
-
-    describe("callback for single entity analyzation completed", () => {
-        it("should not be called when input is empty", () => {
-            const entityCallback: EntityAnalyzationCallback = jest.fn();
-
-            performTestAnalyzation([], [[]], entityCallback, jest.fn());
-
-            expect(entityCallback).not.toHaveBeenCalled();
+            expect(entityAnalyzationCallback).toHaveBeenCalledWith(expectedEvent);
         });
 
         it("should be called for each analyzed entity with expected values", () => {
-            const entityCallback = jest.fn();
+            const entityAnalyzationCallback = jest.fn();
             // remember that generated (combined) entity, cannot have more occurrences than the sum of the combined entities
             const mockedEnt8Occs = newMockedEntityOccurrences(8);
             const mockedEnt4Occs = newMockedEntityOccurrences(4);
@@ -108,34 +71,40 @@ describe("startAnalyzation", () => {
                 allKnownEntities: [mockedEnt8Occs, mockedEnt6Occs, mockedEnt4Occs],
                 analyzedEntity: mockedEnt8Occs,
                 entitiesFromThisIteration: [mockedEnt4Occs, mockedEnt6Occs],
+                isLastAnalyzation: false,
                 numEntitiesAnalyzedSoFar: 1,
             };
             const expectedEvent2: IAsyncEntityAnalyzationIterationEvent = {
                 allKnownEntities: [mockedEnt8Occs, mockedEnt6Occs, mockedEnt4Occs, mockedEnt3Occs],
                 analyzedEntity: mockedEnt6Occs,
                 entitiesFromThisIteration: [mockedEnt3Occs],
+                isLastAnalyzation: false,
                 numEntitiesAnalyzedSoFar: 2,
             };
             const expectedEvent3: IAsyncEntityAnalyzationIterationEvent = {
                 allKnownEntities: [mockedEnt8Occs, mockedEnt6Occs, mockedEnt4Occs, mockedEnt3Occs],
                 analyzedEntity: mockedEnt4Occs,
                 entitiesFromThisIteration: [],
+                isLastAnalyzation: false,
                 numEntitiesAnalyzedSoFar: 3,
             };
             const expectedEvent4: IAsyncEntityAnalyzationIterationEvent = {
                 allKnownEntities: [mockedEnt8Occs, mockedEnt6Occs, mockedEnt4Occs, mockedEnt3Occs],
                 analyzedEntity: mockedEnt3Occs,
                 entitiesFromThisIteration: [],
+                isLastAnalyzation: false,
                 numEntitiesAnalyzedSoFar: 4,
             };
+            const expectedEvent5AndFinal: IAsyncEntityAnalyzationIterationEvent = {...expectedEvent4, isLastAnalyzation: true};
 
-            performTestAnalyzation(initialEntities, newEntitiesOccurrences, entityCallback, jest.fn());
+            performTestAnalyzation(initialEntities, newEntitiesOccurrences, entityAnalyzationCallback);
 
-            expect(entityCallback.mock.calls[0][0]).toEqual(expectedEvent1);
-            expect(entityCallback.mock.calls[1][0]).toEqual(expectedEvent2);
-            expect(entityCallback.mock.calls[2][0]).toEqual(expectedEvent3);
-            expect(entityCallback.mock.calls[3][0]).toEqual(expectedEvent4);
+            expect(entityAnalyzationCallback.mock.calls.length).toEqual(5);
+            expect(entityAnalyzationCallback.mock.calls[0][0]).toEqual(expectedEvent1);
+            expect(entityAnalyzationCallback.mock.calls[1][0]).toEqual(expectedEvent2);
+            expect(entityAnalyzationCallback.mock.calls[2][0]).toEqual(expectedEvent3);
+            expect(entityAnalyzationCallback.mock.calls[3][0]).toEqual(expectedEvent4);
+            expect(entityAnalyzationCallback.mock.calls[4][0]).toEqual(expectedEvent5AndFinal);
         });
     });
 });
-*/

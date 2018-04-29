@@ -3,10 +3,9 @@ import LoadingPage from "~/components/LoadingPage/LoadingPage";
 import {WordSearchSessionsComp} from "~/components/WordSearchSessions/WordSearchSessionsComp";
 import {SearchSession} from "~/dto/SearchSession";
 import {WordSearchSessions} from "~/dto/WordSearchSessions";
-import {ChromeHistoryService} from "~/services/history_items/ChromeHistoryService";
-import {HistoryItemsProcessor} from "~/services/history_items/HistoryItemsProcessor";
-import AnalyzationFlowService from "~/services/flow/AnalyzationFlowService";
 import {IAnalyzationFlowConfigurations} from "~/services/flow/AnalyzationFlowConfig";
+import AnalyzationFlowService from "~/services/flow/AnalyzationFlowService";
+import {ChromeHistoryService} from "~/services/history_items/ChromeHistoryService";
 
 interface IContentState {
     isLoading: boolean;
@@ -24,8 +23,8 @@ export class PageContent extends React.Component<{}, IContentState> {
 
             const analyzationConfig: IAnalyzationFlowConfigurations = {
                 historyItemsInput: items,
-                onCorpusAnalyzationUpdate: (update) => { if (update.isLastAnalyzation) console.debug("last update: ", update) },
-                onHistoryProcessorResult: (historyItems) => console.debug("history items are: ", historyItems)
+                onCorpusAnalyzationUpdate: (update) => { if (update.isLastAnalyzation) { console.debug("last update: ", update); } },
+                onHistoryProcessorResult: (historyItems) => console.debug("history items are: ", historyItems),
             };
             new AnalyzationFlowService().startAnalyzationFlow(analyzationConfig);
 

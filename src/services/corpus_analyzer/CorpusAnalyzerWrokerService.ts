@@ -3,7 +3,9 @@ import {SearchQueryString} from "~/services/corpus_analyzer/dto/SearchQueryStrin
 import WebWorkerWrapper from "~/services/flow/WebWorkerWrapper";
 import generateWorkerWrapper from "~/services/flow/WebWorkerWrapperFactory";
 
+/* tslint:disable */
 const CorpusAnalyzerWorker = require("./CorpusAnalyzer.worker");
+/* tslint:enable */
 
 const worker = new CorpusAnalyzerWorker() as Worker;
 

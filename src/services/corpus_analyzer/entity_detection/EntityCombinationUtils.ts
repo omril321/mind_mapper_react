@@ -1,7 +1,7 @@
 import config from "~/conf/config";
+import BagOfWords from "~/dto/BagOfWords";
 import {EntityOccurrences} from "~/services/corpus_analyzer/dto/EntityOccurrences";
 import {areEntitiesCombinable, combineEntities} from "~/services/corpus_analyzer/entity_detection/EntityCombiner";
-import BagOfWords from "~/dto/BagOfWords";
 
 interface ICombinedEntityResult {
     readonly error?: string;

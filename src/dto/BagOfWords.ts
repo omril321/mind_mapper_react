@@ -6,7 +6,7 @@ export default class BagOfWords {
         return _.intersection(bag1.sortedWords, bag2.sortedWords).length > 0;
     }
 
-    //TODO: check if the intersection algorithm is more efficient than the sortedIndex algorithm
+    // TODO: check if the intersection algorithm is more efficient than the sortedIndex algorithm
 
     /*public static oneOfBagsIsContainingAnother(bag1: BagOfWords, bag2: BagOfWords): boolean {
         const intersection = _.intersection(bag1.sortedWords, bag2.sortedWords);
