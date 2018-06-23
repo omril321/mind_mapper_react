@@ -50,9 +50,9 @@
     "coverageThreshold": {
       "global": {
         "branches": 88,
-        "functions": 82,
-        "lines": 77,
-        "statements": 75
+        "functions": 81,
+        "lines": 76,
+        "statements": 74
       },
       "./src/components/**/*.tsx": {
         "branches": 0,
@@ -69,6 +69,7 @@
     "@types/react": "^16.0.9",
     "@types/react-dom": "^16.0.0",
     "@types/react-transition-group": "^1.1.2",
+    "circlepacker": "^1.1.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-transition-group": "^1.2.1",
@@ -78,7 +79,7 @@
     "@types/enzyme-adapter-react-16": "^1.0.0",
     "@types/jest": "^21.1.5",
     "ajv": "^6.0.0",
-    "awesome-typescript-loader": "^3.2.3",
+    "awesome-typescript-loader": "^5.0.0",
     "css-loader": "^0.28.7",
     "enzyme": "^3.1.0",
     "enzyme-adapter-react-16": "^1.0.2",
@@ -94,7 +95,7 @@
     "ts-jest": "^21.1.4",
     "tslint": "^5.8.0",
     "tslint-react": "^3.2.0",
-    "typescript": "^2.6.1",
+    "typescript": "^2.9.1",
     "webpack": "^4.10",
     "webpack-cli": "^2.1.4",
     "webpack-dev-server": "^3.1.4",

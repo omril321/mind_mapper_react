@@ -1,39 +1,38 @@
 import * as React from "react";
+import {HistoryExplorationViewComp} from "~/components/HistoryExplorationView/HistoryExplorationViewComp";
 import LoadingPage from "~/components/LoadingPage/LoadingPage";
-import {WordSearchSessionsComp} from "~/components/WordSearchSessions/WordSearchSessionsComp";
-import {SearchSession} from "~/dto/SearchSession";
-import {WordSearchSessions} from "~/dto/WordSearchSessions";
+import {EntityOccurrences} from "~/services/corpus_analyzer/dto/EntityOccurrences";
 import {IAnalyzationFlowConfigurations} from "~/services/flow/AnalyzationFlowConfig";
 import AnalyzationFlowService from "~/services/flow/AnalyzationFlowService";
 import {ChromeHistoryService} from "~/services/history_items/ChromeHistoryService";
 
 interface IContentState {
     isLoading: boolean;
-    searchSessions: SearchSession[];
-    wordSearchesSessions: WordSearchSessions[];
+    knownEntities: ReadonlyArray<EntityOccurrences>;
 }
 
 export class PageContent extends React.Component<{}, IContentState> {
     constructor(props: {}) {
         super(props);
-        this.state = {isLoading: true, searchSessions: [], wordSearchesSessions: []};
+        this.state = {isLoading: true, knownEntities: []};
 
         // TODO: move this to somewhere else?
         const historyService = new ChromeHistoryService((items) => {
 
             const analyzationConfig: IAnalyzationFlowConfigurations = {
                 historyItemsInput: items,
-                onCorpusAnalyzationUpdate: (update) => { if (update.isLastAnalyzation) { console.debug("last update: ", update); } },
+                onCorpusAnalyzationUpdate: (update) => {
+                    if (update.isLastAnalyzation) {
+                        console.debug("last update of corpus analyzation: ", update);
+                    }
+                    this.setState({
+                        isLoading: false,
+                        knownEntities: update.allKnownEntities,
+                    });
+                },
                 onHistoryProcessorResult: (historyItems) => console.debug("history items are: ", historyItems),
             };
             new AnalyzationFlowService().startAnalyzationFlow(analyzationConfig);
-
-            /*const processedResult = new HistoryItemsProcessor().processHistoryItems(items);*/
-            /*this.setState({
-                isLoading: false,
-                searchSessions: processedResult.searchSessions,
-                wordSearchesSessions: processedResult.wordSearchSessions,
-            });*/
         });
 
         historyService.startQuery();
@@ -41,14 +40,12 @@ export class PageContent extends React.Component<{}, IContentState> {
 
     public render() {
         const isLoading = this.state.isLoading;
-        const allWordsSessions = this.state.wordSearchesSessions;
-        const wordSessionsComp = allWordsSessions.map((wordSession) => {
-            return <WordSearchSessionsComp key={wordSession.uniqueKey} wordSearchSessions={wordSession}/>;
-        });
+        const allKnownEntities = this.state.knownEntities;
         return (
             <div id="content">
                 <LoadingPage isLoading={isLoading}/>
-                {wordSessionsComp}
+
+                <HistoryExplorationViewComp entitiesToShow={allKnownEntities}/>
             </div>);
     }
 
