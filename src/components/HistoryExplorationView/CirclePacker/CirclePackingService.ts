@@ -1,4 +1,5 @@
 import * as CirclePacker from "circlepacker";
+import appConfig from "~/conf/appConfig";
 
 const NOOP = (): any => undefined;
 
@@ -9,22 +10,22 @@ interface ICirclePackerWrapperConfig {
     readonly onCirclesMoved: (updatedCirclePositions: ICirclePackerMovementEvent) => void;
 }
 
-const packCircles = (config: ICirclePackerWrapperConfig) => {
+const packCircles = (packingConfig: ICirclePackerWrapperConfig) => {
 
     const packerOptions = {
         // the point that the circles should be attracted to
         // REQUIRED
-        target: config.centerPoint,
+        target: packingConfig.centerPoint,
 
         // the bounds of the area we want to draw the circles in
         // REQUIRED
-        bounds: config.bounds,
+        bounds: packingConfig.bounds,
 
         // the initial position and sizes of our circles
         // it is possible to add more circles later
         // each circle should have a unique id, a position and a radius
         // REQUIRED
-        circles: config.circles,
+        circles: packingConfig.circles,
 
         // true: continuous animation loop
         // false: one-time animation
@@ -35,13 +36,13 @@ const packCircles = (config: ICirclePackerWrapperConfig) => {
         // higher number means means longer time to calculate
         // OPTIONAL
         // default = 3
-        collisionPasses: 3,
+        collisionPasses: appConfig.circlePacking.collisionPasses,
 
         // number of centering animations per frame.
         // higher number means faster movement and longer time to calculate
         // OPTIONAL
         // default = 1
-        centeringPasses: 2,
+        centeringPasses: appConfig.circlePacking.centeringPasses,
 
         // callback function for when movement started
         // can get called multiple times
@@ -49,7 +50,7 @@ const packCircles = (config: ICirclePackerWrapperConfig) => {
         onMoveStart: NOOP,
 
         // callback function for updated circle positions
-        onMove: config.onCirclesMoved,
+        onMove: packingConfig.onCirclesMoved,
 
         // callback function for when movement ended
         // can get called multiple times
@@ -58,6 +59,8 @@ const packCircles = (config: ICirclePackerWrapperConfig) => {
     };
 
     const circlePacker = new CirclePacker.default(packerOptions);
+
+    circlePacker.setDamping(appConfig.circlePacking.damping); //higher is "faster"
 };
 
 export default packCircles;

@@ -1,5 +1,4 @@
-const MINIMUM_OCC_FOR_TEST = 2;
-jest.setMock("~/conf/config", {default: {minimum_occurrences_for_combining_entities: MINIMUM_OCC_FOR_TEST}});
+jest.setMock("~/conf/appConfig", {default: {corpusAnalyzer: {minimumOccurrencesForCombiningEntities: 2}}});
 
 import {EntityOccurrences} from "~/services/corpus_analyzer/dto/EntityOccurrences";
 import {SearchQueryString} from "~/services/corpus_analyzer/dto/SearchQueryString";

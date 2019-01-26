@@ -49,10 +49,10 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 88,
-        "functions": 81,
-        "lines": 76,
-        "statements": 74
+        "branches": 85,
+        "functions": 80,
+        "lines": 70,
+        "statements": 70
       },
       "./src/components/**/*.tsx": {
         "branches": 0,

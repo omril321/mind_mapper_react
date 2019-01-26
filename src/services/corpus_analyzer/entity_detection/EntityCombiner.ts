@@ -1,10 +1,10 @@
 import * as _ from "lodash";
-import config from "~/conf/config";
+import appConfig from "~/conf/appConfig";
 import BagOfWords from "~/dto/BagOfWords";
 import {EntityOccurrences} from "~/services/corpus_analyzer/dto/EntityOccurrences";
 import {SearchQueryString} from "~/services/corpus_analyzer/dto/SearchQueryString";
 
-const MIN_OCCURRENCES_FOR_ANALYZATION = config.minimum_occurrences_for_combining_entities;
+const MIN_OCCURRENCES_FOR_ANALYZATION = appConfig.corpusAnalyzer.minimumOccurrencesForCombiningEntities;
 
 const areEntitiesCombinable = (entity1: EntityOccurrences, entity2: EntityOccurrences): boolean => {
     const enoughOccurrences = () =>

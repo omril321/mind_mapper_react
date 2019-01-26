@@ -1,4 +1,4 @@
-import config from "~/conf/config";
+import appConfig from "~/conf/appConfig";
 import BagOfWords from "~/dto/BagOfWords";
 import {EntityOccurrences} from "~/services/corpus_analyzer/dto/EntityOccurrences";
 import {areEntitiesCombinable, combineEntities} from "~/services/corpus_analyzer/entity_detection/EntityCombiner";
@@ -8,7 +8,7 @@ interface ICombinedEntityResult {
     readonly result?: EntityOccurrences;
 }
 
-const entityHasEnoughOccurrences = (e: EntityOccurrences) => e.containingQueries.length >= config.minimum_occurrences_for_entity_to_be_meaningful;
+const entityHasEnoughOccurrences = (e: EntityOccurrences) => e.containingQueries.length >= appConfig.corpusAnalyzer.minimumOccurrencesForEntityToBeMeaningful;
 
 const isCombinedEntityExistsAlready = (combinedEntity: EntityOccurrences, entitiesSoFar: ReadonlyArray<EntityOccurrences>, newEntities: ReadonlyArray<EntityOccurrences>) => {
     const isEntityWordsContainingCombinedEntityWords = (e: EntityOccurrences) => BagOfWords.firstBagIsContainingTheSecond(e.entityWords, combinedEntity.entityWords);

@@ -2,12 +2,12 @@ import {mockDefaultModuleExport} from "../../../testutils/jestUtils";
 
 const fakeCombineEntities = jest.fn();
 const fakeAreEntitiesCombinable = jest.fn();
-const config = {minimum_occurrences_for_entity_to_be_meaningful: 2};
+const config = {corpusAnalyzer: {minimumOccurrencesForEntityToBeMeaningful: 2}};
 
-mockDefaultModuleExport("~/conf/config", config);
+mockDefaultModuleExport("~/conf/appConfig", config);
 jest.setMock("~/services/corpus_analyzer/entity_detection/EntityCombiner", {
     areEntitiesCombinable: fakeAreEntitiesCombinable,
-    combineEntities: fakeCombineEntities
+    combineEntities: fakeCombineEntities,
 });
 
 import * as _ from "lodash";
