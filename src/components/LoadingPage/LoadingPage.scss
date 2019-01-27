@@ -23,22 +23,4 @@
     font-size: $TEXT_SIZE_XL;
   }
 
-  .loading-page_wrapper-enter {
-    @include loading-page;
-    opacity: 0.01;
-  }
-  .loading-page_wrapper-enter.loading-page_wrapper-enter-active {
-    @include loading-page;
-    opacity: 1;
-  }
-
-  .loading-page_wrapper-leave {
-    @include loading-page;
-    opacity: 1;
-  }
-
-  .loading-page_wrapper-leave.loading-page_wrapper-leave-active {
-    opacity: 0.01;
-  }
-
 }
