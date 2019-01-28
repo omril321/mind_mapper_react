@@ -4,11 +4,11 @@ import packCircles from "~/components/HistoryExplorationView/CirclePacker/Circle
 import {ExplorationNode} from "~/components/HistoryExplorationView/ExplorationNode";
 import {EntityOccurrences} from "~/services/corpus_analyzer/dto/EntityOccurrences";
 
-interface IHistoryExplorationViewCompProps {
+interface IHistoryExplorationProps {
     readonly entitiesToShow: ReadonlyArray<EntityOccurrences>;
 }
 
-interface IHistoryExplorationViewCompState {
+interface IHistoryExplorationState {
     readonly circlesToDraw: ReadonlyArray<IPackerCircleWithId>;
     readonly currentCircleLocations: ICirclePackerMovementEvent;
     readonly startedDrawing: boolean;
@@ -20,7 +20,7 @@ const MAX_CIRCLES_TO_DRAW = 50;
 const CIRCLE_SCALE_DOWN = 5; //todo: should be relative to current scaling (smaller window size should mean smaller circles, right?
 const VIEWBOX_SIZE = 100;
 
-export class HistoryExplorationViewComp extends React.Component<IHistoryExplorationViewCompProps, IHistoryExplorationViewCompState> {
+export class HistoryExploration extends React.Component<IHistoryExplorationProps, IHistoryExplorationState> {
     private static entityToCircle(entity: EntityOccurrences): IPackerCircleWithId {
         //TODO: find a good algorithm to show all circles
         const randomizeXOrY = () => _.random(VIEWBOX_SIZE);
@@ -32,7 +32,7 @@ export class HistoryExplorationViewComp extends React.Component<IHistoryExplorat
         };
     }
 
-    constructor(props: IHistoryExplorationViewCompProps) {
+    constructor(props: IHistoryExplorationProps) {
         super(props);
         this.state = {
             circlesToDraw: [],
@@ -40,11 +40,12 @@ export class HistoryExplorationViewComp extends React.Component<IHistoryExplorat
             startedDrawing: false,
         };
 
+        this.startDrawingIfNeeded(props);
     }
 
-    public componentWillReceiveProps(nextProps: Readonly<IHistoryExplorationViewCompProps>,
+    public componentWillReceiveProps(nextProps: Readonly<IHistoryExplorationProps>,
                                      nextContext: any): void {
-        this.startDrawingIfNeeded(nextProps.entitiesToShow);
+        this.startDrawingIfNeeded(nextProps);
     }
 
     public render() {
@@ -65,14 +66,14 @@ export class HistoryExplorationViewComp extends React.Component<IHistoryExplorat
         );
     }
 
-    private startDrawingIfNeeded(nextEntitiesToShow: ReadonlyArray<EntityOccurrences>) {
+    private startDrawingIfNeeded(propsToDraw: Readonly<IHistoryExplorationProps>) {
         //TODO: init properly
 
         if (this.state.startedDrawing) {
             return;
         }
         //TODO: show most interesting first
-        const limitLength = _.take(nextEntitiesToShow, MAX_CIRCLES_TO_DRAW);
+        const limitLength = _.take(propsToDraw.entitiesToShow, MAX_CIRCLES_TO_DRAW);
         if (limitLength.length === MAX_CIRCLES_TO_DRAW) {
             this.startDrawingEntities(limitLength);
             this.setState({startedDrawing: true});
@@ -81,7 +82,7 @@ export class HistoryExplorationViewComp extends React.Component<IHistoryExplorat
     }
 
     private startDrawingEntities(entities: ReadonlyArray<EntityOccurrences>) {
-        const asCircles = entities.map(HistoryExplorationViewComp.entityToCircle);
+        const asCircles = entities.map(HistoryExploration.entityToCircle);
         //TODO: init properly
         //TODO: bounds + centerPoint properly
         packCircles({

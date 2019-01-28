@@ -2,7 +2,7 @@ const appConfig = {
     circlePacking: {
         centeringPasses: 1,
         collisionPasses: 1,
-        damping: 0.025 / 4,
+        damping: 0.025 / 4,  //higher is "faster"
     },
 
     corpusAnalyzer: {

@@ -1,4 +1,5 @@
-import * as CirclePacker from "circlepacker";
+// @ts-ignore
+import CirclePacker from "~/../node_modules/circlepacker/dist/circlepacker.es6.js";
 import appConfig from "~/conf/appConfig";
 
 const NOOP = (): any => undefined;
@@ -58,9 +59,9 @@ const packCircles = (packingConfig: ICirclePackerWrapperConfig) => {
         onMoveEnd: NOOP,
     };
 
-    const circlePacker = new CirclePacker.default(packerOptions);
+    const circlePacker = new CirclePacker(packerOptions);
 
-    circlePacker.setDamping(appConfig.circlePacking.damping); //higher is "faster"
+    circlePacker.setDamping(appConfig.circlePacking.damping);
 };
 
 export default packCircles;

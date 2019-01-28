@@ -39,7 +39,7 @@ interface ICirclePackerOptions {
 }
 
 declare module "circlepacker" {
-    export default class {
+    export default class CirclePacker {
         public setDamping: (damping: number) => void;
 
         constructor(configs: ICirclePackerOptions);

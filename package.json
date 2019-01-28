@@ -52,7 +52,7 @@
       "global": {
         "statements": 60,
         "branches": 53,
-        "lines": 64,
+        "lines": 63,
         "functions": 65
       },
       "./src/**/*.storybook.tsx": {

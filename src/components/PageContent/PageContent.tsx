@@ -1,5 +1,5 @@
 import * as React from "react";
-import {HistoryExplorationViewComp} from "~/components/HistoryExplorationView/HistoryExplorationViewComp";
+import {HistoryExploration} from "~/components/HistoryExplorationView/HistoryExploration";
 import LoadingPage from "~/components/LoadingPage/LoadingPage";
 import {EntityOccurrences} from "~/services/corpus_analyzer/dto/EntityOccurrences";
 import {IAnalyzationFlowConfigurations} from "~/services/flow/AnalyzationFlowConfig";
@@ -45,7 +45,7 @@ export class PageContent extends React.Component<{}, IContentState> {
             <div id="content">
                 <LoadingPage isLoading={isLoading}/>
 
-                <HistoryExplorationViewComp entitiesToShow={allKnownEntities}/>
+                <HistoryExploration entitiesToShow={allKnownEntities}/>
             </div>);
     }
 
