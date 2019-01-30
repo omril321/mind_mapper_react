@@ -54,10 +54,6 @@
         "branches": 53,
         "lines": 63,
         "functions": 65
-      },
-      "./src/**/*.storybook.tsx": {
-        "branches": 0,
-        "statements": 0
       }
     }
   },

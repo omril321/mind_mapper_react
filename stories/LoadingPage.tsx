@@ -1,6 +1,6 @@
 import {storiesOf} from "@storybook/react";
 import * as React from "react";
-import LoadingPage from "~/components/LoadingPage/LoadingPage";
+import LoadingPage from "../src/components/LoadingPage/LoadingPage";
 
 storiesOf("LoadingPage", module)
     .add("Loading", () => (

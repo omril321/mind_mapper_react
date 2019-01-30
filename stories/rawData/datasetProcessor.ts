@@ -1,7 +1,7 @@
-import BagOfWords from "~/dto/BagOfWords";
-import {ITestEntityData, TestEntitiesDataSet} from "~/rawData/testEntityDatasets";
-import {EntityOccurrences} from "~/services/corpus_analyzer/dto/EntityOccurrences";
-import {SearchQueryString} from "~/services/corpus_analyzer/dto/SearchQueryString";
+import BagOfWords from "../../src/dto/BagOfWords";
+import {EntityOccurrences} from "../../src/services/corpus_analyzer/dto/EntityOccurrences";
+import {SearchQueryString} from "../../src/services/corpus_analyzer/dto/SearchQueryString";
+import {ITestEntityData, TestEntitiesDataSet} from "./testEntityDatasets";
 
 const mapTestEntityDataToEntityOccurrences = (testEnt: ITestEntityData): EntityOccurrences => {
     const bagOfWords = new BagOfWords(...testEnt.entityWords);
