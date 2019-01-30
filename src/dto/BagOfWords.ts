@@ -17,9 +17,9 @@ export default class BagOfWords {
 
     public static oneOfBagsIsContainingAnother(bag1: BagOfWords, bag2: BagOfWords): boolean {
         const intersection = _.intersection(bag1.sortedWords, bag2.sortedWords);
-        const bag1isInBag2 = _.isEqual(intersection, bag1.sortedWords);
-        const bag2isInBag1 = _.isEqual(intersection, bag2.sortedWords);
-        return bag1isInBag2 || bag2isInBag1;
+        const bag1isInBag2 = () => _.isEqual(intersection, bag1.sortedWords);
+        const bag2isInBag1 = () => _.isEqual(intersection, bag2.sortedWords);
+        return bag1isInBag2() || bag2isInBag1();
     }
 
     public static firstBagIsContainingTheSecond(bagThatContains: BagOfWords, bagThatIsContained: BagOfWords): boolean {
