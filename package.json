@@ -1,7 +1,7 @@
 {
   "name": "mind_mapper_react",
   "version": "1.0.0",
-  "description": "History Mind Mapper",
+  "description": "History Mind Mapper (HMM): A cool utility which lets you explore the connections of your web searches.",
   "main": "index.js",
   "scripts": {
     "webpack": "webpack --progress --mode=production",
